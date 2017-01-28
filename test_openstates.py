@@ -125,9 +125,8 @@ class Test(unittest.TestCase):
         self.assertRaises(ValueError, openstates.get_bill, _id, state, term, bill_id)
         self.assertRaises(ValueError, openstates.get_bill, _id, state)
 
-
-    def testPagedResults(self):
-        """Paged results"""
+    def testPaginatedResults(self):
+        """Paginated results"""
         results = openstates.search_bills(state="dc")
         paged_results = openstates.search_bills(state="dc", per_page=100)
         self.assertEqual(len(results), len(paged_results))
