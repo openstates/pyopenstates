@@ -29,7 +29,7 @@ infrastructure, this consistent and free API would not be possible.
 
 ## Installation
 
-The `openstates` module can be installed using [`pip`][9]. Installation in a [vertualvnv][10]
+The `openstates` module can be installed using [`pip`][9]. Installation in a [vertualenv][10]
 is recommended.
 
 To install the latest commit from git, run:

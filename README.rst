@@ -39,8 +39,8 @@ Features
 Installation
 ------------
 
-The ``openstates`` module can be installed using ```pip```_.
-Installation in a `vertualvnv`_ is recommended.
+The ``openstates`` module can be installed using `pip`_.
+Installation in a `vertualenv`_ is recommended.
 
 To install the latest commit from git, run:
 
@@ -61,8 +61,8 @@ Documentation in provided in detailed docstrings, and in HTML format at
 .. _independent project: https://blog.openstates.org/post/adopting-open-states/
 .. _donating: https://www.generosity.com/fundraising/open-states-general-support-fund
 .. _volunteering: https://docs.google.com/forms/d/e/1FAIpQLSfMDjoVoKxSOciIiqE3Ofxgn-caFGCxicFO2LwyWAK8zdXyhg/viewform
-.. _``pip``: https://docs.python.org/3.5/installing/index.html
-.. _vertualvnv: https://virtualenv.pypa.io/en/stable/
+.. _pip: https://docs.python.org/3.5/installing/index.html
+.. _vertualenv: https://virtualenv.pypa.io/en/stable/
 .. _Read The Docs: https://python-openstates.readthedocs.org/
 
 .. |Build Status| image:: https://travis-ci.org/seanthegeek/openstates-python.svg?branch=master
