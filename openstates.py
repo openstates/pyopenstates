@@ -27,7 +27,7 @@ limitations under the License."""
 __version__ = "1.0.0"
 
 API_ROOT = "https://openstates.org/api/v1/"
-DEFUALT_USER_AGENT = "openstates-python/{}".format(__version__)
+DEFUALT_USER_AGENT = "openstates-python/{0}".format(__version__)
 
 session = Session()
 session.headers.update({"User-Agent": DEFUALT_USER_AGENT})
@@ -83,13 +83,13 @@ def _get(uri, params=None):
 
         return result
 
-    url = "{}/{}/".format(API_ROOT.strip("/"), uri.strip("/"))
+    url = "{0}/{1}/".format(API_ROOT.strip("/"), uri.strip("/"))
     if "fields" in params.keys() and type(params["fields"]) == list:
         params["fields"] = ",".join(params["fields"]).lower()
     response = session.get(url, params=params)
     if response.status_code != 200:
         if response.status_code == 404:
-            raise APIError("Not found: {}".format(response.url))
+            raise APIError("Not found: {0}".format(response.url))
         else:
             raise APIError(response.text)
     return _convert(response.json())
@@ -97,7 +97,7 @@ def _get(uri, params=None):
 
 def set_user_agent(user_agent):
     """Appends a custom string to the default User-Agent string"""
-    session.headers.update({"User-Agent": "{} {}".format(DEFUALT_USER_AGENT, user_agent)})
+    session.headers.update({"User-Agent": "{0} {1}".format(DEFUALT_USER_AGENT, user_agent)})
 
 
 def metadata(state=None, fields=None):
@@ -148,7 +148,7 @@ def metadata(state=None, fields=None):
     """
     uri = "/metadata/"
     if state:
-        uri += "{}/".format(state.lower())
+        uri += "{0}/".format(state.lower())
     return _get(uri, params=dict(fields=fields))
 
 
@@ -425,7 +425,7 @@ def get_legislator(leg_id, fields=None):
     Returns:
         The requested legislator details as a dictionary
     """
-    return _get("/legislators/{}/".format(leg_id), params=dict(fields=fields))
+    return _get("/legislators/{0}/".format(leg_id), params=dict(fields=fields))
 
 
 def locate_legislators(lat, long, fields=None):
@@ -486,7 +486,7 @@ def get_committee(com_id, fields=None):
     Returns:
         Committee details as a dictionary
     """
-    return _get("/committees/{}/".format(com_id), params=dict(fields=fields))
+    return _get("/committees/{0}/".format(com_id), params=dict(fields=fields))
 
 
 def search_events(**kwargs):
@@ -548,7 +548,7 @@ def get_event(event_id, fields=None):
     Returns:
         The event as a dictionary
     """
-    return _get("/events/{}/".format(event_id), params=dict(fields=fields))
+    return _get("/events/{0}/".format(event_id), params=dict(fields=fields))
 
 
 def search_districts(state, chamber, fields=None):
@@ -592,5 +592,5 @@ def get_district_boundary(boundary_id, fields=None):
     Returns:
         District details as a dictionary
     """
-    uri = "/districts/boundary/{}/".format(boundary_id)
+    uri = "/districts/boundary/{0}/".format(boundary_id)
     return _get(uri, params=dict(fields=fields))
