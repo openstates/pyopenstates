@@ -51,7 +51,8 @@ To install the latest commit from git, run:
 Documentation
 -------------
 
-Documentation in provided in detailed docstrings, and in HTML format at
+Documentation is provided in detailed docstrings, and in HTML format at
+
 https://seanthegeek.github.io/openstates-python/
 
 .. _Open States API: http://docs.openstates.org/api/
