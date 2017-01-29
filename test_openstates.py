@@ -80,8 +80,8 @@ class Test(unittest.TestCase):
         self.assertIn("metadata.json", zip.namelist())
 
     def testInvlidState(self):
-        """Specifying an invalid state raises an APIError exception"""
-        self.assertRaises(openstates.APIError, openstates.metadata, state="ZZ")
+        """Specifying an invalid state raises a NotFound exception"""
+        self.assertRaises(openstates.NotFound, openstates.metadata, state="ZZ")
 
     def testBillSearchFullText(self):
         """A basic full-text search returns results that contain the query string"""
@@ -104,6 +104,9 @@ class Test(unittest.TestCase):
                 "of, and to add Section 104762 to, the Health and Safety Code, relating to oral health."
 
         bill = openstates.get_bill(state=state, term=term, bill_id=bill_id)
+
+        self.assertEqual(bill["bill_id"], bill_id)
+        self.assertEqual(bill["title"], title)
 
     def testBillDetailsByUID(self):
         """Bill details by UID"""
