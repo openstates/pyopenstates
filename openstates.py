@@ -107,7 +107,7 @@ def set_user_agent(user_agent):
     session.headers.update({"User-Agent": "{0} {1}".format(DEFUALT_USER_AGENT, user_agent)})
 
 
-def metadata(state=None, fields=None):
+def get_metadata(state=None, fields=None):
     """
         Returns a list of all states with data available, and basic metadata about their status.
         Can also get detailed metadata for a particular state.
