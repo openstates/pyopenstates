@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>openstates-python &#8212; openstates-python 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="openstates module" href="openstates module.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="openstates-python">
+<h1>openstates-python<a class="headerlink" href="#openstates-python" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://travis-ci.org/seanthegeek/openstates-python"><img alt="Build Status" src="https://travis-ci.org/seanthegeek/openstates-python.svg?branch=master" /></a></p>
+<p>A Python module for the <a class="reference external" href="http://docs.openstates.org/api/">Open States API</a>.</p>
+<p>The <a class="reference external" href="https://openstates.org/">Open States</a> project provides data on legislators, bills,
+committees, and districts in legislatures of all 50 US states, plus D.C.
+and Puerto Rico. This data is gathered directly from the legislatures,
+and converted to a common format for interested developers, through a
+JSON API and data dumps. The project was originally created by the
+<a class="reference external" href="https://sunlightfoundation.com/">Sunlight Foundation</a> as a part of Sunlight Labs. The Sunlight
+Foundation has since <a class="reference external" href="https://sunlightfoundation.com/2016/09/21/whats-next-for-sunlight-labs/">shut down</a> Sunlight Labs, and Open States is now
+an <a class="reference external" href="https://blog.openstates.org/post/adopting-open-states/">independent project</a>.</p>
+<p>This module is intended to be a replacement for the <code class="docutils literal"><span class="pre">openstates</span></code>
+methods provided by the origional <code class="docutils literal"><span class="pre">sunlight</span></code> package. However, it is
+not a drop-in replacement; the methods are slightly different, and some
+features have been added.</p>
+<p>Please consider <a class="reference external" href="https://www.generosity.com/fundraising/open-states-general-support-fund">donating</a> or <a class="reference external" href="https://docs.google.com/forms/d/e/1FAIpQLSfMDjoVoKxSOciIiqE3Ofxgn-caFGCxicFO2LwyWAK8zdXyhg/viewform">volunteering</a> to support the Open
+States project. The data provided to the public by various legislatures
+can frequently change format. Without regularly-maintained scrapers and
+server infrastructure, this consistent and free API would not be
+possible.</p>
+<div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Compatible with Python 2.7-3+</li>
+<li>Full Unicode support</li>
+<li>Supports all methods, options, and data types provided by the API</li>
+<li>Methods for downloading data dumps</li>
+<li>Automatic conversion of string dates and timestamps to <code class="docutils literal"><span class="pre">datetime</span></code>
+objects</li>
+<li>Tested releases</li>
+</ul>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">openstates</span></code> module can be installed using <a class="reference external" href="https://docs.python.org/3.5/installing/index.html">pip</a>.
+Installation in a <a class="reference external" href="https://virtualenv.pypa.io/en/stable/">vertualenv</a> is recommended.</p>
+<p>To install the latest commit from git, run:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ pip install git+https://github.com/seanthegeek/openstates-python
+</pre></div>
+</div>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="openstates module.html">openstates module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data structures.html">Data Structures</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="data structures.html#metadata">Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data structures.html#bill">Bill</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data structures.html#legislator">Legislator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data structures.html#committee">Committee</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data structures.html#event">Event</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data structures.html#district">District</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="openstates module.html">openstates module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data structures.html">Data Structures</a></li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="openstates module.html" title="next chapter">openstates module</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017 Sean Whalen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>openstates module &#8212; openstates-python 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Data Structures" href="data structures.html" />
+    <link rel="prev" title="openstates-python" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-openstates">
+<span id="openstates-module"></span><h1>openstates module<a class="headerlink" href="#module-openstates" title="Permalink to this headline">¶</a></h1>
+<p>A simple client for the Open States API</p>
+<dl class="exception">
+<dt id="openstates.APIError">
+<em class="property">exception </em><code class="descclassname">openstates.</code><code class="descname">APIError</code><a class="headerlink" href="#openstates.APIError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when the Open States API returns an error</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="openstates.NotFound">
+<em class="property">exception </em><code class="descclassname">openstates.</code><code class="descname">NotFound</code><a class="headerlink" href="#openstates.NotFound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when the API cannot find the requested object</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="openstates.download_csv">
+<code class="descclassname">openstates.</code><code class="descname">download_csv</code><span class="sig-paren">(</span><em>state</em>, <em>file_object</em><span class="sig-paren">)</span><a class="headerlink" href="#openstates.download_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Downloads a zip containing bulk data on a given state in CSV format to a given file object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>state</strong> &#8211; The abbreviation of the state</li>
+<li><strong>file_object</strong> &#8211; A file or file-like object</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Saving Ohio&#39;s data to a file on disk</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;ohio-csv.zip&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ohio_zip_file</span><span class="p">:</span>
+    <span class="n">openstates</span><span class="o">.</span><span class="n">download_csv</span><span class="p">(</span><span class="s2">&quot;OH&quot;</span><span class="p">,</span> <span class="n">ohio_zip_file</span><span class="p">)</span>
+
+<span class="c1"># Or download it to memory</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="k">import</span> <span class="n">BytesIO</span>
+<span class="n">mem_zip</span> <span class="o">=</span> <span class="n">BytesIO</span><span class="p">()</span>
+<span class="n">openstates</span><span class="o">.</span><span class="n">download_csv</span><span class="p">(</span><span class="s2">&quot;OH&quot;</span><span class="p">,</span> <span class="n">mem_zip</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="openstates.download_json">
+<code class="descclassname">openstates.</code><code class="descname">download_json</code><span class="sig-paren">(</span><em>state</em>, <em>file_object</em><span class="sig-paren">)</span><a class="headerlink" href="#openstates.download_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Downloads a zip containing bulk data on a given state in JSON format to a given file object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>state</strong> &#8211; The abbreviation of the state</li>
+<li><strong>file_object</strong> &#8211; A file or file-like object</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Saving Ohio&#39;s data to a file on disk</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;ohio-json.zip&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ohio_zip_file</span><span class="p">:</span>
+    <span class="n">openstates</span><span class="o">.</span><span class="n">download_json</span><span class="p">(</span><span class="s2">&quot;OH&quot;</span><span class="p">,</span> <span class="n">ohio_zip_file</span><span class="p">)</span>
+
+<span class="c1"># Or download it to memory</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="k">import</span> <span class="n">BytesIO</span>
+<span class="n">mem_zip</span> <span class="o">=</span> <span class="n">BytesIO</span><span class="p">()</span>
+<span class="n">openstates</span><span class="o">.</span><span class="n">download_json</span><span class="p">(</span><span class="s2">&quot;OH&quot;</span><span class="p">,</span> <span class="n">mem_zip</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="openstates.get_bill">
+<code class="descclassname">openstates.</code><code class="descname">get_bill</code><span class="sig-paren">(</span><em>uid=None</em>, <em>state=None</em>, <em>term=None</em>, <em>bill_id=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#openstates.get_bill" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns details of a specific bill Can be identified my the Open States unique bill id (uid), or by specifying
+the state, term, and legislative bill ID</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>uid</strong> &#8211; The Open States unique bill ID</li>
+<li><strong>state</strong> &#8211; The postal code of the state</li>
+<li><strong>term</strong> &#8211; The legislative term (see state metadata)</li>
+<li><strong>bill_id</strong> &#8211; Yhe legislative bill ID (e.g. <code class="docutils literal"><span class="pre">HR</span> <span class="pre">42</span></code>)</li>
+<li><strong>**kwargs</strong> &#8211; Optional keyword argument options, such as <code class="docutils literal"><span class="pre">fields</span></code>, which specifies the fields to return</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The <a class="reference internal" href="data structures.html#bill"><span class="std std-ref">Bill</span></a> details as a dictionary</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="openstates.get_committee">
+<code class="descclassname">openstates.</code><code class="descname">get_committee</code><span class="sig-paren">(</span><em>com_id</em>, <em>fields=None</em><span class="sig-paren">)</span><a class="headerlink" href="#openstates.get_committee" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets committee details</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>com_id</strong> &#8211; Open States committee ID</li>
+<li><strong>fields</strong> &#8211; An optional, custom set of fields to return</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The requested <a class="reference internal" href="data structures.html#committee"><span class="std std-ref">Committee</span></a> details as a dictionary</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="openstates.get_district_boundary">
+<code class="descclassname">openstates.</code><code class="descname">get_district_boundary</code><span class="sig-paren">(</span><em>boundary_id</em>, <em>fields=None</em><span class="sig-paren">)</span><a class="headerlink" href="#openstates.get_district_boundary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets district boundary details</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>boundary_id</strong> &#8211; The boundary ID</li>
+<li><strong>fields</strong> &#8211; Optionally specify a custom list of fields to return</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The requested <a class="reference internal" href="data structures.html#district"><span class="std std-ref">District</span></a> details as a dictionary</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="openstates.get_event">
+<code class="descclassname">openstates.</code><code class="descname">get_event</code><span class="sig-paren">(</span><em>event_id</em>, <em>fields=None</em><span class="sig-paren">)</span><a class="headerlink" href="#openstates.get_event" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets event details</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>event_id</strong> &#8211; The Openstates Event UUID</li>
+<li><strong>fields</strong> &#8211; An optional list of fields to return</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The requested <a class="reference internal" href="data structures.html#event"><span class="std std-ref">Event</span></a> details as a dictionary</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="openstates.get_legislator">
+<code class="descclassname">openstates.</code><code class="descname">get_legislator</code><span class="sig-paren">(</span><em>leg_id</em>, <em>fields=None</em><span class="sig-paren">)</span><a class="headerlink" href="#openstates.get_legislator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a legislator&#8217;s details</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>leg_id</strong> &#8211; The Legislator&#8217;s Open States ID</li>
+<li><strong>fields</strong> &#8211; An optional custom list of fields to return</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The requested <a class="reference internal" href="data structures.html#legislator"><span class="std std-ref">Legislator</span></a> details as a dictionary</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="openstates.locate_legislators">
+<code class="descclassname">openstates.</code><code class="descname">locate_legislators</code><span class="sig-paren">(</span><em>lat</em>, <em>long</em>, <em>fields=None</em><span class="sig-paren">)</span><a class="headerlink" href="#openstates.locate_legislators" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of legislators for the given latitude/longitude coordinates</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>lat</strong> &#8211; Latitude</li>
+<li><strong>long</strong> &#8211; Longitude</li>
+<li><strong>fields</strong> &#8211; An optional custom list of fields to return</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of matching <a class="reference internal" href="data structures.html#legislator"><span class="std std-ref">Legislator</span></a> dictionaries</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="openstates.metadata">
+<code class="descclassname">openstates.</code><code class="descname">metadata</code><span class="sig-paren">(</span><em>state=None</em>, <em>fields=None</em><span class="sig-paren">)</span><a class="headerlink" href="#openstates.metadata" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>Returns a list of all states with data available, and basic metadata about their status.
+Can also get detailed metadata for a particular state.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>state</strong> &#8211; The abbreviation of state to get detailed metadata on, or leave as None to get high-level metadata on all states.</li>
+<li><strong>fields</strong> &#8211; An optional list of fields to return; returns all fields by default</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The requested <a class="reference internal" href="data structures.html#metadata"><span class="std std-ref">Metadata</span></a> as a dictionary</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="openstates.search_bills">
+<code class="descclassname">openstates.</code><code class="descname">search_bills</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#openstates.search_bills" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find fills matching a given set of filters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>**kwargs</strong> &#8211; One or more search filters</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">state</span></code> - Only return bills from a given state (e.g. <code class="docutils literal"><span class="pre">nc</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">chamber</span></code> - Only return bills matching the provided chamber (<code class="docutils literal"><span class="pre">upper</span></code> or <code class="docutils literal"><span class="pre">lower</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">bill_id</span></code> - Only return bills with a given bill_id.</li>
+<li><code class="docutils literal"><span class="pre">bill_id__in</span></code> - Accepts a pipe (|) delimited list of bill ids.</li>
+<li><code class="docutils literal"><span class="pre">q</span></code> -  Only return bills matching the provided full text query.</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">search_window</span></code> By default all bills are searched, but if a time window is desired the following options can be passed to <code class="docutils literal"><span class="pre">search_window</span></code>:</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal"><span class="pre">search_window=all</span></code> - Default, include all sessions.</li>
+<li><code class="docutils literal"><span class="pre">search_window=term</span></code> - Only bills from sessions within the current term.</li>
+<li><code class="docutils literal"><span class="pre">search_window=session</span></code> - Only bills from the current session.</li>
+<li><code class="docutils literal"><span class="pre">search_window=session:2009</span></code> - Only bills from the session named <code class="docutils literal"><span class="pre">2009</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">search_window=term:2009-2011</span></code> - Only bills from the sessions in the <code class="docutils literal"><span class="pre">2009-2011</span></code> session.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><code class="docutils literal"><span class="pre">updated_since</span></code> - Only bills updated since a provided date (provided in <code class="docutils literal"><span class="pre">YYYY-MM-DD</span></code> format)</li>
+<li><code class="docutils literal"><span class="pre">sponsor_id</span></code> Only bills sponsored by a given legislator id (e.g. <code class="docutils literal"><span class="pre">ILL000555</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">subject</span></code> - Only bills categorized by Open States as belonging to this subject.</li>
+<li><code class="docutils literal"><span class="pre">type</span></code> Only bills of a given type (e.g. <code class="docutils literal"><span class="pre">bill</span></code>, <code class="docutils literal"><span class="pre">resolution</span></code>, etc.)</li>
+</ul>
+<p>You can specify sorting using the hollowing <code class="docutils literal"><span class="pre">sort</span></code> keyword argument values:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">first</span></code></li>
+<li><code class="docutils literal"><span class="pre">last</span></code></li>
+<li><code class="docutils literal"><span class="pre">signed</span></code></li>
+<li><code class="docutils literal"><span class="pre">passed_lower</span></code></li>
+<li><code class="docutils literal"><span class="pre">passed_upper</span></code></li>
+<li><code class="docutils literal"><span class="pre">updated_at</span></code></li>
+<li><code class="docutils literal"><span class="pre">created_at</span></code></li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of matching <a class="reference internal" href="data structures.html#bill"><span class="std std-ref">Bill</span></a> dictionaries</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="openstates.search_committees">
+<code class="descclassname">openstates.</code><code class="descname">search_committees</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#openstates.search_committees" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search for and return a list of matching committees</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>**kwargs</strong> &#8211; One or more filter keyword arguments</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">committee</span></code> - Name of committee.</li>
+<li><code class="docutils literal"><span class="pre">subcommittee</span></code> - Name of subcommittee. (if None, object describes the committee)</li>
+<li><code class="docutils literal"><span class="pre">chamber</span></code> - Chamber committee belongs to: <code class="docutils literal"><span class="pre">upper</span></code>, <code class="docutils literal"><span class="pre">lower</span></code>, or <code class="docutils literal"><span class="pre">joint</span></code></li>
+<li><code class="docutils literal"><span class="pre">state</span></code> - State abbreviation</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of matching <a class="reference internal" href="data structures.html#committee"><span class="std std-ref">Committee</span></a> dictionaries</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="openstates.search_districts">
+<code class="descclassname">openstates.</code><code class="descname">search_districts</code><span class="sig-paren">(</span><em>state</em>, <em>chamber</em>, <em>fields=None</em><span class="sig-paren">)</span><a class="headerlink" href="#openstates.search_districts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search for districts</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>state</strong> &#8211; The state to search in</li>
+<li><strong>chamber</strong> &#8211; the upper or lower legislative chamber</li>
+<li><strong>fields</strong> &#8211; Optionally specify a custom list of fields to return</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of matching <a class="reference internal" href="data structures.html#district"><span class="std std-ref">District</span></a> dictionaries</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="openstates.search_events">
+<code class="descclassname">openstates.</code><code class="descname">search_events</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#openstates.search_events" title="Permalink to this definition">¶</a></dt>
+<dd><p>Searches events</p>
+<p>Events are not available in all states, to ensure that events are available check the feature_flags list in a
+states’ State Metadata.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>**kwargs</strong> &#8211; One or more search filters</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">state</span></code> - State abbreviation.</li>
+<li><code class="docutils literal"><span class="pre">type</span></code> - Categorized event type. (<code class="docutils literal"><span class="pre">committee:meeting</span></code> for now)</li>
+</ul>
+<p>This method also allows specifying an alternate output format, by specifying <code class="docutils literal"><span class="pre">format=rss</span></code> or <code class="docutils literal"><span class="pre">format=ics</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of matching <a class="reference internal" href="data structures.html#event"><span class="std std-ref">Event</span></a> dictionaries</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="openstates.search_legislators">
+<code class="descclassname">openstates.</code><code class="descname">search_legislators</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#openstates.search_legislators" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search for legislators</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>**kwargs</strong> &#8211; One or more search filters</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">state</span></code> - Filter by state.</li>
+<li><code class="docutils literal"><span class="pre">first_name</span></code> -  Filter by first name.</li>
+<li><code class="docutils literal"><span class="pre">last_name</span></code> - Filter by last name.</li>
+<li><code class="docutils literal"><span class="pre">chamber</span></code> - Only legislators with a role in the specified chamber.</li>
+<li><code class="docutils literal"><span class="pre">active</span></code> - <code class="docutils literal"><span class="pre">True</span></code> (default) to only include current legislators, <code class="docutils literal"><span class="pre">False</span></code> will include all legislators</li>
+<li><code class="docutils literal"><span class="pre">term</span></code> - Only legislators that have a role in a certain term.</li>
+<li><code class="docutils literal"><span class="pre">district</span></code> - Only legislators that have represented the specified district.</li>
+<li><code class="docutils literal"><span class="pre">party</span></code> - Only legislators that have been associated with a specified party.</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of matching <a class="reference internal" href="data structures.html#legislator"><span class="std std-ref">Legislator</span></a> dictionaries</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="openstates.set_user_agent">
+<code class="descclassname">openstates.</code><code class="descname">set_user_agent</code><span class="sig-paren">(</span><em>user_agent</em><span class="sig-paren">)</span><a class="headerlink" href="#openstates.set_user_agent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends a custom string to the default User-Agent string
+<code class="docutils literal"><span class="pre">openstates-python/__version__</span> <span class="pre">user_agent</span></code></p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">openstates module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data structures.html">Data Structures</a></li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">openstates-python</a></li>
+      <li>Next: <a href="data structures.html" title="next chapter">Data Structures</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/openstates module.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017 Sean Whalen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/openstates module.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Data Structures &#8212; openstates-python 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="openstates module" href="openstates module.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="data-structures">
+<h1>Data Structures<a class="headerlink" href="#data-structures" title="Permalink to this headline">¶</a></h1>
+<p>Objects from the Open States API are returned at dictionaries</p>
+<div class="section" id="metadata">
+<span id="id1"></span><h2>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">abbreviation</span></code> - The two-letter abbreviation of the state.</li>
+<li><code class="docutils literal"><span class="pre">capitol_timezone</span></code> - Timezone of state capitol (e.g. <code class="docutils literal"><span class="pre">America/New_York</span></code>)</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">chambers</span></code> - Dictionary mapping chamber type (upper/lower) to an object with the following fields:</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal"><span class="pre">name</span></code> - Short name of the chamber (e.g. <code class="docutils literal"><span class="pre">House</span></code>, <code class="docutils literal"><span class="pre">Senate</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">title</span></code> - Title of legislators in this chamber (e.g. <code class="docutils literal"><span class="pre">Senator</span></code>)</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">feature_flags</span></code> - A list of which optional features are available, options include:</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal"><span class="pre">subjects</span></code> - bills have categorized subjects</li>
+<li><code class="docutils literal"><span class="pre">influenceexplorer</span></code> - legislators have influence explorer ids</li>
+<li><code class="docutils literal"><span class="pre">events</span></code> - event data is present</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><code class="docutils literal"><span class="pre">latest_csv_date</span></code> - Date that the CSV file at <code class="docutils literal"><span class="pre">latest_csv_url</span></code> was generated.</li>
+<li><code class="docutils literal"><span class="pre">latest_csv_url</span></code> - URL from which a CSV dump of all data for this state can be obtained.</li>
+<li><code class="docutils literal"><span class="pre">latest_json_date</span></code> - Date that the JSON file at <code class="docutils literal"><span class="pre">latest_json_url</span></code> was generated.</li>
+<li><code class="docutils literal"><span class="pre">latest_json_url</span></code> - URL from which a JSON dump of all data for this state can be obtained.</li>
+<li><code class="docutils literal"><span class="pre">latest_update</span></code> - Last time a successful scrape was run.</li>
+<li><code class="docutils literal"><span class="pre">legislature_name</span></code> - Full name of legislature (e.g. <code class="docutils literal"><span class="pre">North</span> <span class="pre">Carolina</span> <span class="pre">General</span> <span class="pre">Assembly</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">legislature_url</span></code> - URL to legislature’s official website.</li>
+<li><code class="docutils literal"><span class="pre">name</span></code> - Name of state.</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">session_details</span></code> - Dictionary of session names to detail dictionaries with the following keys:</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal"><span class="pre">type</span></code> - <code class="docutils literal"><span class="pre">primary</span></code> or <code class="docutils literal"><span class="pre">special</span></code></li>
+<li><code class="docutils literal"><span class="pre">display_name</span></code> - e.g. <code class="docutils literal"><span class="pre">2009-2010</span> <span class="pre">Session</span></code></li>
+<li><code class="docutils literal"><span class="pre">start_date</span></code> - date session began</li>
+<li><code class="docutils literal"><span class="pre">end_date</span></code> - date session began</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">terms</span></code> - List of terms in order that they occurred. Each item in the list is comprised of the following keys:</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal"><span class="pre">start_year</span></code> - Year session started.</li>
+<li><code class="docutils literal"><span class="pre">end_year</span></code> - Year session ended.</li>
+<li><code class="docutils literal"><span class="pre">name</span></code> - Display name for term (e.g. <code class="docutils literal"><span class="pre">2009-2011</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">sessions</span></code> - List of sessions (e.g. <code class="docutils literal"><span class="pre">2009</span></code>). Each session will be present in session_details.</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="bill">
+<span id="id2"></span><h2>Bill<a class="headerlink" href="#bill" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">state</span></code> - State abbreviation.</li>
+<li><code class="docutils literal"><span class="pre">session</span></code> - Session key (see State Metadata for details).</li>
+<li><code class="docutils literal"><span class="pre">bill_id</span></code> - The official id of the bill (e.g. <code class="docutils literal"><span class="pre">SB</span> <span class="pre">27</span></code>, <code class="docutils literal"><span class="pre">A</span> <span class="pre">2111</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">title</span></code> - The official title of the bill.</li>
+<li><code class="docutils literal"><span class="pre">alternate_titles</span></code> - List of alternate titles that the bill has had. (Often empty.)</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">action_dates</span></code> - Dictionary of notable action dates (useful for determining status). Contains the following fields:</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal"><span class="pre">first</span></code> First action (only <code class="docutils literal"><span class="pre">None</span></code> if there are no actions).</li>
+<li><code class="docutils literal"><span class="pre">last</span></code> - Last action (only <code class="docutils literal"><span class="pre">None</span></code> if there are no actions).</li>
+<li><code class="docutils literal"><span class="pre">passed_lower</span></code> - Date that the bill seems to have passed the lower chamber (might be <code class="docutils literal"><span class="pre">None</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">passed_upper</span></code> - Date that the bill seems to have passed the upper chamber (might be <code class="docutils literal"><span class="pre">None</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">signed</span></code> - Date that the bill appears to have signed into law (might be <code class="docutils literal"><span class="pre">None</span></code>).</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">actions</span></code> -  List of objects representing every recorded action for the bill. Action objects have the following fields:</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal"><span class="pre">date</span></code> - Date of action.</li>
+<li><code class="docutils literal"><span class="pre">action</span></code> - Name of action as state provides it.</li>
+<li><code class="docutils literal"><span class="pre">actor</span></code> - The chamber, person, committee, etc. responsible for this action.</li>
+<li><code class="docutils literal"><span class="pre">type</span></code> - Open States-provided action categories, see action categorization.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><code class="docutils literal"><span class="pre">chamber</span></code> - The chamber of origination (‘upper’ or ‘lower’)</li>
+<li><code class="docutils literal"><span class="pre">created_at</span></code> - The date that this object first appeared in our system. (Note: not the date of introduction, see <code class="docutils literal"><span class="pre">action_dates</span></code> - for that information.)</li>
+<li><code class="docutils literal"><span class="pre">updated_at</span></code> - The date that this object was last updated in our system. (Note: not the last action date, see <code class="docutils literal"><span class="pre">action_dates</span></code> for that information.)</li>
+<li><code class="docutils literal"><span class="pre">documents</span> <span class="pre">List</span></code> - of associated documents, see versions for field details.</li>
+<li><code class="docutils literal"><span class="pre">id</span></code> - Open States-assigned permanent ID for this bill.</li>
+<li><code class="docutils literal"><span class="pre">scraped_subjects</span></code> - List of subject areas that the state categorized this bill under.</li>
+<li><code class="docutils literal"><span class="pre">subjects`</span></code> - List of Open States standardized bill subjects, see subject categorization.</li>
+<li><code class="docutils literal"><span class="pre">sources</span></code> - List of source URLs used to compile information on this object.</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">sponsors</span></code> - List of bill sponsors.</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal"><span class="pre">name</span></code> - Name of sponsor as it appears on state website.</li>
+<li><code class="docutils literal"><span class="pre">leg_id</span></code> - Open States assigned legislator ID (will be <code class="docutils literal"><span class="pre">None</span></code> if no match was found).</li>
+<li><code class="docutils literal"><span class="pre">type</span></code> - Type of sponsor (<code class="docutils literal"><span class="pre">primary</span></code> or <code class="docutils literal"><span class="pre">cosponsor</span></code>)</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><code class="docutils literal"><span class="pre">type</span></code> - List of bill types.</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">versions</span></code> Versions of the bill text. Both documents and versions have the following fields:</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal"><span class="pre">url</span></code> - Official URL for this document.</li>
+<li><code class="docutils literal"><span class="pre">name</span></code> - An official name for this document.</li>
+<li><code class="docutils literal"><span class="pre">mimetype</span></code> - The mimetype for the document (e.g. <code class="docutils literal"><span class="pre">text/html</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">doc_id</span></code> - An Open States-assigned id uniquely identifying this document.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">votes</span></code> - List of vote objects. A vote object consists of the following keys:</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal"><span class="pre">motion</span></code> - Name of motion being voted upon (e.g. <code class="docutils literal"><span class="pre">Passage</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">chamber</span></code> - Chamber vote took place in (<code class="docutils literal"><span class="pre">upper</span></code>, <code class="docutils literal"><span class="pre">lower</span></code>, <code class="docutils literal"><span class="pre">joint</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">date</span></code> - Date of vote.</li>
+<li><code class="docutils literal"><span class="pre">id</span></code> - Open States-assigned unique identifier for vote.</li>
+<li><code class="docutils literal"><span class="pre">state</span></code> - State abbreviation.</li>
+<li><code class="docutils literal"><span class="pre">session</span></code> - Session key (see State Metadata for details).</li>
+<li><code class="docutils literal"><span class="pre">sources</span></code> -  List of source URLs used to compile information on this object. (Can be empty if vote shares sources with bill.)</li>
+<li><code class="docutils literal"><span class="pre">yes_count</span></code> - Total number of yes votes.</li>
+<li><code class="docutils literal"><span class="pre">no_count</span></code> - Total number of no votes.</li>
+<li><code class="docutils literal"><span class="pre">other_count</span></code> - Total number of othe’ votes (abstain, not present, etc.).</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">yes_votes</span></code>, <code class="docutils literal"><span class="pre">no_votes</span></code>, <code class="docutils literal"><span class="pre">other_votes</span></code> - List of roll calls of each type. Each is an object consisting of two ßkeys:</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal"><span class="pre">name</span></code> - Name of voter as it appears on state website.</li>
+<li><code class="docutils literal"><span class="pre">leg_id</span></code> - Open States assigned legislator ID (will be <code class="docutils literal"><span class="pre">None</span></code> if no match was found).</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="legislator">
+<span id="id3"></span><h2>Legislator<a class="headerlink" href="#legislator" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">leg_id</span></code> - Legislator’s permanent Open States ID. (e.g. <code class="docutils literal"><span class="pre">ILL000555</span></code>, <code class="docutils literal"><span class="pre">NCL000123</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">state</span></code> - Legislator’s state.</li>
+<li><code class="docutils literal"><span class="pre">active</span></code> - Boolean value indicating whether or not the legislator is currently in office.</li>
+<li><code class="docutils literal"><span class="pre">chamber</span></code> - Chamber the legislator is currently serving in if active (<code class="docutils literal"><span class="pre">upper</span></code> or <code class="docutils literal"><span class="pre">lower</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">district</span></code> - District the legislator is currently serving in if active (e.g. <code class="docutils literal"><span class="pre">7</span></code>, <code class="docutils literal"><span class="pre">6A</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">party</span></code> - Party the legislator is currently representing if active.</li>
+<li><code class="docutils literal"><span class="pre">email</span></code> Legislator’s primary email address.</li>
+<li><code class="docutils literal"><span class="pre">full_name</span></code> - Full display name for legislator.</li>
+<li><code class="docutils literal"><span class="pre">first_name</span></code>  - First name of legislator.</li>
+<li><code class="docutils literal"><span class="pre">middle_name</span></code> -  Middle name of legislator.</li>
+<li><code class="docutils literal"><span class="pre">last_name</span></code> - Last name of legislator.</li>
+<li><code class="docutils literal"><span class="pre">suffixes</span></code> - Name suffixes (e.g. <code class="docutils literal"><span class="pre">Jr.</span></code>, <code class="docutils literal"><span class="pre">III</span></code>) of legislator.</li>
+<li><code class="docutils literal"><span class="pre">photo_url</span></code> URL of an official photo of this legislator.</li>
+<li><code class="docutils literal"><span class="pre">url</span></code> - URL of an official webpage for this legislator.</li>
+<li><code class="docutils literal"><span class="pre">created_at</span></code> - The date that this object first appeared in our system.</li>
+<li><code class="docutils literal"><span class="pre">updated_at</span></code> - The date that this object was last updated in our system.</li>
+<li><code class="docutils literal"><span class="pre">created_at</span></code> - Date at which this legislator was added to our system.</li>
+<li><code class="docutils literal"><span class="pre">updated_at</span></code> - Date at which this legislator was last updated.</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">offices</span></code> List of office objects representing contact details for the legislator. Comprised of the following fields:</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal"><span class="pre">type</span></code> - <code class="docutils literal"><span class="pre">capitol</span></code> or <code class="docutils literal"><span class="pre">district</span></code></li>
+<li><code class="docutils literal"><span class="pre">name</span></code> - Name of the address (e.g. ‘Council Office’, ‘District Office’)</li>
+<li><code class="docutils literal"><span class="pre">address</span></code> - Street address.</li>
+<li><code class="docutils literal"><span class="pre">phone</span></code> - Phone number.</li>
+<li><code class="docutils literal"><span class="pre">fax</span></code> - Fax number.</li>
+<li><code class="docutils literal"><span class="pre">email</span></code> Email address. Any of these fields may be <code class="docutils literal"><span class="pre">None</span></code> if not found.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><code class="docutils literal"><span class="pre">roles</span></code> - List of currently active role objects if legislator is in office.</li>
+<li><code class="docutils literal"><span class="pre">old_roles</span></code> - Dictionary mapping term keys to lists of roles that were valid for that term.</li>
+</ul>
+<div class="section" id="role">
+<span id="id4"></span><h3>Role<a class="headerlink" href="#role" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">term</span></code> - Term key for this role. (See metadata notes on terms and sessions for details.)</li>
+<li><code class="docutils literal"><span class="pre">chamber</span></code></li>
+<li><code class="docutils literal"><span class="pre">state</span></code></li>
+<li><code class="docutils literal"><span class="pre">start_date</span></code> (optional)</li>
+<li><code class="docutils literal"><span class="pre">end_date</span></code> (optional)</li>
+<li><code class="docutils literal"><span class="pre">type</span></code> - <code class="docutils literal"><span class="pre">member</span></code> or <code class="docutils literal"><span class="pre">committee</span> <span class="pre">member</span></code></li>
+</ul>
+<p>If the role type is <code class="docutils literal"><span class="pre">member</span></code>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">party</span></code></li>
+<li><code class="docutils literal"><span class="pre">district</span></code></li>
+</ul>
+</div></blockquote>
+<p>And if the type is <code class="docutils literal"><span class="pre">committee</span> <span class="pre">membe</span></code>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">committee</span></code> - Name of parent committee</li>
+<li><code class="docutils literal"><span class="pre">ubcommittee</span></code> - Name of subcommittee (if <code class="docutils literal"><span class="pre">None</span></code>, membership is just for a committee)</li>
+<li><code class="docutils literal"><span class="pre">committee_id</span></code> - Open States id for committee that legislator is a member of</li>
+<li><code class="docutils literal"><span class="pre">position</span></code> - Position on committee</li>
+<li><code class="docutils literal"><span class="pre">old_roles</span></code> - List of old roles</li>
+<li><code class="docutils literal"><span class="pre">sources</span></code> List of URLs used in gathering information for this legislator.</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="committee">
+<span id="id5"></span><h2>Committee<a class="headerlink" href="#committee" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">id</span></code> - Open States assigned committee ID.</li>
+<li><code class="docutils literal"><span class="pre">state</span></code> - State abbreviation.</li>
+<li><code class="docutils literal"><span class="pre">chamber</span></code> - Chamber committee belongs to: <code class="docutils literal"><span class="pre">upper</span></code>, <code class="docutils literal"><span class="pre">lower</span></code>, or <code class="docutils literal"><span class="pre">joint</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">committee</span></code> - Name of committee.</li>
+<li><code class="docutils literal"><span class="pre">subcommittee</span></code> - Name of subcommittee. (if <code class="docutils literal"><span class="pre">None</span></code>, object describes the committee)</li>
+<li><code class="docutils literal"><span class="pre">parent_id</span></code> - Committee id pointing to the parent committee if this is a subcommittee.</li>
+<li><code class="docutils literal"><span class="pre">sources</span></code> - List of URLs used in gathering information for this legislator.</li>
+<li><code class="docutils literal"><span class="pre">created_at</span></code> - The date that this object first appeared in our system.</li>
+<li><code class="docutils literal"><span class="pre">updated_at</span></code> - The date that this object was last updated in our system.</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">members</span></code> - List of member objects, each has the following keys:</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal"><span class="pre">name</span></code> - Name of legislator as provided by state source.</li>
+<li><code class="docutils literal"><span class="pre">leg_id</span></code> - Open States-assigned legislator id. (<code class="docutils literal"><span class="pre">None</span></code> if no match found).</li>
+<li><code class="docutils literal"><span class="pre">role</span></code> - Member’s role on the committee (e.g. <code class="docutils literal"><span class="pre">chair</span></code>, <code class="docutils literal"><span class="pre">vice-chair</span></code>; default role is <code class="docutils literal"><span class="pre">member</span></code>)</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="event">
+<span id="id6"></span><h2>Event<a class="headerlink" href="#event" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">id</span></code> - Open States assigned event ID.</li>
+<li><code class="docutils literal"><span class="pre">state</span></code> - State abbreviation.</li>
+<li><code class="docutils literal"><span class="pre">type</span></code> - Categorized event type. (<code class="docutils literal"><span class="pre">committee:meeting</span></code> for now)</li>
+<li><code class="docutils literal"><span class="pre">description</span></code> - Description of event from state source.</li>
+<li><code class="docutils literal"><span class="pre">documents</span></code> - List of related documents.</li>
+<li><code class="docutils literal"><span class="pre">Location</span></code> - Location if known, as given by state (it is often just a room number).</li>
+<li><code class="docutils literal"><span class="pre">when</span></code> - Time event begins.</li>
+<li><code class="docutils literal"><span class="pre">end</span></code>  - End time (<code class="docutils literal"><span class="pre">None</span></code> if unknown).</li>
+<li><code class="docutils literal"><span class="pre">timezone</span></code> - Timezone event occurs in (e.g. <code class="docutils literal"><span class="pre">America/Chicago</span></code>).</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">participants</span></code> - List of participant objects, consisting of the following fields:</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal"><span class="pre">chamber</span></code> - Chamber of participant.</li>
+<li><code class="docutils literal"><span class="pre">type</span></code> - Type of participants (<code class="docutils literal"><span class="pre">legislator</span></code>, <code class="docutils literal"><span class="pre">committee</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">participant</span></code> - String representation of participant (e.g. <code class="docutils literal"><span class="pre">Housing</span> <span class="pre">Committee</span></code>, <code class="docutils literal"><span class="pre">Jill</span> <span class="pre">Smith</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">id</span></code> - Open States ID for participant if a match was found (e.g. <code class="docutils literal"><span class="pre">TXC000150</span></code>, <code class="docutils literal"><span class="pre">MDL000101</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">type</span></code> - What role this participant played (will be <code class="docutils literal"><span class="pre">host</span></code>, <code class="docutils literal"><span class="pre">chair</span></code>, <code class="docutils literal"><span class="pre">participant</span></code>).</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">related_bills</span></code> - List of related bills for this event. Comprised of the following fields:</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal"><span class="pre">type</span></code> - Type of relationship (e.g. <code class="docutils literal"><span class="pre">consideration</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">description</span></code> - Description of how the bill is related given by the state.</li>
+<li><code class="docutils literal"><span class="pre">bill_id</span></code> - State’s bill id (e.g. <code class="docutils literal"><span class="pre">HB</span> <span class="pre">273</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">id</span></code> - Open States assigned bill id (e.g. <code class="docutils literal"><span class="pre">TXB00001234</span></code>)</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><code class="docutils literal"><span class="pre">sources</span></code> List of URLs used in gathering information for this legislator.</li>
+<li><code class="docutils literal"><span class="pre">created_at</span></code> - The date that this object first appeared in our system.</li>
+<li><code class="docutils literal"><span class="pre">updated_at</span></code> - The date that this object was last updated in our system.</li>
+</ul>
+</div>
+<div class="section" id="district">
+<span id="id7"></span><h2>District<a class="headerlink" href="#district" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">abbr</span></code> - State abbreviation.</li>
+<li><code class="docutils literal"><span class="pre">boundary_id</span></code> -  <code class="docutils literal"><span class="pre">boundary_id</span></code> used in District Boundary Lookup</li>
+<li><code class="docutils literal"><span class="pre">chamber</span></code> - Whether this district belongs to the <code class="docutils literal"><span class="pre">upper</span></code> or <code class="docutils literal"><span class="pre">lower</span></code> chamber.</li>
+<li><code class="docutils literal"><span class="pre">id</span></code> - A unique ID for this district (separate from boundary_id).</li>
+<li><code class="docutils literal"><span class="pre">legislators</span></code> - List of legislators that serve in this district. (may be more than one if num_seats &gt; 1)</li>
+<li><code class="docutils literal"><span class="pre">name</span></code> - Name of the district (e.g. <code class="docutils literal"><span class="pre">14</span></code>, <code class="docutils literal"><span class="pre">33A</span></code>, <code class="docutils literal"><span class="pre">Fifth</span> <span class="pre">Suffolk</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">num_seats</span></code> - Number of legislators that are elected to this seat. Generally one, but will be 2 or more if the seat is a multi-member district.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="openstates module.html">openstates module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Data Structures</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#metadata">Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bill">Bill</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#legislator">Legislator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#role">Role</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#committee">Committee</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#event">Event</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#district">District</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="openstates module.html" title="previous chapter">openstates module</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/data structures.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017 Sean Whalen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/data structures.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
