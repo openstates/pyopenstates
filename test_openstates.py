@@ -182,7 +182,7 @@ class Test(unittest.TestCase):
         comittee = "Transportation and the Environment"
         self.assertEqual(openstates.get_committee(_id)["committee"], comittee)
 
-    @unittest.skip("Events are missing for every state in the dataset at of 2017-01-27")
+    @unittest.skip("Events are missing for every state in the dataset as of 2017-01-27")
     def testEventSearch(self):
         """Event search"""
         state = "tx"
