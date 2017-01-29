@@ -226,6 +226,29 @@ the state, term, and legislative bill ID</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="openstates.get_metadata">
+<code class="descclassname">openstates.</code><code class="descname">get_metadata</code><span class="sig-paren">(</span><em>state=None</em>, <em>fields=None</em><span class="sig-paren">)</span><a class="headerlink" href="#openstates.get_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>Returns a list of all states with data available, and basic metadata about their status.
+Can also get detailed metadata for a particular state.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>state</strong> &#8211; The abbreviation of state to get detailed metadata on, or leave as None to get high-level metadata on all states.</li>
+<li><strong>fields</strong> &#8211; An optional list of fields to return; returns all fields by default</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The requested <a class="reference internal" href="data structures.html#metadata"><span class="std std-ref">Metadata</span></a> as a dictionary</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="openstates.locate_legislators">
 <code class="descclassname">openstates.</code><code class="descname">locate_legislators</code><span class="sig-paren">(</span><em>lat</em>, <em>long</em>, <em>fields=None</em><span class="sig-paren">)</span><a class="headerlink" href="#openstates.locate_legislators" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of legislators for the given latitude/longitude coordinates</p>
@@ -241,29 +264,6 @@ the state, term, and legislative bill ID</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of matching <a class="reference internal" href="data structures.html#legislator"><span class="std std-ref">Legislator</span></a> dictionaries</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="openstates.metadata">
-<code class="descclassname">openstates.</code><code class="descname">metadata</code><span class="sig-paren">(</span><em>state=None</em>, <em>fields=None</em><span class="sig-paren">)</span><a class="headerlink" href="#openstates.metadata" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div>Returns a list of all states with data available, and basic metadata about their status.
-Can also get detailed metadata for a particular state.</div></blockquote>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>state</strong> &#8211; The abbreviation of state to get detailed metadata on, or leave as None to get high-level metadata on all states.</li>
-<li><strong>fields</strong> &#8211; An optional list of fields to return; returns all fields by default</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The requested <a class="reference internal" href="data structures.html#metadata"><span class="std std-ref">Metadata</span></a> as a dictionary</p>
 </td>
 </tr>
 </tbody>
