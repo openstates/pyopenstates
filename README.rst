@@ -52,7 +52,7 @@ Documentation
 -------------
 
 Documentation in provided in detailed docstrings, and in HTML format at
-`Read The Docs`_.
+https://seanthegeek.github.io/openstates-python/
 
 .. _Open States API: http://docs.openstates.org/api/
 .. _Open States: https://openstates.org/
@@ -63,7 +63,6 @@ Documentation in provided in detailed docstrings, and in HTML format at
 .. _volunteering: https://docs.google.com/forms/d/e/1FAIpQLSfMDjoVoKxSOciIiqE3Ofxgn-caFGCxicFO2LwyWAK8zdXyhg/viewform
 .. _pip: https://docs.python.org/3.5/installing/index.html
 .. _vertualenv: https://virtualenv.pypa.io/en/stable/
-.. _Read The Docs: https://python-openstates.readthedocs.org/
 
 .. |Build Status| image:: https://travis-ci.org/seanthegeek/openstates-python.svg?branch=master
    :target: https://travis-ci.org/seanthegeek/openstates-python
