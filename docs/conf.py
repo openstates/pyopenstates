@@ -17,9 +17,9 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+sys.path.insert(0, os.path.abspath('..'))
 
 
 # -- General configuration ------------------------------------------------
@@ -33,7 +33,8 @@
 # ones.
 extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.githubpages',
-              'sphinx.ext.napoleon']
+              'sphinx.ext.napoleon',
+              'sphinxcontrib.fulltoc']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -49,7 +50,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'openstates-python'
-copyright = '2017, Sean Whalen'
+copyright = '2017 Sean Whalen'
 author = 'Sean Whalen'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -155,5 +156,16 @@ texinfo_documents = [
      'Miscellaneous'),
 ]
 
-
-
+# Napoleon settings
+napoleon_google_docstring = True
+napoleon_numpy_docstring = True
+napoleon_include_init_with_doc = False
+napoleon_include_private_with_doc = False
+napoleon_include_special_with_doc = False
+napoleon_use_admonition_for_examples = False
+napoleon_use_admonition_for_notes = False
+napoleon_use_admonition_for_references = False
+napoleon_use_ivar = False
+napoleon_use_param = True
+napoleon_use_rtype = True
+napoleon_use_keyword = True

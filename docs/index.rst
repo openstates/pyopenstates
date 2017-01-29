@@ -63,14 +63,18 @@ To install the latest commit from git, run:
 .. |Build Status| image:: https://travis-ci.org/seanthegeek/openstates-python.svg?branch=master
    :target: https://travis-ci.org/seanthegeek/openstates-python
 
+
+Contents:
+
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
+   openstates module.rst
+   data structures.rst
 
 
 Indices and tables
-==================
+------------------
 
 * :ref:`genindex`
 * :ref:`modindex`

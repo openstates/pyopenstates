@@ -45,6 +45,11 @@ class APIError(RuntimeError):
     pass
 
 
+class NotFound(APIError):
+    """Raised when the API cannot find the requested object"""
+    pass
+
+
 def _get(uri, params=None):
     """
     An internal method for making API calls and error handling easy and consistent
@@ -90,7 +95,7 @@ def _get(uri, params=None):
     response = session.get(url, params=params)
     if response.status_code != 200:
         if response.status_code == 404:
-            raise APIError("Not found: {0}".format(response.url))
+            raise NotFound("Not found: {0}".format(response.url))
         else:
             raise APIError(response.text)
     return _convert(response.json())
@@ -98,7 +103,7 @@ def _get(uri, params=None):
 
 def set_user_agent(user_agent):
     """Appends a custom string to the default User-Agent string
-    openstates-python/__version__ user_agent"""
+    ``openstates-python/__version__ user_agent``"""
     session.headers.update({"User-Agent": "{0} {1}".format(DEFUALT_USER_AGENT, user_agent)})
 
 
@@ -108,44 +113,12 @@ def metadata(state=None, fields=None):
         Can also get detailed metadata for a particular state.
 
     Args:
-        state: The abbreviation of state to get detailed metadata on, or leave as None to get
-        high-level metadata on all states.
+        state: The abbreviation of state to get detailed metadata on, or leave as None to get high-level metadata on all states.
 
         fields: An optional list of fields to return; returns all fields by default
 
-        The following fields are available on metadata objects:
-
-            - ``abbreviation`` - The two-letter abbreviation of the state.
-            - ``capitol_timezone`` - Timezone of state capitol (e.g. ``America/New_York``)
-            - ``chambers`` - Dictionary mapping chamber type (upper/lower) to an object with the following fields:
-               - ``name`` - Short name of the chamber (e.g. ``House``, ``Senate``)
-               - ``title`` - Title of legislators in this chamber (e.g. ``Senator``)
-            - `feature_flags`` - A list of which optional features are available, options include:
-                - ``subjects``` - bills have categorized subjects
-                - ``influenceexplorer`` - legislators have influence explorer ids
-                - ``events`` - event data is present
-            - ``latest_csv_date`` - Date that the CSV file at latest_csv_url was generated.
-            - ``latest_csv_url`` - URL from which a CSV dump of all data for this state can be obtained.
-            - ``latest_json_date`` - Date that the JSON file at latest_json_url was generated.
-            - ``latest_json_url`` - URL from which a JSON dump of all data for this state can be obtained.
-            - ``latest_update`` - Last time a successful scrape was run.
-            - ``legislature_name`` - Full name of legislature (e.g. ``North Carolina General Assembly``)
-            - ``legislature_url`` - URL to legislature’s official website.
-            name Name of state.
-            - ``session_details`` - Dictionary of session names to detail dictionaries with the following keys:
-                - ``type`` - ``primary`` or ``special``
-                - ``display_name`` - e.g. ``2009-2010 Session``
-                - ``start_date`` - date session began
-                - ``end_date`` - date session began
-            - ``terms`` - List of terms in order that they occurred. Each item in the list is comprised of the following keys:
-                - ``start_year`` - Year session started.
-                - ``end_year`` - Year session ended.
-                - ``name`` - Display name for term (e.g. ``2009-2011``).
-                - ``sessions`` - List of sessions (e.g. ``2009``). Each session will be present in session_details.
-
-
     Returns:
-        The requested metadata as a dictionary
+        The requested :ref:`Metadata` as a dictionary
 
     """
     uri = "/metadata/"
@@ -159,8 +132,8 @@ def download_csv(state, file_object):
     Downloads a zip containing bulk data on a given state in CSV format to a given file object
 
     Args:
-        state: The postal code of the state
-        file_object: A file object
+        state: The abbreviation of the state
+        file_object: A file or file-like object
 
     Examples:
         ::
@@ -173,6 +146,7 @@ def download_csv(state, file_object):
             from io import BytesIO
             mem_zip = BytesIO()
             openstates.download_csv("OH", mem_zip)
+
     """
     field = "latest_csv_url"
     url = metadata(state, fields=field)[field]
@@ -184,8 +158,8 @@ def download_json(state, file_object):
         Downloads a zip containing bulk data on a given state in JSON format to a given file object
 
         Args:
-            state: The postal code of the state
-            file_object: A file object
+            state: The abbreviation of the state
+            file_object: A file or file-like object
 
         Examples:
             ::
@@ -198,6 +172,7 @@ def download_json(state, file_object):
                 from io import BytesIO
                 mem_zip = BytesIO()
                 openstates.download_json("OH", mem_zip)
+
         """
     field = "latest_json_url"
     url = metadata(state, fields=field)[field]
@@ -209,99 +184,36 @@ def search_bills(**kwargs):
     Find fills matching a given set of filters
 
     Args:
-        **kwargs: The following parameters filter the returned set of bills, at least one must be provided.
+        **kwargs: One or more search filters
 
-    state Only return bills from a given state (e.g.``‘nc``)
-    chamber Only return bills matching the provided chamber (``upper`` or ``lower``)
-    bill_id Only return bills with a given bill_id.
-    bill_id__in Accepts a pipe (|) delimited list of bill ids.
-    q Only return bills matching the provided full text query.
-    search_window By default all bills are searched, but if a time window is desired the following options can be passed
-    to ``search_window``:
+    - ``state`` - Only return bills from a given state (e.g. ``nc``)
+    - ``chamber`` - Only return bills matching the provided chamber (``upper`` or ``lower``)
+    - ``bill_id`` - Only return bills with a given bill_id.
+    - ``bill_id__in`` - Accepts a pipe (|) delimited list of bill ids.
+    - ``q`` -  Only return bills matching the provided full text query.
+    - ``search_window`` By default all bills are searched, but if a time window is desired the following options can be passed to ``search_window``:
         - ``search_window=all`` - Default, include all sessions.
         - ``search_window=term`` - Only bills from sessions within the current term.
         - ``search_window=session`` - Only bills from the current session.
         - ``search_window=session:2009`` - Only bills from the session named ``2009``.
         - ``search_window=term:2009-2011`` - Only bills from the sessions in the ``2009-2011`` session.
-    updated_since Only bills updated since a provided date (provided in ``YYYY-MM-DD`` format)
-    sponsor_id Only bills sponsored by a given legislator id (e.g. ``ILL000555``)
-    subject Only bills categorized by Open States as belonging to this subject.
-    type Only bills of a given type (e.g. ``bill``, ``resolution``, etc.)
+    - ``updated_since`` - Only bills updated since a provided date (provided in ``YYYY-MM-DD`` format)
+    - ``sponsor_id`` Only bills sponsored by a given legislator id (e.g. ``ILL000555``)
+    - ``subject`` - Only bills categorized by Open States as belonging to this subject.
+    - ``type`` Only bills of a given type (e.g. ``bill``, ``resolution``, etc.)
 
+    You can specify sorting using the hollowing ``sort`` keyword argument values:
+
+    - ``first``
+    - ``last``
+    - ``signed``
+    - ``passed_lower``
+    - ``passed_upper``
+    - ``updated_at``
+    - ``created_at``
 
     Returns:
-        A list of matching bills
-
-    Notes:
-        This method returns just a subset (state, chamber, session, subjects, type, id, bill_id, title, created_at,
-        updated_at) of the bill fields by default. You can specify the fields to return in the fields keyword argument/
-
-        The following fields are available on bill objects:
-
-            - ``state`` - State abbreviation.
-            - ``session`` - Session key (see State Metadata for details).
-            - ``bill_id`` - The official id of the bill (e.g. ‘SB 27’, ‘A 2111’)
-            - ``title`` - The official title of the bill.
-            - ``alternate_titles`` - List of alternate titles that the bill has had. (Often empty.)
-            - ``action_dates`` - Dictionary of notable action dates (useful for determining status). Contains the
-            following fields:
-                - ``first`` First action (only None if there are no actions).
-                - ``last`` - Last action (only None if there are no actions).
-                - ``passed_lower`` - Date that the bill seems to have passed the lower chamber (might be None).
-                - ``passed_upper`` - Date that the bill seems to have passed the upper chamber (might be None).
-                - ``signed Date`` - that the bill appears to have signed into law (might be None).
-            - ``actions`` -  List of objects representing every recorded action for the bill. Action objects have the
-            following fields:
-                - ``date`` - Date of action.
-                - ``action`` - Name of action as state provides it.
-                - ``actor`` - The chamber, person, committee, etc. responsible for this action.
-                - ``type`` - Open States-provided action categories, see action categorization.
-            - ``chamber`` - The chamber of origination (‘upper’ or ‘lower’)
-            - ``created_at`` - The date that this object first appeared in our system. (Note: not the date of introduction,
-            see ``action_dates`` - for that information.)
-            - ``updated_at`` - The date that this object was last updated in our system. (Note: not the last action date,
-            see ``action_dates`` for that information.)
-            - ``documents List`` - of associated documents, see versions for field details.
-            - ``id`` - Open States-assigned permanent ID for this bill.
-            - ``scraped_subjects`` - List of subject areas that the state categorized this bill under.
-            - ``subjects``` - List of Open States standardized bill subjects, see subject categorization.
-            - ``sources`` - List of source URLs used to compile information on this object.
-            sponsors List of bill sponsors.
-                - ``name`` - Name of sponsor as it appears on state website.
-                - ``leg_id`` - Open States assigned legislator ID (will be None if no match was found).
-                type Type of sponsor (‘primary’ or ‘cosponsor’)
-            - ``type`` - List of bill types.
-            - ``versions`` Versions of the bill text. Both documents and versions have the following fields:
-                - ``url`` - Official URL for this document.
-                - ``name`` - An official name for this document.
-                - ``mimetype`` - The mimetype for the document (e.g. ``text/html``)
-                - ``doc_id`` - An Open States-assigned id uniquely identifying this document.
-            - ``votes`` - List of vote objects. A vote object consists of the following keys:
-                - ``motion`` - Name of motion being voted upon (e.g. ``Passage``)
-                - ``chamber`` - Chamber vote took place in (``upper``, ``lower``, ``joint``)
-                - ``date`` - Date of vote.
-                - ``id`` - Open States-assigned unique identifier for vote.
-                - ``state`` - State abbreviation.
-                - ``session`` - Session key (see State Metadata for details).
-                - ``sources`` -  List of source URLs used to compile information on this object. (Can be empty if vote shares
-                sourceswith bill.)
-                `- `yes_count`` - Total number of yes votes.
-                - ``no_count`` - Total number of no votes.
-                - ``other_count`` - Total number of ‘other’ votes (abstain, not present, etc.).
-                yes_votes, no_votes, other_votes List of roll calls of each type. Each is an object consisting of two
-                keys:
-                    - ``name`` - Name of voter as it appears on state website.
-                    - ``leg_id`` - Open States assigned legislator ID (will be None if no match was found).
-
-        You can specify sorting using the hollowing sort keyword argument values:
-
-        - ``first``
-        - ``last``
-        - ``signed``
-        - ``passed_lower``
-        - ``passed_upper``
-        - ``updated_at``
-        - ``created_at``
+        A list of matching :ref:`Bill` dictionaries
     """
     uri = "bills/"
     if "per_page" in kwargs.keys():
@@ -327,11 +239,10 @@ def get_bill(uid=None, state=None, term=None, bill_id=None, **kwargs):
         state: The postal code of the state
         term: The legislative term (see state metadata)
         bill_id: Yhe legislative bill ID (e.g. ``HR 42``)
-        **kwargs: Additional, optional keyword argument options, such as:
-        fields, which specifies the fields to return
+        **kwargs: Optional keyword argument options, such as ``fields``, which specifies the fields to return
 
     Returns:
-        The details of the bill as a dictionary
+        The :ref:`Bill` details as a dictionary
     """
     if uid:
         if state or term or bill_id:
@@ -346,76 +257,21 @@ def get_bill(uid=None, state=None, term=None, bill_id=None, **kwargs):
 def search_legislators(**kwargs):
     """
     Search for legislators
+
     Args:
-        **kwargs: Filters to search by:
-            - ``state`` - Filter by state.
-            - ``first_name`` -  Filter by first name.
-            - ``last_name`` - Filter by last name.
-            - ``chamber`` - Only legislators with a role in the specified chamber.
-            - ``active`` ``True’` (default) to only include current legislators, ``False`` will include all legislators
-            - ``term`` - Only legislators that have a role in a certain term.
-            - ``district`` - Only legislators that have represented the specified district.
-            - ``party`` - Only legislators that have been associated with a specified party.
+        **kwargs: One or more search filters
 
-            Additionally, the list of fields to return can be customized with the fields keyword argument
-                - ``leg_id`` - Legislator’s permanent Open States ID. (e.g. ``ILL000555``, ``NCL000123``)
-                - ``state`` - Legislator’s state.
-                - ``active`` - Boolean value indicating whether or not the legislator is currently in office.
-                - ``chamber`` - Chamber the legislator is currently serving in if active (``upper`` or ``lower``)
-                - ``district`` - District the legislator is currently serving in if active (e.g. ``7``, ``6A``)
-                - ``party`` - Party the legislator is currently representing if active.
-                - ``email`` Legislator’s primary email address.
-                - ``full_name`` - Full display name for legislator.
-                - ``first_name``  - First name of legislator.
-                - ``middle_name`` -  Middle name of legislator.
-                - ``last_name`` - Last name of legislator.
-                - ``suffixes`` - Name suffixes (e.g. ``Jr.``, ``III``) of legislator.
-                - ``photo_url`` URL of an official photo of this legislator.
-                - ``url`` - URL of an official webpage for this legislator.
-                - ``created_at`` - The date that this object first appeared in our system.
-                - ``updated_at`` - The date that this object was last updated in our system.
-                - ``created_at`` - Date at which this legislator was added to our system.
-                - ``updated_at`` - Date at which this legislator was last updated.
-                - ``offices`` List of office objects representing contact details for the legislator. Comprised of the
-                following fields:
-                    - ``type`` - ``capitol`` or ``district``
-                    - ``name`` - Name of the address (e.g. ‘Council Office’, ‘District Office’)
-                    - ``address`` - Street address.
-                    - ``phone`` - Phone number.
-                    - ``fax`` - Fax number.
-                    - ``email`` Email address. Any of these fields may be ``None`` if not found.
-                - ``roles`` - List of currently active role objects if legislator is in office.
-                old_roles Dictionary mapping term keys to lists of roles that were valid for that term.
-
-Roles
-
-``roles`` and ``old_roles`` are comprised of role objects.
-
-Role objects can have the following fields:
-
-    - ``term` - Term key for this role. (See metadata notes on terms and sessions for details.)
-    - ``chamber``
-    - ``state``
-    - ``start_date`` (optional)
-    - ``end_date`` (optional)
-    - ``type``-  ``member`` or ``committee member``
-
-If the role type is ‘member’:
-
-    - ``party``
-    - ``district``
-
-And if the type is ‘committee member’:
-
-    committee name of parent committee
-    subcommittee name of subcommittee (if None, membership is just for a committee)
-    committee_id Open States id for committee that legislator is a member of
-    position position on committee
-    old_roles
-    sources List of URLs used in gathering information for this legislator.
+    - ``state`` - Filter by state.
+    - ``first_name`` -  Filter by first name.
+    - ``last_name`` - Filter by last name.
+    - ``chamber`` - Only legislators with a role in the specified chamber.
+    - ``active`` - ``True`` (default) to only include current legislators, ``False`` will include all legislators
+    - ``term`` - Only legislators that have a role in a certain term.
+    - ``district`` - Only legislators that have represented the specified district.
+    - ``party`` - Only legislators that have been associated with a specified party.
 
     Returns:
-        A list of legislators
+        A list of matching :ref:`Legislator` dictionaries
 
     """
     return _get("/legislators/", params=kwargs)
@@ -424,12 +280,13 @@ And if the type is ‘committee member’:
 def get_legislator(leg_id, fields=None):
     """
     Gets a legislator's details
+
     Args:
         leg_id: The Legislator's Open States ID
         fields: An optional custom list of fields to return
 
     Returns:
-        The requested legislator details as a dictionary
+        The requested :ref:`Legislator` details as a dictionary
     """
     return _get("/legislators/{0}/".format(leg_id), params=dict(fields=fields))
 
@@ -437,13 +294,14 @@ def get_legislator(leg_id, fields=None):
 def locate_legislators(lat, long, fields=None):
     """
     Returns a list of legislators for the given latitude/longitude coordinates
+
     Args:
         lat: Latitude
         long: Longitude
         fields: An optional custom list of fields to return
 
     Returns:
-        A list of legislators
+        A list of matching :ref:`Legislator` dictionaries
 
     """
     return _get("/legislators/geo/", params=dict(lat=lat, long=long, fields=fields))
@@ -452,33 +310,17 @@ def locate_legislators(lat, long, fields=None):
 def search_committees(**kwargs):
     """
     Search for and return a list of matching committees
+
     Args:
-        **kwargs: One or more filter keyword arguments:
-            - ``committee`` - Name of committee.
-            - ``subcommittee`` - Name of subcommittee. (if None, object describes the committee)
-            - ``chamber`` - Chamber committee belongs to: ``upper``, ``lower``, or ``joint``
-            - ``state`` - State abbreviation
+        **kwargs: One or more filter keyword arguments
 
-            Additionally, the list of fields to return can be customized with the fields keyword argument.
-            The following fields are available on committee objects:
-
-                - ``id`` - Open States assigned committee ID.
-                - ``state`` - State abbreviation.
-                - ``chamber`` - Chamber committee belongs to: ``upper``, ``lower``, or ``joint``.
-                - ``committee`` - Name of committee.
-                - ``subcommittee`` - Name of subcommittee. (if None, object describes the committee)
-                - ``parent_id`` - Committee id pointing to the parent committee if this is a subcommittee.
-                - ``sources`` - List of URLs used in gathering information for this legislator.
-                - ``created_at`` - The date that this object first appeared in our system.
-                - ``updated_at`` - The date that this object was last updated in our system.
-                - ``members`` - List of member objects, each has the following keys:
-                    - ``name`` - Name of legislator as provided by state source.
-                    - ``leg_id`` - Open States-assigned legislator id. (None if no match found).
-                    - ``role`` - Member’s role on the committee (e.g. ``chair``, ``vice-chair``;
-                                 default role is ``member``)
+    - ``committee`` - Name of committee.
+    - ``subcommittee`` - Name of subcommittee. (if None, object describes the committee)
+    - ``chamber`` - Chamber committee belongs to: ``upper``, ``lower``, or ``joint``
+    - ``state`` - State abbreviation
 
     Returns:
-        A list of committees
+        A list of matching :ref:`Committee` dictionaries
     """
     return _get("/committees/", params=kwargs)
 
@@ -486,12 +328,13 @@ def search_committees(**kwargs):
 def get_committee(com_id, fields=None):
     """
     Gets committee details
+
     Args:
         com_id: Open States committee ID
         fields: An optional, custom set of fields to return
 
     Returns:
-        Committee details as a dictionary
+        The requested :ref:`Committee` details as a dictionary
     """
     return _get("/committees/{0}/".format(com_id), params=dict(fields=fields))
 
@@ -504,56 +347,29 @@ def search_events(**kwargs):
     states’ State Metadata.
 
     Args:
-        **kwargs: Fields that can be filtered om:
-            - ``state`` - State abbreviation.
-            - ``type`` - Categorized event type. (``committee:meeting`` for now)
+        **kwargs: One or more search filters
 
-        This method also allows specifying an alternate output format, by specifying format=rss or format=ics.
+    - ``state`` - State abbreviation.
+    - ``type`` - Categorized event type. (``committee:meeting`` for now)
 
-        By using the optional keyword argument fields, you can specify which field should be returned.
-
-            The following fields are available on event objects:
-
-            - ``id`` - Open States assigned event ID.
-            - ``state`` - State abbreviation.
-            - ``type`` - Categorized event type. (``committee:meeting`` for now)
-            - ``description`` - Description of event from state source.
-            documents List of related documents.
-            location Location if known, as given by state (it is often just a room number).
-            when Time event begins.
-            - ``end``  - End time (None if unknown).
-            - ``timezone`` - Timezone event occurs in (e.g. ``America/Chicago``).
-            - ``participants`` - List of participant objects, consisting of the following fields:
-                - ``chamber`` - Chamber of participant.
-                - ``type`` - Type of participants (``legislator``, ``committee``)
-                - ``participant`` - String representation of participant (e.g. ``Housing Committee``, ``Jill Smith``)
-                - ``id `` - Open States id for participant if a match was found (e.g. ``TXC000150``, ``MDL000101``)
-                - ``type`` - What role this participant played (will be ``host``, ``chair``, ``participant``).
-            - ``related_bills`` - List of related bills for this event. Comprised of the following fields:
-                - ``type`` - Type of relationship (e.g. ``consideration``)
-                - ``description`` - Description of how the bill is related given by the state.
-                - ``bill_id`` - State’s bill id (e.g. ``HB 273``)
-                - ``id`` - Open States assigned bill id (e.g. ``TXB00001234``)
-            - ``sources`` List of URLs used in gathering information for this legislator.
-            - ``created_at`` - The date that this object first appeared in our system.
-            - ``updated_at`` - The date that this object was last updated in our system.
-
+    This method also allows specifying an alternate output format, by specifying ``format=rss`` or ``format=ics``.
 
     Returns:
-        A list of events
+        A list of matching :ref:`Event` dictionaries
     """
     return _get("/events/", params=kwargs)
 
 
 def get_event(event_id, fields=None):
     """
-    Get event details
+    Gets event details
+
     Args:
         event_id: The Openstates Event UUID
         fields: An optional list of fields to return
 
     Returns:
-        The event as a dictionary
+        The requested :ref:`Event` details as a dictionary
     """
     return _get("/events/{0}/".format(event_id), params=dict(fields=fields))
 
@@ -561,24 +377,14 @@ def get_event(event_id, fields=None):
 def search_districts(state, chamber, fields=None):
     """
     Search for districts
+
     Args:
         state: The state to search in
         chamber: the upper or lower legislative chamber
         fields: Optionally specify a custom list of fields to return
 
-        District objects contain the following fields:
-            - ``abbr`` - State abbreviation.
-            - ``boundary_id`` -  ``boundary_id`` used in District Boundary Lookup
-            - ``chamber`` - Whether this district belongs to the ``upper`` or ``lower`` chamber.
-            - ``id`` - A unique ID for this district (separate from boundary_id).
-            - ``legislators`` - List of legislators that serve in this district. (may be more than one if num_seats > 1)
-            - ``name`` - Name of the district (e.g. ``14``, ``33A``, ``Fifth Suffolk``)
-            - ``num_seats`` - Number of legislators that are elected to this seat. Generally one, but will be 2 or more
-                if the seat`is a multi-member district.
-
-
     Returns:
-        A list of districts
+       A list of matching :ref:`District` dictionaries
     """
     uri = "/districts/{}/".format(state.lower())
     if chamber:
@@ -591,13 +397,14 @@ def search_districts(state, chamber, fields=None):
 
 def get_district_boundary(boundary_id, fields=None):
     """
-    Get district boundary details
+    Gets district boundary details
+
     Args:
         boundary_id: The boundary ID
         fields: Optionally specify a custom list of fields to return
 
     Returns:
-        District details as a dictionary
+        The requested :ref:`District` details as a dictionary
     """
     uri = "/districts/boundary/{0}/".format(boundary_id)
     return _get(uri, params=dict(fields=fields))
