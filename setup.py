@@ -15,14 +15,15 @@ from setuptools import setup
 from codecs import open
 from os import path
 
-from openstates import __version__
-from openstates import __doc__ as description
-
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
+
+__version__ = "1.0.0"
+description = "A client modult for the Open States API"
+
 
 setup(
     name='openstates',
