@@ -14,7 +14,7 @@ from requests import Session
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+You may obtain a copy of the Licen/usr/bin/python2.7se at
 
    http://www.apache.org/licenses/LICENSE-2.0
 
@@ -134,10 +134,10 @@ def bulk_download(state, file_object, data_format="json"):
     Args:
         state: The abbreviation of the state
         file_object: A file or file-like object
-        data_format: ``json`` or `csv``
+        data_format: ``json`` or ``csv``
 
     .. NOTE::
-    `json`` format provides much more detail than ``csv``.
+        ``json`` format provides much more detail than ``csv``.
 
     Examples:
         ::
