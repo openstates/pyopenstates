@@ -46,7 +46,7 @@ To install the latest commit from git, run:
 
 ::
 
-    $ pip install git+https://github.com/seanthegeek/openstates-python
+    $ pip install -U git+https://github.com/seanthegeek/openstates-python
 
 Documentation
 -------------
