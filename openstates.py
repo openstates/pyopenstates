@@ -149,7 +149,7 @@ def download_csv(state, file_object):
 
     """
     field = "latest_csv_url"
-    url = metadata(state, fields=field)[field]
+    url = get_metadata(state, fields=field)[field]
     file_object.write(session.get(url).content)
 
 
@@ -175,7 +175,7 @@ def download_json(state, file_object):
 
         """
     field = "latest_json_url"
-    url = metadata(state, fields=field)[field]
+    url = get_metadata(state, fields=field)[field]
     file_object.write(session.get(url).content)
 
 

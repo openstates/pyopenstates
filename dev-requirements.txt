@@ -1,2 +1,4 @@
 sphinx
 sphinxcontrib-fulltoc
+twine
+wheel

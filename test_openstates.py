@@ -36,7 +36,7 @@ class Test(unittest.TestCase):
     def testOpenStatesMetadata(self):
         """Calling the metadata method without specifying a state returns a list of 52 dictionaries:
         One for each state, plus DC and Puerto Rico"""
-        metadata = openstates.metadata()
+        metadata = openstates.get_metadata()
         self.assertEquals(len(metadata), 52)
         for obj in metadata:
             self.assertEquals(type(obj), dict)
@@ -47,7 +47,7 @@ class Test(unittest.TestCase):
         fields = ['name', 'latest_csv_url', 'latest_csv_date', 'chambers', 'capitol_timezone', 'id', 'latest_json_url',
                   'session_details', 'terms','latest_json_date', 'latest_update', 'abbreviation', 'legislature_name',
                   'feature_flags', 'legislature_url']
-        metadata = openstates.metadata(state_code)
+        metadata = openstates.get_metadata(state_code)
         keys = metadata.keys()
         for field in fields:
             self.assertIn(field, keys)
@@ -56,7 +56,7 @@ class Test(unittest.TestCase):
     def testSubsetStateMetadataFields(self):
         """Requesting specific fields in state metadata returns only those fields"""
         requested_fields = ["id", "latest_json_date", "latest_json_url", "latest_update"]
-        metadata = openstates.metadata("OH", fields=requested_fields)
+        metadata = openstates.get_metadata("OH", fields=requested_fields)
         returned_fields = metadata.keys()
 
         for field in requested_fields:
@@ -81,7 +81,7 @@ class Test(unittest.TestCase):
 
     def testInvlidState(self):
         """Specifying an invalid state raises a NotFound exception"""
-        self.assertRaises(openstates.NotFound, openstates.metadata, state="ZZ")
+        self.assertRaises(openstates.NotFound, openstates.get_metadata, state="ZZ")
 
     def testBillSearchFullText(self):
         """A basic full-text search returns results that contain the query string"""
@@ -223,7 +223,7 @@ class Test(unittest.TestCase):
 
     def testTimestampConversionInDict(self):
         """Timestamp conversion in a dictionary"""
-        oh = openstates.metadata(state="oh")
+        oh = openstates.get_metadata(state="oh")
         self.assertTrue(type(oh["latest_update"]) == datetime)
 
 
