@@ -67,7 +67,7 @@ class Test(unittest.TestCase):
     def testDownloadCSV(self):
         """Downloading bulk data on a state in CSV format"""
         zip_file = BytesIO()
-        openstates.download_csv("AK", zip_file)
+        openstates.bulk_download("AK", zip_file, data_format="csv")
         zip = ZipFile(zip_file)
         for filename in zip.namelist():
             self.assertTrue(filename.endswith(".csv"))
@@ -75,7 +75,7 @@ class Test(unittest.TestCase):
     def testDownloadJSON(self):
         """Downloading bulk data on a state in JSON format"""
         zip_file = BytesIO()
-        openstates.download_json("AK", zip_file)
+        openstates.bulk_download("AK", zip_file)
         zip = ZipFile(zip_file)
         self.assertIn("metadata.json", zip.namelist())
 

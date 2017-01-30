@@ -127,61 +127,37 @@ def get_metadata(state=None, fields=None):
     return _get(uri, params=dict(fields=fields))
 
 
-def download_csv(state, file_object):
+def bulk_download(state, file_object, data_format="json"):
     """
-    Downloads a zip containing bulk data on a given state in CSV format to a given file object
+    Downloads a zip containing bulk data on a given state to a given file object
 
     Args:
         state: The abbreviation of the state
         file_object: A file or file-like object
+        data_format: ``json`` or `csv``
+
+    .. NOTE::
+    `json`` format provides much more detail than ``csv``.
 
     Examples:
         ::
 
             # Saving Ohio's data to a file on disk
             with open("ohio-csv.zip", "wb") as ohio_zip_file:
-                openstates.download_csv("OH", ohio_zip_file)
+                openstates.bulk_download("OH", ohio_zip_file)
 
             # Or download it to memory
             from io import BytesIO
             mem_zip = BytesIO()
-            openstates.download_csv("OH", mem_zip)
+            openstates.bulk_download("OH", mem_zip)
 
     """
-    field = "latest_csv_url"
-    url = get_metadata(state, fields=field)[field]
-    response = session.get(url)
-    if response.status_code != 200:
-        if response.status_code == 404:
-            raise NotFound("Not found: {0}".format(response.url))
-        else:
-            raise APIError(response.text)
-
-    file_object.write(response.content)
-
-
-def download_json(state, file_object):
-    """
-        Downloads a zip containing bulk data on a given state in JSON format to a given file object
-
-        Args:
-            state: The abbreviation of the state
-            file_object: A file or file-like object
-
-        Examples:
-            ::
-
-                # Saving Ohio's data to a file on disk
-                with open("ohio-json.zip", "wb") as ohio_zip_file:
-                    openstates.download_json("OH", ohio_zip_file)
-
-                # Or download it to memory
-                from io import BytesIO
-                mem_zip = BytesIO()
-                openstates.download_json("OH", mem_zip)
-
-        """
-    field = "latest_json_url"
+    if data_format.lower() == "json":
+        field = "latest_json_url"
+    elif data_format.lower() == "csv":
+        field = "latest_csv_url"
+    else:
+        raise ValueError("data_format must be json or csv")
     url = get_metadata(state, fields=field)[field]
     response = session.get(url)
     if response.status_code != 200:
