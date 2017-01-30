@@ -150,7 +150,14 @@ def download_csv(state, file_object):
     """
     field = "latest_csv_url"
     url = get_metadata(state, fields=field)[field]
-    file_object.write(session.get(url).content)
+    response = session.get(url)
+    if response.status_code != 200:
+        if response.status_code == 404:
+            raise NotFound("Not found: {0}".format(response.url))
+        else:
+            raise APIError(response.text)
+
+    file_object.write(response.content)
 
 
 def download_json(state, file_object):
@@ -176,7 +183,14 @@ def download_json(state, file_object):
         """
     field = "latest_json_url"
     url = get_metadata(state, fields=field)[field]
-    file_object.write(session.get(url).content)
+    response = session.get(url)
+    if response.status_code != 200:
+        if response.status_code == 404:
+            raise NotFound("Not found: {0}".format(response.url))
+        else:
+            raise APIError(response.text)
+
+    file_object.write(response.content)
 
 
 def search_bills(**kwargs):
