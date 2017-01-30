@@ -59,9 +59,9 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="openstates.download_csv">
-<code class="descclassname">openstates.</code><code class="descname">download_csv</code><span class="sig-paren">(</span><em>state</em>, <em>file_object</em><span class="sig-paren">)</span><a class="headerlink" href="#openstates.download_csv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Downloads a zip containing bulk data on a given state in CSV format to a given file object</p>
+<dt id="openstates.bulk_download">
+<code class="descclassname">openstates.</code><code class="descname">bulk_download</code><span class="sig-paren">(</span><em>state</em>, <em>file_object</em>, <em>data_format='json'</em><span class="sig-paren">)</span><a class="headerlink" href="#openstates.bulk_download" title="Permalink to this definition">¶</a></dt>
+<dd><p>Downloads a zip containing bulk data on a given state to a given file object</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -69,49 +69,25 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>state</strong> &#8211; The abbreviation of the state</li>
 <li><strong>file_object</strong> &#8211; A file or file-like object</li>
+<li><strong>data_format</strong> &#8211; <code class="docutils literal"><span class="pre">json</span></code> or <code class="docutils literal"><span class="pre">csv</span></code></li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="docutils literal"><span class="pre">json</span></code> format provides much more detail than <code class="docutils literal"><span class="pre">csv</span></code>.</p>
+</div>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Saving Ohio&#39;s data to a file on disk</span>
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;ohio-csv.zip&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ohio_zip_file</span><span class="p">:</span>
-    <span class="n">openstates</span><span class="o">.</span><span class="n">download_csv</span><span class="p">(</span><span class="s2">&quot;OH&quot;</span><span class="p">,</span> <span class="n">ohio_zip_file</span><span class="p">)</span>
+    <span class="n">openstates</span><span class="o">.</span><span class="n">bulk_download</span><span class="p">(</span><span class="s2">&quot;OH&quot;</span><span class="p">,</span> <span class="n">ohio_zip_file</span><span class="p">)</span>
 
 <span class="c1"># Or download it to memory</span>
 <span class="kn">from</span> <span class="nn">io</span> <span class="k">import</span> <span class="n">BytesIO</span>
 <span class="n">mem_zip</span> <span class="o">=</span> <span class="n">BytesIO</span><span class="p">()</span>
-<span class="n">openstates</span><span class="o">.</span><span class="n">download_csv</span><span class="p">(</span><span class="s2">&quot;OH&quot;</span><span class="p">,</span> <span class="n">mem_zip</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="function">
-<dt id="openstates.download_json">
-<code class="descclassname">openstates.</code><code class="descname">download_json</code><span class="sig-paren">(</span><em>state</em>, <em>file_object</em><span class="sig-paren">)</span><a class="headerlink" href="#openstates.download_json" title="Permalink to this definition">¶</a></dt>
-<dd><p>Downloads a zip containing bulk data on a given state in JSON format to a given file object</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>state</strong> &#8211; The abbreviation of the state</li>
-<li><strong>file_object</strong> &#8211; A file or file-like object</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Saving Ohio&#39;s data to a file on disk</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;ohio-json.zip&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ohio_zip_file</span><span class="p">:</span>
-    <span class="n">openstates</span><span class="o">.</span><span class="n">download_json</span><span class="p">(</span><span class="s2">&quot;OH&quot;</span><span class="p">,</span> <span class="n">ohio_zip_file</span><span class="p">)</span>
-
-<span class="c1"># Or download it to memory</span>
-<span class="kn">from</span> <span class="nn">io</span> <span class="k">import</span> <span class="n">BytesIO</span>
-<span class="n">mem_zip</span> <span class="o">=</span> <span class="n">BytesIO</span><span class="p">()</span>
-<span class="n">openstates</span><span class="o">.</span><span class="n">download_json</span><span class="p">(</span><span class="s2">&quot;OH&quot;</span><span class="p">,</span> <span class="n">mem_zip</span><span class="p">)</span>
+<span class="n">openstates</span><span class="o">.</span><span class="n">bulk_download</span><span class="p">(</span><span class="s2">&quot;OH&quot;</span><span class="p">,</span> <span class="n">mem_zip</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
