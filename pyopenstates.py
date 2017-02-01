@@ -103,7 +103,7 @@ def _get(uri, params=None):
 
 def set_user_agent(user_agent):
     """Appends a custom string to the default User-Agent string
-    ``pyopenstates/__version__ user_agent``"""
+    (e.g. ``pyopenstates/__version__ user_agent``)"""
     session.headers.update({"User-Agent": "{0} {1}".format(DEFUALT_USER_AGENT, user_agent)})
 
 
@@ -171,7 +171,7 @@ def bulk_download(state, file_object, data_format="json"):
 
 def search_bills(**kwargs):
     """
-    Find fills matching a given set of filters
+    Find bills matching a given set of filters
 
     Args:
         **kwargs: One or more search filters
@@ -179,7 +179,7 @@ def search_bills(**kwargs):
     - ``state`` - Only return bills from a given state (e.g. ``nc``)
     - ``chamber`` - Only return bills matching the provided chamber (``upper`` or ``lower``)
     - ``bill_id`` - Only return bills with a given bill_id.
-    - ``bill_id__in`` - Accepts a pipe (|) delimited list of bill ids.
+    - ``bill_id_in`` - Accepts a pipe (|) delimited list of bill ids.
     - ``q`` -  Only return bills matching the provided full text query.
     - ``search_window`` By default all bills are searched, but if a time window is desired the following options can be passed to ``search_window``:
         - ``search_window=all`` - Default, include all sessions.
