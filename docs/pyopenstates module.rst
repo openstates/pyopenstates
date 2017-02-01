@@ -2,5 +2,5 @@
 openstates module
 *****************
 
-.. automodule:: openstatesclient
+.. automodule:: pyopenstates
    :members:

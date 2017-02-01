@@ -1,9 +1,9 @@
-openstates-python
-=================
+openstatesclient
+================
 
 |Build Status|
 
-A Python module for the `Open States API`_.
+A Python client for the `Open States API`_.
 
 The `Open States`_ project provides data on legislators, bills,
 committees, and districts in legislatures of all 50 US states, plus D.C.

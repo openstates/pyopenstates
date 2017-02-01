@@ -22,11 +22,11 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 __version__ = "1.0.0"
-description = "A client module for the Open States API"
+description = "A client for the Open States API"
 
 
 setup(
-    name='openstates',
+    name='pyopenstates',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
