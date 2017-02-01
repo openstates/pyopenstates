@@ -70,7 +70,7 @@ https://openstates.github.io/pyopenstates/
 .. _donating: https://www.generosity.com/fundraising/open-states-general-support-fund
 .. _volunteering: https://docs.google.com/forms/d/e/1FAIpQLSfMDjoVoKxSOciIiqE3Ofxgn-caFGCxicFO2LwyWAK8zdXyhg/viewform
 .. _pip: https://docs.python.org/3.5/installing/index.html
-.. _vertualenv: https://virtualenv.pypa.io/en/stable/
+.. _virtualenv: https://virtualenv.pypa.io/en/stable/
 
 .. |Build Status| image:: https://travis-ci.org/openstates/pyopenstates.svg?branch=master
    :target: https://travis-ci.org/openstates/pyopenstates
