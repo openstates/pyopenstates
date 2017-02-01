@@ -39,15 +39,20 @@ Features
 Installation
 ------------
 
-The ``openstates`` module can be installed using `pip`_.
+``pyopenstates`` can be installed using `pip`_.
 Installation in a `vertualenv`_ is recommended.
 
-To install the latest commit from git, run:
+To install the latest release, run:
 
 ::
 
-    $ pip install -U git+https://github.com/seanthegeek/openstates-python
+    $ pip install -U pyopenstates
 
+Or, install the latest commit from git, run:
+
+::
+
+    $ pip install -U git+https://github.com/seanthegeek/pyopenstates
 
 .. _Open States API: http://docs.openstates.org/api/
 .. _Open States: https://openstates.org/
