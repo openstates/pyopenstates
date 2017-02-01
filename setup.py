@@ -21,7 +21,7 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 description = "A client for the Open States API"
 
 
@@ -37,7 +37,7 @@ setup(
     long_description=long_description,
 
     # The project's main homepage.
-    url='https://seanthegeek.github.io/opyopenstates/',
+    url='https://upenstates.github.io/opyopenstates/',
 
     # Author details
     author='Sean Whalen',
