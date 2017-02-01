@@ -52,7 +52,7 @@ Or, install the latest commit from git, run:
 
 ::
 
-    $ pip install -U git+https://github.com/seanthegeek/pyopenstates
+    $ pip install -U git+https://github.com/openstates/pyopenstates
 
 .. _Open States API: http://docs.openstates.org/api/
 .. _Open States: https://openstates.org/
@@ -65,8 +65,8 @@ Or, install the latest commit from git, run:
 .. _vertualenv: https://virtualenv.pypa.io/en/stable/
 .. _Read The Docs: https://python-openstates.readthedocs.org/
 
-.. |Build Status| image:: https://travis-ci.org/seanthegeek/pyopenstates.svg?branch=master
-   :target: https://travis-ci.org/seanthegeek/pyopenstates
+.. |Build Status| image:: https://travis-ci.org/openstates/pyopenstates.svg?branch=master
+   :target: https://travis-ci.org/openstates/pyopenstates
 
 
 Contents:
