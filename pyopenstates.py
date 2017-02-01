@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""A simple client for the Open States API"""
+"""A client for the Open States API"""
 
 from __future__ import unicode_literals, print_function, absolute_import
 
@@ -27,7 +27,7 @@ limitations under the License."""
 __version__ = "1.0.0"
 
 API_ROOT = "https://openstates.org/api/v1/"
-DEFUALT_USER_AGENT = "openstates-python/{0}".format(__version__)
+DEFUALT_USER_AGENT = "openstatesclient/{0}".format(__version__)
 
 session = Session()
 session.headers.update({"User-Agent": DEFUALT_USER_AGENT})

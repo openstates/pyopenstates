@@ -2,5 +2,5 @@
 openstates module
 *****************
 
-.. automodule:: openstates
+.. automodule:: openstatesclient
    :members:

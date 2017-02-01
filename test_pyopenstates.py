@@ -1,7 +1,7 @@
 #!/usr/bn/env python
 # -*- coding: utf-8 -*-
 
-"""Unit tests for openstates"""
+"""Unit tests for openstatesclient"""
 
 import unittest
 
@@ -9,7 +9,7 @@ from io import BytesIO
 from zipfile import ZipFile
 from datetime import datetime
 
-import openstates
+import openstatesclient
 
 """Copyright 2016 Sean Whalen
 
@@ -28,15 +28,15 @@ limitations under the License.
 
 
 class Test(unittest.TestCase):
-    """A test suite for Open States"""
+    """A test suite for openstatesclient"""
 
     def setUp(self):
-        openstates.set_user_agent("test-suite")
+        openstatesclient.set_user_agent("test-suite")
 
     def testOpenStatesMetadata(self):
         """Calling the metadata method without specifying a state returns a list of 52 dictionaries:
         One for each state, plus DC and Puerto Rico"""
-        metadata = openstates.get_metadata()
+        metadata = openstatesclient.get_metadata()
         self.assertEquals(len(metadata), 52)
         for obj in metadata:
             self.assertEquals(type(obj), dict)
@@ -47,7 +47,7 @@ class Test(unittest.TestCase):
         fields = ['name', 'latest_csv_url', 'latest_csv_date', 'chambers', 'capitol_timezone', 'id', 'latest_json_url',
                   'session_details', 'terms','latest_json_date', 'latest_update', 'abbreviation', 'legislature_name',
                   'feature_flags', 'legislature_url']
-        metadata = openstates.get_metadata(state_code)
+        metadata = openstatesclient.get_metadata(state_code)
         keys = metadata.keys()
         for field in fields:
             self.assertIn(field, keys)
@@ -56,7 +56,7 @@ class Test(unittest.TestCase):
     def testSubsetStateMetadataFields(self):
         """Requesting specific fields in state metadata returns only those fields"""
         requested_fields = ["id", "latest_json_date", "latest_json_url", "latest_update"]
-        metadata = openstates.get_metadata("OH", fields=requested_fields)
+        metadata = openstatesclient.get_metadata("OH", fields=requested_fields)
         returned_fields = metadata.keys()
 
         for field in requested_fields:
@@ -67,7 +67,7 @@ class Test(unittest.TestCase):
     def testDownloadCSV(self):
         """Downloading bulk data on a state in CSV format"""
         zip_file = BytesIO()
-        openstates.bulk_download("AK", zip_file, data_format="csv")
+        openstatesclient.bulk_download("AK", zip_file, data_format="csv")
         zip = ZipFile(zip_file)
         for filename in zip.namelist():
             self.assertTrue(filename.endswith(".csv"))
@@ -75,18 +75,18 @@ class Test(unittest.TestCase):
     def testDownloadJSON(self):
         """Downloading bulk data on a state in JSON format"""
         zip_file = BytesIO()
-        openstates.bulk_download("AK", zip_file)
+        openstatesclient.bulk_download("AK", zip_file)
         zip = ZipFile(zip_file)
         self.assertIn("metadata.json", zip.namelist())
 
     def testInvlidState(self):
         """Specifying an invalid state raises a NotFound exception"""
-        self.assertRaises(openstates.NotFound, openstates.get_metadata, state="ZZ")
+        self.assertRaises(openstatesclient.NotFound, openstatesclient.get_metadata, state="ZZ")
 
     def testBillSearchFullText(self):
         """A basic full-text search returns results that contain the query string"""
         query = "taxi"
-        results = openstates.search_bills(state="dc", q=query)
+        results = openstatesclient.search_bills(state="dc", q=query)
         self.assertGreater(len(results), 1)
         match = False
         for result in results:
@@ -103,7 +103,7 @@ class Test(unittest.TestCase):
         title = "An act to amend Section 1750.1 of the Business and Professions Code, and to amend Section 104830 " \
                 "of, and to add Section 104762 to, the Health and Safety Code, relating to oral health."
 
-        bill = openstates.get_bill(state=state, term=term, bill_id=bill_id)
+        bill = openstatesclient.get_bill(state=state, term=term, bill_id=bill_id)
 
         self.assertEqual(bill["bill_id"], bill_id)
         self.assertEqual(bill["title"], title)
@@ -114,7 +114,7 @@ class Test(unittest.TestCase):
         title = "An act to amend Section 1750.1 of the Business and Professions Code, and to amend Section 104830 " \
                 "of, and to add Section 104762 to, the Health and Safety Code, relating to oral health."
 
-        bill = openstates.get_bill(_id)
+        bill = openstatesclient.get_bill(_id)
 
         self.assertEqual(bill["title"], title)
 
@@ -125,29 +125,29 @@ class Test(unittest.TestCase):
         bill_id = "AB 667"
         _id = "CAB00004148"
 
-        self.assertRaises(ValueError, openstates.get_bill, _id, state, term, bill_id)
-        self.assertRaises(ValueError, openstates.get_bill, _id, state)
+        self.assertRaises(ValueError, openstatesclient.get_bill, _id, state, term, bill_id)
+        self.assertRaises(ValueError, openstatesclient.get_bill, _id, state)
 
     def testPaginatedResults(self):
         """Paginated results"""
-        results = openstates.search_bills(state="dc")
-        paged_results = openstates.search_bills(state="dc", per_page=100)
+        results = openstatesclient.search_bills(state="dc")
+        paged_results = openstatesclient.search_bills(state="dc", per_page=100)
         self.assertEqual(len(results), len(paged_results))
 
     def testBillSearchSort(self):
         """Sorting bill search results"""
-        sorted_bills = openstates.search_bills(state="dc", sort="created_at")
+        sorted_bills = openstatesclient.search_bills(state="dc", sort="created_at")
         self.assertGreater(sorted_bills[0]["created_at"], sorted_bills[-1]["created_at"])
 
     def testBillSearchMissingFilter(self):
         """Searching for bills with no filters raises APIError"""
-        self.assertRaises(openstates.APIError, openstates.search_bills)
+        self.assertRaises(openstatesclient.APIError, openstatesclient.search_bills)
 
     def testLegistlatorSearch(self):
         """Legislator search"""
         state = "dc"
         chamber = "upper"
-        results = openstates.search_legislators(state=state, chamber=chamber)
+        results = openstatesclient.search_legislators(state=state, chamber=chamber)
         self.assertGreater(len(results), 2)
         for legislator in results:
             self.assertEqual(legislator["state"], state.lower())
@@ -157,21 +157,21 @@ class Test(unittest.TestCase):
         """Legislator details"""
         _id = "DCL000012"
         full_name = "Marion Barry"
-        self.assertEqual(openstates.get_legislator(_id)["full_name"], full_name)
+        self.assertEqual(openstatesclient.get_legislator(_id)["full_name"], full_name)
 
     def testLegislatorGeolocation(self):
         """Legislator geolocation"""
         lat = 35.79
         long = 78.38
         state = "nc"
-        results = openstates.locate_legislators(lat, long)
+        results = openstatesclient.locate_legislators(lat, long)
         for legislator in results:
             self.assertEqual(legislator["state"], state.lower())
 
     def testCommitteeSearch(self):
         """Committee search"""
         state = "dc"
-        results = openstates.search_committees(state=state)
+        results = openstatesclient.search_committees(state=state)
         self.assertGreater(len(results), 2)
         for committee in results:
             self.assertEqual(committee["state"], state.lower())
@@ -180,13 +180,13 @@ class Test(unittest.TestCase):
         """Committee details"""
         _id = "DCC000028"
         comittee = "Transportation and the Environment"
-        self.assertEqual(openstates.get_committee(_id)["committee"], comittee)
+        self.assertEqual(openstatesclient.get_committee(_id)["committee"], comittee)
 
     @unittest.skip("Events are missing for every state in the dataset as of 2017-01-27")
     def testEventSearch(self):
         """Event search"""
         state = "tx"
-        results = openstates.search_events(state=state)
+        results = openstatesclient.search_events(state=state)
         self.assertGreater(len(results), 2)
         for event in results:
             self.assertEqual(event["state"], state.lower())
@@ -196,13 +196,13 @@ class Test(unittest.TestCase):
         """Event details"""
         _id = "TXE00026474"
         description = "TSpecial Purpose Districts"
-        self.assertEqual(openstates.get_event(_id)['description'], description)
+        self.assertEqual(openstatesclient.get_event(_id)['description'], description)
 
     def testDistrictSearch(self):
         """District search"""
         state = "nc"
         chamber = "lower"
-        results = openstates.search_districts(state=state, chamber=chamber)
+        results = openstatesclient.search_districts(state=state, chamber=chamber)
         self.assertGreater(len(results), 2)
         for district in results:
             self.assertEqual(district["abbr"], state.lower())
@@ -212,18 +212,18 @@ class Test(unittest.TestCase):
         """District boundary details"""
         boundary_id = "ocd-division/country:us/state:nc/sldl:10"
         _id = "nc-lower-10"
-        boundry = openstates.get_district_boundary(boundary_id)
+        boundry = openstatesclient.get_district_boundary(boundary_id)
         self.assertEqual(boundry["boundary_id"], boundary_id)
         self.assertEqual(boundry["id"], _id)
 
     def testTimestampConversionInList(self):
         """Timestamp conversion in a list"""
-        bill = openstates.search_bills(state="oh")[0]
+        bill = openstatesclient.search_bills(state="oh")[0]
         self.assertTrue(type(bill["created_at"]) == datetime)
 
     def testTimestampConversionInDict(self):
         """Timestamp conversion in a dictionary"""
-        oh = openstates.get_metadata(state="oh")
+        oh = openstatesclient.get_metadata(state="oh")
         self.assertTrue(type(oh["latest_update"]) == datetime)
 
 
