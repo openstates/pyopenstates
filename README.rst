@@ -40,7 +40,7 @@ Installation
 ------------
 
 ``pyopenstates`` can be installed using `pip`_.
-Installation in a `vertualenv`_ is recommended.
+Installation in a `virtualenv`_ is recommended.
 
 
 To install the latest release, run:
@@ -60,7 +60,7 @@ Documentation
 
 Documentation is provided in detailed docstrings, and in HTML format at
 
-https://seanthegeek.github.io/pyopenstates/
+https://openstates.github.io/pyopenstates/
 
 .. _Open States API: http://docs.openstates.org/api/
 .. _Open States: https://openstates.org/
