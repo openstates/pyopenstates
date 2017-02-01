@@ -22,7 +22,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 __version__ = "1.0.0"
-description = "A client modult for the Open States API"
+description = "A client module for the Open States API"
 
 
 setup(
@@ -77,7 +77,7 @@ setup(
     ],
 
     # What does your project relate to?
-    keywords='ActiveDirectory, WindowsServer, authentication, LDAP',
+    keywords='US, US states, state legislatures',
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
