@@ -65,8 +65,8 @@ Or, install the latest commit from git, run:
 .. _vertualenv: https://virtualenv.pypa.io/en/stable/
 .. _Read The Docs: https://python-openstates.readthedocs.org/
 
-.. |Build Status| image:: https://travis-ci.org/seanthegeek/openstates-python.svg?branch=master
-   :target: https://travis-ci.org/seanthegeek/openstates-python
+.. |Build Status| image:: https://travis-ci.org/seanthegeek/pyopenstates.svg?branch=master
+   :target: https://travis-ci.org/seanthegeek/pyopenstates
 
 
 Contents:

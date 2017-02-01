@@ -72,5 +72,5 @@ https://seanthegeek.github.io/pyopenstates/
 .. _pip: https://docs.python.org/3.5/installing/index.html
 .. _vertualenv: https://virtualenv.pypa.io/en/stable/
 
-.. |Build Status| image:: https://travis-ci.org/seanthegeek/openstates-python.svg?branch=master
-   :target: https://travis-ci.org/seanthegeek/openstates-python
+.. |Build Status| image:: https://travis-ci.org/seanthegeek/pyopenstates.svg?branch=master
+   :target: https://travis-ci.org/seanthegeek/pyopenstates
