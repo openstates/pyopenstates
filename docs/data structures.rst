@@ -2,7 +2,7 @@
 Data structures
 ===============
 
-Objects from the Open States API are returned at dictionaries
+Objects from the Open States API are returned as dictionaries
 
 .. _Metadata:
 
