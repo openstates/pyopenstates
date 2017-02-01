@@ -1,6 +1,6 @@
-*****************
-openstates module
-*****************
+*******************
+pyopenstates module
+*******************
 
 .. automodule:: pyopenstates
    :members:
