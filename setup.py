@@ -37,7 +37,7 @@ setup(
     long_description=long_description,
 
     # The project's main homepage.
-    url='https://seanthegeek.github.io/openstates-python/',
+    url='https://seanthegeek.github.io/opyopenstates/',
 
     # Author details
     author='Sean Whalen',

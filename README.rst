@@ -60,7 +60,7 @@ Documentation
 
 Documentation is provided in detailed docstrings, and in HTML format at
 
-https://seanthegeek.github.io/openstates-python/
+https://seanthegeek.github.io/pyopenstates/
 
 .. _Open States API: http://docs.openstates.org/api/
 .. _Open States: https://openstates.org/
