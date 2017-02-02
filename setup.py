@@ -21,7 +21,7 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
-__version__ = "1.0.3"
+__version__ = "1.0.4"
 description = "A client for the Open States API"
 
 
@@ -86,7 +86,7 @@ setup(
 
     # Alternatively, if you want to distribute just a my_module.py, uncomment
     # this:
-    py_modules=["openstates"],
+    py_modules=["pyopenstates"],
 
     # List run-time dependencies here.  These will be installed by pip when
     # your project is installed. For an analysis of "install_requires" vs pip's
