@@ -1,4 +1,4 @@
 sphinx
-sphinxcontrib-fulltoc
+sphinx-rtd-theme
 twine
 wheel
