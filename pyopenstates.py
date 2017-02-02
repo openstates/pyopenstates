@@ -67,10 +67,12 @@ def _get(uri, params=None):
             for key in result.keys():
                 if type(result[key]) == unicode:
                     try:
-                        result[key] = datetime.strptime(result[key], "%Y-%m-%d %H:%M:%S")
+                        result[key] = datetime.strptime(result[key],
+                        "%Y-%m-%d %H:%M:%S")
                     except ValueError:
                         try:
-                            result[key] = datetime.strptime(result[key], "%Y-%m-%d")
+                            result[key] = datetime.strptime(result[key],
+                            "%Y-%m-%d")
                         except ValueError:
                             pass
                 elif type(result[key]) == dict:
@@ -104,13 +106,13 @@ def _get(uri, params=None):
 def set_user_agent(user_agent):
     """Appends a custom string to the default User-Agent string
     (e.g. ``pyopenstates/__version__ user_agent``)"""
-    session.headers.update({"User-Agent": "{0} {1}".format(DEFUALT_USER_AGENT, user_agent)})
+    session.headers.update({"User-Agent": "{0} {1}".format(DEFUALT_USER_AGENT,
+    user_agent)})
 
 
 def get_metadata(state=None, fields=None):
     """
-        Returns a list of all states with data available, and basic metadata about their status.
-        Can also get detailed metadata for a particular state.
+        Returns a list of all states with data available, and basic metadata about their status. Can also get detailed metadata for a particular state.
 
     Args:
         state: The abbreviation of state to get detailed metadata on, or leave as None to get high-level metadata on all states.
@@ -143,7 +145,7 @@ def bulk_download(state, file_object, data_format="json"):
         ::
 
             # Saving Ohio's data to a file on disk
-            with open("ohio-csv.zip", "wb") as ohio_zip_file:
+            with open("ohio-json.zip", "wb") as ohio_zip_file:
                 openstates.bulk_download("OH", ohio_zip_file)
 
             # Or download it to memory
@@ -204,6 +206,13 @@ def search_bills(**kwargs):
 
     Returns:
         A list of matching :ref:`Bill` dictionaries
+
+    .. NOTE::
+        This method returns just a subset (``state``, ``chamber``, ``session``,
+        ``subjects``, ``type``, ``id``, ``bill_id``, ``title``, ``created_at``,
+        ``updated_at``) of the bill fields by default.
+
+        Use the ``fields`` parameter to spicify a custom list of fields to return.
     """
     uri = "bills/"
     if "per_page" in kwargs.keys():
@@ -216,6 +225,7 @@ def search_bills(**kwargs):
             new_results = _get(uri, params=kwargs)
     else:
         results = _get(uri, params=kwargs)
+
     return results
 
 
@@ -333,7 +343,7 @@ def search_events(**kwargs):
     """
     Searches events
 
-    Events are not available in all states, to ensure that events are available check the feature_flags list in a
+    Events are not available in all states, to ensure that events are available check the ``feature_flags`` list in a
     states’ State Metadata.
 
     Args:
