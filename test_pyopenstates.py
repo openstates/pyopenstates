@@ -67,7 +67,7 @@ class Test(unittest.TestCase):
     def testDownloadCSV(self):
         """Downloading bulk data on a state in CSV format"""
         zip_file = BytesIO()
-        pyopenstates.bulk_download("AK", zip_file, data_format="csv")
+        pyopenstates.download_bulk_data("AK", zip_file, data_format="csv")
         zip = ZipFile(zip_file)
         for filename in zip.namelist():
             self.assertTrue(filename.endswith(".csv"))
@@ -75,7 +75,7 @@ class Test(unittest.TestCase):
     def testDownloadJSON(self):
         """Downloading bulk data on a state in JSON format"""
         zip_file = BytesIO()
-        pyopenstates.bulk_download("AK", zip_file)
+        pyopenstates.download_bulk_data("AK", zip_file)
         zip = ZipFile(zip_file)
         self.assertIn("metadata.json", zip.namelist())
 
@@ -212,7 +212,7 @@ class Test(unittest.TestCase):
         """District boundary details"""
         boundary_id = "ocd-division/country:us/state:nc/sldl:10"
         _id = "nc-lower-10"
-        boundry = pyopenstates.get_district_boundary(boundary_id)
+        boundry = pyopenstates.get_district(boundary_id)
         self.assertEqual(boundry["boundary_id"], boundary_id)
         self.assertEqual(boundry["id"], _id)
 

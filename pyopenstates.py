@@ -14,7 +14,7 @@ from requests import Session
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
-You may obtain a copy of the Licen/usr/bin/python2.7se at
+You may obtain a copy of the License at
 
    http://www.apache.org/licenses/LICENSE-2.0
 
@@ -24,13 +24,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License."""
 
-__version__ = "1.0.3"
+__version__ = "1.0.5"
 
 API_ROOT = "https://openstates.org/api/v1/"
-DEFUALT_USER_AGENT = "pyopenstates/{0}".format(__version__)
+DEFAULT_USER_AGENT = "pyopenstates/{0}".format(__version__)
 
 session = Session()
-session.headers.update({"User-Agent": DEFUALT_USER_AGENT})
+session.headers.update({"User-Agent": DEFAULT_USER_AGENT})
 
 
 #  Python 2 comparability hack
@@ -68,17 +68,17 @@ def _get(uri, params=None):
                 if type(result[key]) == unicode:
                     try:
                         result[key] = datetime.strptime(result[key],
-                        "%Y-%m-%d %H:%M:%S")
+                                                        "%Y-%m-%d %H:%M:%S")
                     except ValueError:
                         try:
                             result[key] = datetime.strptime(result[key],
-                            "%Y-%m-%d")
+                                                            "%Y-%m-%d")
                         except ValueError:
                             pass
                 elif type(result[key]) == dict:
                     result[key] = _convert_timestamps(result[key])
                 elif type(result) == list:
-                    result = list(map(lambda r: _convert_timestamps(r)), result)
+                    result = list(map(lambda r: _convert_timestamps(r), result))
         elif type(result) == list:
             result = list(map(lambda r: _convert_timestamps(r), result))
 
@@ -106,21 +106,23 @@ def _get(uri, params=None):
 def set_user_agent(user_agent):
     """Appends a custom string to the default User-Agent string
     (e.g. ``pyopenstates/__version__ user_agent``)"""
-    session.headers.update({"User-Agent": "{0} {1}".format(DEFUALT_USER_AGENT,
-    user_agent)})
+    session.headers.update({"User-Agent": "{0} {1}".format(DEFAULT_USER_AGENT,
+                                                           user_agent)})
 
 
 def get_metadata(state=None, fields=None):
     """
-        Returns a list of all states with data available, and basic metadata about their status. Can also get detailed metadata for a particular state.
+        Returns a list of all states with data available, and basic metadata about their status. Can also get detailed
+        metadata for a particular state.
 
     Args:
-        state: The abbreviation of state to get detailed metadata on, or leave as None to get high-level metadata on all states.
+        state: The abbreviation of state to get detailed metadata on, or leave as None to get high-level metadata on all
+        states.
 
         fields: An optional list of fields to return; returns all fields by default
 
     Returns:
-        The requested :ref:`Metadata` as a dictionary
+       Dict: The requested :ref:`Metadata` as a dictionary
 
     """
     uri = "/metadata/"
@@ -129,7 +131,7 @@ def get_metadata(state=None, fields=None):
     return _get(uri, params=dict(fields=fields))
 
 
-def bulk_download(state, file_object, data_format="json"):
+def download_bulk_data(state, file_object, data_format="json"):
     """
     Downloads a zip containing bulk data on a given state to a given file object
 
@@ -146,12 +148,12 @@ def bulk_download(state, file_object, data_format="json"):
 
             # Saving Ohio's data to a file on disk
             with open("ohio-json.zip", "wb") as ohio_zip_file:
-                openstates.bulk_download("OH", ohio_zip_file)
+                pyopenstates.bulk_download("OH", ohio_zip_file)
 
             # Or download it to memory
             from io import BytesIO
             mem_zip = BytesIO()
-            openstates.bulk_download("OH", mem_zip)
+            pyopenstates.bulk_download("OH", mem_zip)
 
     """
     if data_format.lower() == "json":
@@ -183,7 +185,8 @@ def search_bills(**kwargs):
     - ``bill_id`` - Only return bills with a given bill_id.
     - ``bill_id_in`` - Accepts a pipe (|) delimited list of bill ids.
     - ``q`` -  Only return bills matching the provided full text query.
-    - ``search_window`` By default all bills are searched, but if a time window is desired the following options can be passed to ``search_window``:
+    - ``search_window``- By default all bills are searched, but if a time window is desired the following options can be
+        passed to ``search_window``:
         - ``search_window=all`` - Default, include all sessions.
         - ``search_window=term`` - Only bills from sessions within the current term.
         - ``search_window=session`` - Only bills from the current session.
@@ -212,7 +215,7 @@ def search_bills(**kwargs):
         ``subjects``, ``type``, ``id``, ``bill_id``, ``title``, ``created_at``,
         ``updated_at``) of the bill fields by default.
 
-        Use the ``fields`` parameter to spicify a custom list of fields to return.
+        Use the ``fields`` parameter to specify a custom list of fields to return.
     """
     uri = "bills/"
     if "per_page" in kwargs.keys():
@@ -365,7 +368,7 @@ def get_event(event_id, fields=None):
     Gets event details
 
     Args:
-        event_id: The Openstates Event UUID
+        event_id: The Open States Event UUID
         fields: An optional list of fields to return
 
     Returns:
@@ -395,9 +398,9 @@ def search_districts(state, chamber, fields=None):
         return _get(uri, params=dict(fields=fields))
 
 
-def get_district_boundary(boundary_id, fields=None):
+def get_district(boundary_id, fields=None):
     """
-    Gets district boundary details
+    Gets district details
 
     Args:
         boundary_id: The boundary ID
