@@ -48,21 +48,24 @@ Bill
 - ``session`` - Session key (see State Metadata for details).
 - ``bill_id`` - The official id of the bill (e.g. ``SB 27``, ``A 2111``)
 - ``title`` - The official title of the bill.
-- ``alternate_titles`` - List of alternate titles that the bill has had. (Often empty.)
+- ``alternate_titles`` - List of alternate titles that the bill has had (Often empty).
 - ``action_dates`` - Dictionary of notable action dates (useful for determining status). Contains the following fields:
     - ``first`` First action (only ``None`` if there are no actions).
     - ``last`` - Last action (only ``None`` if there are no actions).
     - ``passed_lower`` - Date that the bill seems to have passed the lower chamber (might be ``None``).
     - ``passed_upper`` - Date that the bill seems to have passed the upper chamber (might be ``None``).
     - ``signed`` - Date that the bill appears to have signed into law (might be ``None``).
-- ``actions`` -  List of objects representing every recorded action for the bill. Action objects have the following fields:
+- ``actions`` -  List of objects representing every recorded action for the bill. Action objects have the following
+  fields:
     - ``date`` - Date of action.
     - ``action`` - Name of action as state provides it.
     - ``actor`` - The chamber, person, committee, etc. responsible for this action.
     - ``type`` - Open States-provided action categories, see action categorization.
 - ``chamber`` - The chamber of origination (‘upper’ or ‘lower’)
-- ``created_at`` - The date that this object first appeared in our system. (Note: not the date of introduction, see ``action_dates`` - for that information.)
-- ``updated_at`` - The date that this object was last updated in our system. (Note: not the last action date, see ``action_dates`` for that information.)
+- ``created_at`` - The date that this object first appeared in our system. (Note: not the date of introduction,
+  see ``action_dates`` - for that information.)
+- ``updated_at`` - The date that this object was last updated in our system. (Note: not the last action date, see
+  ``action_dates`` for that information.)
 - ``documents List`` - of associated documents, see versions for field details.
 - ``id`` - Open States-assigned permanent ID for this bill.
 - ``scraped_subjects`` - List of subject areas that the state categorized this bill under.
@@ -85,11 +88,14 @@ Bill
     - ``id`` - Open States-assigned unique identifier for vote.
     - ``state`` - State abbreviation.
     - ``session`` - Session key (see State Metadata for details).
-    - ``sources`` -  List of source URLs used to compile information on this object. (Can be empty if vote shares sources with bill.)
+    - ``sources`` -  List of source URLs used to compile information on this object. (Can be empty if vote shares
+      sources
+      with bill.)
     - ``yes_count`` - Total number of yes votes.
     - ``no_count`` - Total number of no votes.
-    - ``other_count`` - Total number of othe’ votes (abstain, not present, etc.).
-    - ``yes_votes``, ``no_votes``, ``other_votes`` - List of roll calls of each type. Each is an object consisting of two ßkeys:
+    - ``other_count`` - Total number of other votes (abstain, not present, etc.).
+    - ``yes_votes``, ``no_votes``, ``other_votes`` - List of roll calls of each type. Each is an object consisting of
+      two keys:
         - ``name`` - Name of voter as it appears on state website.
         - ``leg_id`` - Open States assigned legislator ID (will be ``None`` if no match was found).
 
@@ -112,7 +118,7 @@ Legislator
 - ``last_name`` - Last name of legislator.
 - ``suffixes`` - Name suffixes (e.g. ``Jr.``, ``III``) of legislator.
 - ``photo_url`` URL of an official photo of this legislator.
-- ``url`` - URL of an official webpage for this legislator.
+- ``url`` - URL of an official website for this legislator.
 - ``created_at`` - The date that this object first appeared in our system.
 - ``updated_at`` - The date that this object was last updated in our system.
 - ``created_at`` - Date at which this legislator was added to our system.
@@ -144,10 +150,10 @@ If the role type is ``member``:
     - ``party``
     - ``district``
 
-And if the type is ``committee membe``:
+And if the type is ``committee member``:
 
     - ``committee`` - Name of parent committee
-    - ``ubcommittee`` - Name of subcommittee (if ``None``, membership is just for a committee)
+    - ``subcommittee`` - Name of subcommittee (if ``None``, membership is just for a committee)
     - ``committee_id`` - Open States id for committee that legislator is a member of
     - ``position`` - Position on committee
     - ``old_roles`` - List of old roles
@@ -213,6 +219,7 @@ District
 - ``boundary_id`` -  ``boundary_id`` used in District Boundary Lookup
 - ``chamber`` - Whether this district belongs to the ``upper`` or ``lower`` chamber.
 - ``id`` - A unique ID for this district (separate from boundary_id).
-- ``legislators`` - List of legislators that serve in this district. (may be more than one if num_seats > 1)
+- ``legislators`` - List of legislators that serve in this district. (may be more than one if ``num_seats`` > 1)
 - ``name`` - Name of the district (e.g. ``14``, ``33A``, ``Fifth Suffolk``)
-- ``num_seats`` - Number of legislators that are elected to this seat. Generally one, but will be 2 or more if the seat is a multi-member district.
+- ``num_seats`` - Number of legislators that are elected to this seat. Generally one, but will be 2 or more if the seat
+  is a multi-member district.

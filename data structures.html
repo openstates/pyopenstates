@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Data structures &mdash; pyopenstates 1.0.3 documentation</title>
+  <title>Data structures &mdash; pyopenstates 1.0.5 documentation</title>
   
 
   
@@ -33,7 +33,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="pyopenstates 1.0.3 documentation" href="index.html"/>
+    <link rel="top" title="pyopenstates 1.0.5 documentation" href="index.html"/>
         <link rel="prev" title="pyopenstates module" href="pyopenstates module.html"/> 
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                1.0.3
+                1.0.5
               </div>
             
           
@@ -202,15 +202,20 @@
 </div>
 <div class="section" id="bill">
 <span id="id2"></span><h2>Bill<a class="headerlink" href="#bill" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">state</span></code> - State abbreviation.</li>
-<li><code class="docutils literal"><span class="pre">session</span></code> - Session key (see State Metadata for details).</li>
-<li><code class="docutils literal"><span class="pre">bill_id</span></code> - The official id of the bill (e.g. <code class="docutils literal"><span class="pre">SB</span> <span class="pre">27</span></code>, <code class="docutils literal"><span class="pre">A</span> <span class="pre">2111</span></code>)</li>
-<li><code class="docutils literal"><span class="pre">title</span></code> - The official title of the bill.</li>
-<li><code class="docutils literal"><span class="pre">alternate_titles</span></code> - List of alternate titles that the bill has had. (Often empty.)</li>
+<ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">state</span></code> - State abbreviation.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">session</span></code> - Session key (see State Metadata for details).</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">bill_id</span></code> - The official id of the bill (e.g. <code class="docutils literal"><span class="pre">SB</span> <span class="pre">27</span></code>, <code class="docutils literal"><span class="pre">A</span> <span class="pre">2111</span></code>)</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">title</span></code> - The official title of the bill.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">alternate_titles</span></code> - List of alternate titles that the bill has had (Often empty).</p>
+</li>
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">action_dates</span></code> - Dictionary of notable action dates (useful for determining status). Contains the following fields:</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li><code class="docutils literal"><span class="pre">first</span></code> First action (only <code class="docutils literal"><span class="pre">None</span></code> if there are no actions).</li>
 <li><code class="docutils literal"><span class="pre">last</span></code> - Last action (only <code class="docutils literal"><span class="pre">None</span></code> if there are no actions).</li>
 <li><code class="docutils literal"><span class="pre">passed_lower</span></code> - Date that the bill seems to have passed the lower chamber (might be <code class="docutils literal"><span class="pre">None</span></code>).</li>
@@ -220,28 +225,38 @@
 </dd>
 </dl>
 </li>
-<li><dl class="first docutils">
-<dt><code class="docutils literal"><span class="pre">actions</span></code> -  List of objects representing every recorded action for the bill. Action objects have the following fields:</dt>
-<dd><ul class="first last">
+<li><p class="first"><code class="docutils literal"><span class="pre">actions</span></code> -  List of objects representing every recorded action for the bill. Action objects have the following
+fields:</p>
+<blockquote>
+<div><ul class="simple">
 <li><code class="docutils literal"><span class="pre">date</span></code> - Date of action.</li>
 <li><code class="docutils literal"><span class="pre">action</span></code> - Name of action as state provides it.</li>
 <li><code class="docutils literal"><span class="pre">actor</span></code> - The chamber, person, committee, etc. responsible for this action.</li>
 <li><code class="docutils literal"><span class="pre">type</span></code> - Open States-provided action categories, see action categorization.</li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 </li>
-<li><code class="docutils literal"><span class="pre">chamber</span></code> - The chamber of origination (‘upper’ or ‘lower’)</li>
-<li><code class="docutils literal"><span class="pre">created_at</span></code> - The date that this object first appeared in our system. (Note: not the date of introduction, see <code class="docutils literal"><span class="pre">action_dates</span></code> - for that information.)</li>
-<li><code class="docutils literal"><span class="pre">updated_at</span></code> - The date that this object was last updated in our system. (Note: not the last action date, see <code class="docutils literal"><span class="pre">action_dates</span></code> for that information.)</li>
-<li><code class="docutils literal"><span class="pre">documents</span> <span class="pre">List</span></code> - of associated documents, see versions for field details.</li>
-<li><code class="docutils literal"><span class="pre">id</span></code> - Open States-assigned permanent ID for this bill.</li>
-<li><code class="docutils literal"><span class="pre">scraped_subjects</span></code> - List of subject areas that the state categorized this bill under.</li>
-<li><code class="docutils literal"><span class="pre">subjects`</span></code> - List of Open States standardized bill subjects, see subject categorization.</li>
-<li><code class="docutils literal"><span class="pre">sources</span></code> - List of source URLs used to compile information on this object.</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">chamber</span></code> - The chamber of origination (‘upper’ or ‘lower’)</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">created_at</span></code> - The date that this object first appeared in our system. (Note: not the date of introduction,
+see <code class="docutils literal"><span class="pre">action_dates</span></code> - for that information.)</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">updated_at</span></code> - The date that this object was last updated in our system. (Note: not the last action date, see
+<code class="docutils literal"><span class="pre">action_dates</span></code> for that information.)</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">documents</span> <span class="pre">List</span></code> - of associated documents, see versions for field details.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">id</span></code> - Open States-assigned permanent ID for this bill.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">scraped_subjects</span></code> - List of subject areas that the state categorized this bill under.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">subjects`</span></code> - List of Open States standardized bill subjects, see subject categorization.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">sources</span></code> - List of source URLs used to compile information on this object.</p>
+</li>
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">sponsors</span></code> - List of bill sponsors.</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li><code class="docutils literal"><span class="pre">name</span></code> - Name of sponsor as it appears on state website.</li>
 <li><code class="docutils literal"><span class="pre">leg_id</span></code> - Open States assigned legislator ID (will be <code class="docutils literal"><span class="pre">None</span></code> if no match was found).</li>
 <li><code class="docutils literal"><span class="pre">type</span></code> - Type of sponsor (<code class="docutils literal"><span class="pre">primary</span></code> or <code class="docutils literal"><span class="pre">cosponsor</span></code>)</li>
@@ -249,10 +264,11 @@
 </dd>
 </dl>
 </li>
-<li><code class="docutils literal"><span class="pre">type</span></code> - List of bill types.</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">type</span></code> - List of bill types.</p>
+</li>
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">versions</span></code> Versions of the bill text. Both documents and versions have the following fields:</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li><code class="docutils literal"><span class="pre">url</span></code> - Official URL for this document.</li>
 <li><code class="docutils literal"><span class="pre">name</span></code> - An official name for this document.</li>
 <li><code class="docutils literal"><span class="pre">mimetype</span></code> - The mimetype for the document (e.g. <code class="docutils literal"><span class="pre">text/html</span></code>)</li>
@@ -264,24 +280,36 @@
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">votes</span></code> - List of vote objects. A vote object consists of the following keys:</dt>
 <dd><ul class="first last">
-<li><code class="docutils literal"><span class="pre">motion</span></code> - Name of motion being voted upon (e.g. <code class="docutils literal"><span class="pre">Passage</span></code>)</li>
-<li><code class="docutils literal"><span class="pre">chamber</span></code> - Chamber vote took place in (<code class="docutils literal"><span class="pre">upper</span></code>, <code class="docutils literal"><span class="pre">lower</span></code>, <code class="docutils literal"><span class="pre">joint</span></code>)</li>
-<li><code class="docutils literal"><span class="pre">date</span></code> - Date of vote.</li>
-<li><code class="docutils literal"><span class="pre">id</span></code> - Open States-assigned unique identifier for vote.</li>
-<li><code class="docutils literal"><span class="pre">state</span></code> - State abbreviation.</li>
-<li><code class="docutils literal"><span class="pre">session</span></code> - Session key (see State Metadata for details).</li>
-<li><code class="docutils literal"><span class="pre">sources</span></code> -  List of source URLs used to compile information on this object. (Can be empty if vote shares sources with bill.)</li>
-<li><code class="docutils literal"><span class="pre">yes_count</span></code> - Total number of yes votes.</li>
-<li><code class="docutils literal"><span class="pre">no_count</span></code> - Total number of no votes.</li>
-<li><code class="docutils literal"><span class="pre">other_count</span></code> - Total number of othe’ votes (abstain, not present, etc.).</li>
-<li><dl class="first docutils">
-<dt><code class="docutils literal"><span class="pre">yes_votes</span></code>, <code class="docutils literal"><span class="pre">no_votes</span></code>, <code class="docutils literal"><span class="pre">other_votes</span></code> - List of roll calls of each type. Each is an object consisting of two ßkeys:</dt>
-<dd><ul class="first last">
+<li><p class="first"><code class="docutils literal"><span class="pre">motion</span></code> - Name of motion being voted upon (e.g. <code class="docutils literal"><span class="pre">Passage</span></code>)</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">chamber</span></code> - Chamber vote took place in (<code class="docutils literal"><span class="pre">upper</span></code>, <code class="docutils literal"><span class="pre">lower</span></code>, <code class="docutils literal"><span class="pre">joint</span></code>)</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">date</span></code> - Date of vote.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">id</span></code> - Open States-assigned unique identifier for vote.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">state</span></code> - State abbreviation.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">session</span></code> - Session key (see State Metadata for details).</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">sources</span></code> -  List of source URLs used to compile information on this object. (Can be empty if vote shares
+sources
+with bill.)</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">yes_count</span></code> - Total number of yes votes.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">no_count</span></code> - Total number of no votes.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">other_count</span></code> - Total number of other votes (abstain, not present, etc.).</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">yes_votes</span></code>, <code class="docutils literal"><span class="pre">no_votes</span></code>, <code class="docutils literal"><span class="pre">other_votes</span></code> - List of roll calls of each type. Each is an object consisting of
+two keys:</p>
+<blockquote>
+<div><ul class="simple">
 <li><code class="docutils literal"><span class="pre">name</span></code> - Name of voter as it appears on state website.</li>
 <li><code class="docutils literal"><span class="pre">leg_id</span></code> - Open States assigned legislator ID (will be <code class="docutils literal"><span class="pre">None</span></code> if no match was found).</li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 </li>
 </ul>
 </dd>
@@ -305,7 +333,7 @@
 <li><code class="docutils literal"><span class="pre">last_name</span></code> - Last name of legislator.</li>
 <li><code class="docutils literal"><span class="pre">suffixes</span></code> - Name suffixes (e.g. <code class="docutils literal"><span class="pre">Jr.</span></code>, <code class="docutils literal"><span class="pre">III</span></code>) of legislator.</li>
 <li><code class="docutils literal"><span class="pre">photo_url</span></code> URL of an official photo of this legislator.</li>
-<li><code class="docutils literal"><span class="pre">url</span></code> - URL of an official webpage for this legislator.</li>
+<li><code class="docutils literal"><span class="pre">url</span></code> - URL of an official website for this legislator.</li>
 <li><code class="docutils literal"><span class="pre">created_at</span></code> - The date that this object first appeared in our system.</li>
 <li><code class="docutils literal"><span class="pre">updated_at</span></code> - The date that this object was last updated in our system.</li>
 <li><code class="docutils literal"><span class="pre">created_at</span></code> - Date at which this legislator was added to our system.</li>
@@ -343,11 +371,11 @@
 <li><code class="docutils literal"><span class="pre">district</span></code></li>
 </ul>
 </div></blockquote>
-<p>And if the type is <code class="docutils literal"><span class="pre">committee</span> <span class="pre">membe</span></code>:</p>
+<p>And if the type is <code class="docutils literal"><span class="pre">committee</span> <span class="pre">member</span></code>:</p>
 <blockquote>
 <div><ul class="simple">
 <li><code class="docutils literal"><span class="pre">committee</span></code> - Name of parent committee</li>
-<li><code class="docutils literal"><span class="pre">ubcommittee</span></code> - Name of subcommittee (if <code class="docutils literal"><span class="pre">None</span></code>, membership is just for a committee)</li>
+<li><code class="docutils literal"><span class="pre">subcommittee</span></code> - Name of subcommittee (if <code class="docutils literal"><span class="pre">None</span></code>, membership is just for a committee)</li>
 <li><code class="docutils literal"><span class="pre">committee_id</span></code> - Open States id for committee that legislator is a member of</li>
 <li><code class="docutils literal"><span class="pre">position</span></code> - Position on committee</li>
 <li><code class="docutils literal"><span class="pre">old_roles</span></code> - List of old roles</li>
@@ -427,9 +455,10 @@
 <li><code class="docutils literal"><span class="pre">boundary_id</span></code> -  <code class="docutils literal"><span class="pre">boundary_id</span></code> used in District Boundary Lookup</li>
 <li><code class="docutils literal"><span class="pre">chamber</span></code> - Whether this district belongs to the <code class="docutils literal"><span class="pre">upper</span></code> or <code class="docutils literal"><span class="pre">lower</span></code> chamber.</li>
 <li><code class="docutils literal"><span class="pre">id</span></code> - A unique ID for this district (separate from boundary_id).</li>
-<li><code class="docutils literal"><span class="pre">legislators</span></code> - List of legislators that serve in this district. (may be more than one if num_seats &gt; 1)</li>
+<li><code class="docutils literal"><span class="pre">legislators</span></code> - List of legislators that serve in this district. (may be more than one if <code class="docutils literal"><span class="pre">num_seats</span></code> &gt; 1)</li>
 <li><code class="docutils literal"><span class="pre">name</span></code> - Name of the district (e.g. <code class="docutils literal"><span class="pre">14</span></code>, <code class="docutils literal"><span class="pre">33A</span></code>, <code class="docutils literal"><span class="pre">Fifth</span> <span class="pre">Suffolk</span></code>)</li>
-<li><code class="docutils literal"><span class="pre">num_seats</span></code> - Number of legislators that are elected to this seat. Generally one, but will be 2 or more if the seat is a multi-member district.</li>
+<li><code class="docutils literal"><span class="pre">num_seats</span></code> - Number of legislators that are elected to this seat. Generally one, but will be 2 or more if the seat
+is a multi-member district.</li>
 </ul>
 </div>
 </div>
@@ -473,7 +502,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.0.3',
+            VERSION:'1.0.5',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pyopenstates module &mdash; pyopenstates 1.0.3 documentation</title>
+  <title>pyopenstates module &mdash; pyopenstates 1.0.5 documentation</title>
   
 
   
@@ -33,7 +33,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="pyopenstates 1.0.3 documentation" href="index.html"/>
+    <link rel="top" title="pyopenstates 1.0.5 documentation" href="index.html"/>
         <link rel="next" title="Data structures" href="data structures.html"/>
         <link rel="prev" title="pyopenstates" href="index.html"/> 
 
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                1.0.3
+                1.0.5
               </div>
             
           
@@ -147,8 +147,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="pyopenstates.bulk_download">
-<code class="descclassname">pyopenstates.</code><code class="descname">bulk_download</code><span class="sig-paren">(</span><em>state</em>, <em>file_object</em>, <em>data_format='json'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyopenstates.bulk_download" title="Permalink to this definition">¶</a></dt>
+<dt id="pyopenstates.download_bulk_data">
+<code class="descclassname">pyopenstates.</code><code class="descname">download_bulk_data</code><span class="sig-paren">(</span><em>state</em>, <em>file_object</em>, <em>data_format='json'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyopenstates.download_bulk_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Downloads a zip containing bulk data on a given state to a given file object</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -170,12 +170,12 @@
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Saving Ohio&#39;s data to a file on disk</span>
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;ohio-json.zip&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ohio_zip_file</span><span class="p">:</span>
-    <span class="n">openstates</span><span class="o">.</span><span class="n">bulk_download</span><span class="p">(</span><span class="s2">&quot;OH&quot;</span><span class="p">,</span> <span class="n">ohio_zip_file</span><span class="p">)</span>
+    <span class="n">pyopenstates</span><span class="o">.</span><span class="n">bulk_download</span><span class="p">(</span><span class="s2">&quot;OH&quot;</span><span class="p">,</span> <span class="n">ohio_zip_file</span><span class="p">)</span>
 
 <span class="c1"># Or download it to memory</span>
 <span class="kn">from</span> <span class="nn">io</span> <span class="k">import</span> <span class="n">BytesIO</span>
 <span class="n">mem_zip</span> <span class="o">=</span> <span class="n">BytesIO</span><span class="p">()</span>
-<span class="n">openstates</span><span class="o">.</span><span class="n">bulk_download</span><span class="p">(</span><span class="s2">&quot;OH&quot;</span><span class="p">,</span> <span class="n">mem_zip</span><span class="p">)</span>
+<span class="n">pyopenstates</span><span class="o">.</span><span class="n">bulk_download</span><span class="p">(</span><span class="s2">&quot;OH&quot;</span><span class="p">,</span> <span class="n">mem_zip</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -227,9 +227,9 @@ the state, term, and legislative bill ID</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="pyopenstates.get_district_boundary">
-<code class="descclassname">pyopenstates.</code><code class="descname">get_district_boundary</code><span class="sig-paren">(</span><em>boundary_id</em>, <em>fields=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyopenstates.get_district_boundary" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets district boundary details</p>
+<dt id="pyopenstates.get_district">
+<code class="descclassname">pyopenstates.</code><code class="descname">get_district</code><span class="sig-paren">(</span><em>boundary_id</em>, <em>fields=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyopenstates.get_district" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets district details</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -256,7 +256,7 @@ the state, term, and legislative bill ID</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>event_id</strong> &#8211; The Openstates Event UUID</li>
+<li><strong>event_id</strong> &#8211; The Open States Event UUID</li>
 <li><strong>fields</strong> &#8211; An optional list of fields to return</li>
 </ul>
 </td>
@@ -293,18 +293,23 @@ the state, term, and legislative bill ID</p>
 <dt id="pyopenstates.get_metadata">
 <code class="descclassname">pyopenstates.</code><code class="descname">get_metadata</code><span class="sig-paren">(</span><em>state=None</em>, <em>fields=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyopenstates.get_metadata" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
-<div>Returns a list of all states with data available, and basic metadata about their status. Can also get detailed metadata for a particular state.</div></blockquote>
+<div>Returns a list of all states with data available, and basic metadata about their status. Can also get detailed
+metadata for a particular state.</div></blockquote>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>state</strong> &#8211; The abbreviation of state to get detailed metadata on, or leave as None to get high-level metadata on all states.</li>
+<li><strong>state</strong> &#8211; The abbreviation of state to get detailed metadata on, or leave as None to get high-level metadata on all</li>
+<li><strong>states.</strong> &#8211; </li>
 <li><strong>fields</strong> &#8211; An optional list of fields to return; returns all fields by default</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The requested <a class="reference internal" href="data structures.html#metadata"><span class="std std-ref">Metadata</span></a> as a dictionary</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The requested <a class="reference internal" href="data structures.html#metadata"><span class="std std-ref">Metadata</span></a> as a dictionary</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Dict</p>
 </td>
 </tr>
 </tbody>
@@ -352,15 +357,13 @@ the state, term, and legislative bill ID</p>
 <li><code class="docutils literal"><span class="pre">bill_id_in</span></code> - Accepts a pipe (|) delimited list of bill ids.</li>
 <li><code class="docutils literal"><span class="pre">q</span></code> -  Only return bills matching the provided full text query.</li>
 <li><dl class="first docutils">
-<dt><code class="docutils literal"><span class="pre">search_window</span></code> By default all bills are searched, but if a time window is desired the following options can be passed to <code class="docutils literal"><span class="pre">search_window</span></code>:</dt>
-<dd><ul class="first last">
-<li><code class="docutils literal"><span class="pre">search_window=all</span></code> - Default, include all sessions.</li>
-<li><code class="docutils literal"><span class="pre">search_window=term</span></code> - Only bills from sessions within the current term.</li>
-<li><code class="docutils literal"><span class="pre">search_window=session</span></code> - Only bills from the current session.</li>
-<li><code class="docutils literal"><span class="pre">search_window=session:2009</span></code> - Only bills from the session named <code class="docutils literal"><span class="pre">2009</span></code>.</li>
-<li><code class="docutils literal"><span class="pre">search_window=term:2009-2011</span></code> - Only bills from the sessions in the <code class="docutils literal"><span class="pre">2009-2011</span></code> session.</li>
-</ul>
-</dd>
+<dt><code class="docutils literal"><span class="pre">search_window</span></code>- By default all bills are searched, but if a time window is desired the following options can be</dt>
+<dd>passed to <code class="docutils literal"><span class="pre">search_window</span></code>:
+- <code class="docutils literal"><span class="pre">search_window=all</span></code> - Default, include all sessions.
+- <code class="docutils literal"><span class="pre">search_window=term</span></code> - Only bills from sessions within the current term.
+- <code class="docutils literal"><span class="pre">search_window=session</span></code> - Only bills from the current session.
+- <code class="docutils literal"><span class="pre">search_window=session:2009</span></code> - Only bills from the session named <code class="docutils literal"><span class="pre">2009</span></code>.
+- <code class="docutils literal"><span class="pre">search_window=term:2009-2011</span></code> - Only bills from the sessions in the <code class="docutils literal"><span class="pre">2009-2011</span></code> session.</dd>
 </dl>
 </li>
 <li><code class="docutils literal"><span class="pre">updated_since</span></code> - Only bills updated since a provided date (provided in <code class="docutils literal"><span class="pre">YYYY-MM-DD</span></code> format)</li>
@@ -391,7 +394,7 @@ the state, term, and legislative bill ID</p>
 <p>This method returns just a subset (<code class="docutils literal"><span class="pre">state</span></code>, <code class="docutils literal"><span class="pre">chamber</span></code>, <code class="docutils literal"><span class="pre">session</span></code>,
 <code class="docutils literal"><span class="pre">subjects</span></code>, <code class="docutils literal"><span class="pre">type</span></code>, <code class="docutils literal"><span class="pre">id</span></code>, <code class="docutils literal"><span class="pre">bill_id</span></code>, <code class="docutils literal"><span class="pre">title</span></code>, <code class="docutils literal"><span class="pre">created_at</span></code>,
 <code class="docutils literal"><span class="pre">updated_at</span></code>) of the bill fields by default.</p>
-<p class="last">Use the <code class="docutils literal"><span class="pre">fields</span></code> parameter to spicify a custom list of fields to return.</p>
+<p class="last">Use the <code class="docutils literal"><span class="pre">fields</span></code> parameter to specify a custom list of fields to return.</p>
 </div>
 </dd></dl>
 
@@ -556,7 +559,7 @@ states’ State Metadata.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.0.3',
+            VERSION:'1.0.5',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
