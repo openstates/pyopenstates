@@ -15,7 +15,7 @@ Foundation has since `shut down`_ Sunlight Labs, and Open States is now
 an `independent project`_.
 
 This module is intended to be a replacement for the ``openstates``
-methods provided by the origional ``sunlight`` package. However, it is
+methods provided by the original ``sunlight`` package. However, it is
 not a drop-in replacement; the methods are slightly different, and some
 features have been added.
 
