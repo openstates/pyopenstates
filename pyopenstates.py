@@ -197,7 +197,7 @@ def search_bills(**kwargs):
     - ``subject`` - Only bills categorized by Open States as belonging to this subject.
     - ``type`` Only bills of a given type (e.g. ``bill``, ``resolution``, etc.)
 
-    You can specify sorting using the hollowing ``sort`` keyword argument values:
+    You can specify sorting using the following ``sort`` keyword argument values:
 
     - ``first``
     - ``last``
