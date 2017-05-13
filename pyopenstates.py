@@ -3,11 +3,9 @@
 """A Python client for the Open States API"""
 
 from __future__ import unicode_literals, print_function, absolute_import
-
+import os
 from sys import version_info
-
 from datetime import datetime
-
 from requests import Session
 
 """Copyright 2016 Sean Whalen
@@ -28,10 +26,12 @@ __version__ = "1.0.5"
 
 API_ROOT = "https://openstates.org/api/v1/"
 DEFAULT_USER_AGENT = "pyopenstates/{0}".format(__version__)
+ENVIRON_API_KEY = os.environ.get('OPENSTATES_API_KEY')
 
 session = Session()
 session.headers.update({"User-Agent": DEFAULT_USER_AGENT})
-
+if ENVIRON_API_KEY:
+    session.headers.update({'X-Api-Key': ENVIRON_API_KEY})
 
 #  Python 2 comparability hack
 if version_info[0] >= 3:
@@ -108,6 +108,12 @@ def set_user_agent(user_agent):
     (e.g. ``pyopenstates/__version__ user_agent``)"""
     session.headers.update({"User-Agent": "{0} {1}".format(DEFAULT_USER_AGENT,
                                                            user_agent)})
+
+
+def set_api_key(apikey):
+    """Sets API key. Can also be set as OPENSTATES_API_KEY environment
+    variable."""
+    session.headers['X-Api-Key'] = apikey
 
 
 def get_metadata(state=None, fields=None):
