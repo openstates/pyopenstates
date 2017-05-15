@@ -35,6 +35,7 @@ Features
 -  Automatic conversion of string dates and timestamps to ``datetime``
    objects
 -  Tested releases
+-  Set API Key via environment variable or in code.
 
 Installation
 ------------
@@ -55,6 +56,13 @@ Or, install the latest commit from git, run:
 
     $ pip install -U git+https://github.com/openstates/pyopenstates
 
+API Keys
+--------
+
+To use the Open States API you must `obtain an API Key`_.
+
+Once you have your key you can use it with this library by setting the ``OPENSTATES_API_KEY`` environment variable or calling ``pyopenstates.set_api_key``.
+
 Documentation
 -------------
 
@@ -71,6 +79,7 @@ https://openstates.github.io/pyopenstates/
 .. _volunteering: https://docs.google.com/forms/d/e/1FAIpQLSfMDjoVoKxSOciIiqE3Ofxgn-caFGCxicFO2LwyWAK8zdXyhg/viewform
 .. _pip: https://docs.python.org/3.5/installing/index.html
 .. _virtualenv: https://virtualenv.pypa.io/en/stable/
+.. _obtain an API Key: https://openstates.org/api/register/
 
 .. |Build Status| image:: https://travis-ci.org/openstates/pyopenstates.svg?branch=master
    :target: https://travis-ci.org/openstates/pyopenstates

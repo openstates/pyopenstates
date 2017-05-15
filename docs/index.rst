@@ -40,7 +40,7 @@ Installation
 ------------
 
 ``pyopenstates`` can be installed using `pip`_.
-Installation in a `vertualenv`_ is recommended.
+Installation in a `virtualenv`_ is recommended.
 
 To install the latest release, run:
 
@@ -54,6 +54,14 @@ Or, install the latest commit from git, run:
 
     $ pip install -U git+https://github.com/openstates/pyopenstates
 
+API Keys
+--------
+
+To use the Open States API you must `obtain an API Key`_.
+
+Once you have your key you can use it with this library by setting the ``OPENSTATES_API_KEY`` environment variable or calling :func:`pyopenstates.set_api_key`.
+
+
 .. _Open States API: http://docs.openstates.org/api/
 .. _Open States: https://openstates.org/
 .. _Sunlight Foundation: https://sunlightfoundation.com/
@@ -62,8 +70,9 @@ Or, install the latest commit from git, run:
 .. _donating: https://www.generosity.com/fundraising/open-states-general-support-fund
 .. _volunteering: https://docs.google.com/forms/d/e/1FAIpQLSfMDjoVoKxSOciIiqE3Ofxgn-caFGCxicFO2LwyWAK8zdXyhg/viewform
 .. _pip: https://docs.python.org/3.5/installing/index.html
-.. _vertualenv: https://virtualenv.pypa.io/en/stable/
+.. _virtualenv: https://virtualenv.pypa.io/en/stable/
 .. _Read The Docs: https://python-openstates.readthedocs.org/
+.. _obtain an API Key: https://openstates.org/api/register/
 
 .. |Build Status| image:: https://travis-ci.org/openstates/pyopenstates.svg?branch=master
    :target: https://travis-ci.org/openstates/pyopenstates
