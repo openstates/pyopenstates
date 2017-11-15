@@ -68,7 +68,7 @@ Documentation
 
 Documentation is provided in detailed docstrings, and in HTML format at
 
-https://openstates.github.io/pyopenstates/
+https://pyopenstates.readthedocs.io/en/latest/
 
 .. _Open States API: http://docs.openstates.org/api/
 .. _Open States: https://openstates.org/
