@@ -182,7 +182,7 @@ class Test(unittest.TestCase):
     def testLegislatorGeolocation(self):
         """Legislator geolocation"""
         lat = 35.79
-        long = 78.38
+        long = -78.78
         state = "nc"
         results = pyopenstates.locate_legislators(lat, long)
         self.assertGreater(len(results), 0)
@@ -253,5 +253,4 @@ class Test(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    suite = unittest.TestLoader().loadTestsFromTestCase(Test)
-    unittest.TextTestRunner(verbosity=2).run(suite)
+    unittest.main(verbosity=2)
