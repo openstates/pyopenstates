@@ -22,7 +22,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License."""
 
-__version__ = "1.1.0"
+__version__ = "1.1.1"
 
 API_ROOT = "https://openstates.org/api/v1/"
 DEFAULT_USER_AGENT = "pyopenstates/{0}".format(__version__)
@@ -52,7 +52,9 @@ class NotFound(APIError):
 
 def _get(uri, params=None):
     """
-    An internal method for making API calls and error handling easy and consistent
+    An internal method for making API calls and error handling easy and
+    consistent
+
     Args:
         uri: API URI
         params: GET parameters
@@ -78,7 +80,8 @@ def _get(uri, params=None):
                 elif type(result[key]) == dict:
                     result[key] = _convert_timestamps(result[key])
                 elif type(result) == list:
-                    result = list(map(lambda r: _convert_timestamps(r), result))
+                    result = list(map(lambda r: _convert_timestamps(r),
+                                      result))
         elif type(result) == list:
             result = list(map(lambda r: _convert_timestamps(r), result))
 
@@ -118,18 +121,19 @@ def set_api_key(apikey):
 
 def get_metadata(state=None, fields=None):
     """
-        Returns a list of all states with data available, and basic metadata about their status. Can also get detailed
-        metadata for a particular state.
+        Returns a list of all states with data available, and basic metadata
+        about their status. Can also get detailed metadata for a particular
+        state.
 
     Args:
-        state: The abbreviation of state to get detailed metadata on, or leave as None to get high-level metadata on all
-        states.
+        state: The abbreviation of state to get detailed metadata on, or leave
+        as None to get high-level metadata on all states.
 
-        fields: An optional list of fields to return; returns all fields by default
+        fields: An optional list of fields to return; returns all fields by
+            default
 
     Returns:
        Dict: The requested :ref:`Metadata` as a dictionary
-
     """
     uri = "/metadata/"
     if state:
@@ -139,7 +143,8 @@ def get_metadata(state=None, fields=None):
 
 def download_bulk_data(state, file_object, data_format="json"):
     """
-    Downloads a zip containing bulk data on a given state to a given file object
+    Downloads a zip containing bulk data on a given state to a given file
+    object
 
     Args:
         state: The abbreviation of the state
@@ -187,23 +192,33 @@ def search_bills(**kwargs):
         **kwargs: One or more search filters
 
     - ``state`` - Only return bills from a given state (e.g. ``nc``)
-    - ``chamber`` - Only return bills matching the provided chamber (``upper`` or ``lower``)
+    - ``chamber`` - Only return bills matching the provided chamber
+    (``upper`` or ``lower``)
     - ``bill_id`` - Only return bills with a given bill_id.
     - ``bill_id_in`` - Accepts a pipe (|) delimited list of bill ids.
     - ``q`` -  Only return bills matching the provided full text query.
-    - ``search_window``- By default all bills are searched, but if a time window is desired the following options can be
-        passed to ``search_window``:
+    - ``search_window``- By default all bills are searched, but if a time
+    window is desired the following options can be passed to
+    ``search_window``:
         - ``search_window=all`` - Default, include all sessions.
-        - ``search_window=term`` - Only bills from sessions within the current term.
+        - ``search_window=term`` - Only bills from sessions within the current
+        term.
         - ``search_window=session`` - Only bills from the current session.
-        - ``search_window=session:2009`` - Only bills from the session named ``2009``.
-        - ``search_window=term:2009-2011`` - Only bills from the sessions in the ``2009-2011`` session.
-    - ``updated_since`` - Only bills updated since a provided date (provided in ``YYYY-MM-DD`` format)
-    - ``sponsor_id`` Only bills sponsored by a given legislator id (e.g. ``ILL000555``)
-    - ``subject`` - Only bills categorized by Open States as belonging to this subject.
-    - ``type`` Only bills of a given type (e.g. ``bill``, ``resolution``, etc.)
+        - ``search_window=session:2009`` - Only bills from the session named
+        ``2009``.
+        - ``search_window=term:2009-2011`` - Only bills from the sessions in
+        the ``2009-2011`` session.
+    - ``updated_since`` - Only bills updated since a provided date (provided in
+    ``YYYY-MM-DD`` format)
+    - ``sponsor_id`` Only bills sponsored by a given legislator id (e.g.
+    ``ILL000555``)
+    - ``subject`` - Only bills categorized by Open States as belonging to this
+    subject.
+    - ``type`` Only bills of a given type (e.g. ``bill``, ``resolution``,
+    etc.)
 
-    You can specify sorting using the following ``sort`` keyword argument values:
+    You can specify sorting using the following ``sort`` keyword argument
+    values:
 
     - ``first``
     - ``last``
@@ -221,7 +236,8 @@ def search_bills(**kwargs):
         ``subjects``, ``type``, ``id``, ``bill_id``, ``title``, ``created_at``,
         ``updated_at``) of the bill fields by default.
 
-        Use the ``fields`` parameter to specify a custom list of fields to return.
+        Use the ``fields`` parameter to specify a custom list of fields to
+        return.
     """
     uri = "bills/"
     if "per_page" in kwargs.keys():
@@ -240,27 +256,32 @@ def search_bills(**kwargs):
 
 def get_bill(uid=None, state=None, term=None, bill_id=None, **kwargs):
     """
-    Returns details of a specific bill Can be identified my the Open States unique bill id (uid), or by specifying
-    the state, term, and legislative bill ID
+    Returns details of a specific bill Can be identified my the Open States
+    unique bill id (uid), or by specifying the state, term, and
+    legislative bill ID
 
     Args:
         uid: The Open States unique bill ID
         state: The postal code of the state
         term: The legislative term (see state metadata)
         bill_id: Yhe legislative bill ID (e.g. ``HR 42``)
-        **kwargs: Optional keyword argument options, such as ``fields``, which specifies the fields to return
+        **kwargs: Optional keyword argument options, such as ``fields``,
+        which specifies the fields to return
 
     Returns:
         The :ref:`Bill` details as a dictionary
     """
     if uid:
         if state or term or bill_id:
-            raise ValueError("Must specify an Open States bill (uid), or the state, term, and bill ID")
+            raise ValueError("Must specify an Open States bill (uid), or the "
+                             "state, term, and bill ID")
         return _get("/bills/{}".format(uid), params=kwargs)
     else:
         if not state or not term or not bill_id:
-            raise ValueError("Must specify an Open States bill (uid), or the state, term, and bill ID")
-        return _get("/bills/{}/{}/{}/".format(state.lower(), term, bill_id), params=kwargs)
+            raise ValueError("Must specify an Open States bill (uid), "
+                             "or the state, term, and bill ID")
+        return _get("/bills/{}/{}/{}/".format(state.lower(), term, bill_id),
+                    params=kwargs)
 
 
 def search_legislators(**kwargs):
@@ -274,10 +295,13 @@ def search_legislators(**kwargs):
     - ``first_name`` -  Filter by first name.
     - ``last_name`` - Filter by last name.
     - ``chamber`` - Only legislators with a role in the specified chamber.
-    - ``active`` - ``True`` (default) to only include current legislators, ``False`` will include all legislators
+    - ``active`` - ``True`` (default) to only include current legislators,
+    ``False`` will include all legislators
     - ``term`` - Only legislators that have a role in a certain term.
-    - ``district`` - Only legislators that have represented the specified district.
-    - ``party`` - Only legislators that have been associated with a specified party.
+    - ``district`` - Only legislators that have represented the specified
+    district.
+    - ``party`` - Only legislators that have been associated with a specified
+    party.
 
     Returns:
         A list of matching :ref:`Legislator` dictionaries
@@ -313,7 +337,9 @@ def locate_legislators(lat, long, fields=None):
         A list of matching :ref:`Legislator` dictionaries
 
     """
-    return _get("/legislators/geo/", params=dict(lat=lat, long=long, fields=fields))
+    return _get("/legislators/geo/", params=dict(lat=float(lat),
+                                                 long=float(long),
+                                                 fields=fields))
 
 
 def search_committees(**kwargs):
@@ -324,8 +350,10 @@ def search_committees(**kwargs):
         **kwargs: One or more filter keyword arguments
 
     - ``committee`` - Name of committee.
-    - ``subcommittee`` - Name of subcommittee. (if None, object describes the committee)
-    - ``chamber`` - Chamber committee belongs to: ``upper``, ``lower``, or ``joint``
+    - ``subcommittee`` - Name of subcommittee. (if None, object describes the
+    committee)
+    - ``chamber`` - Chamber committee belongs to: ``upper``, ``lower``, or `
+    `joint``
     - ``state`` - State abbreviation
 
     Returns:
@@ -352,7 +380,8 @@ def search_events(**kwargs):
     """
     Searches events
 
-    Events are not available in all states, to ensure that events are available check the ``feature_flags`` list in a
+    Events are not available in all states, to ensure that events are
+    available check the ``feature_flags`` list in a
     states’ State Metadata.
 
     Args:
@@ -361,7 +390,8 @@ def search_events(**kwargs):
     - ``state`` - State abbreviation.
     - ``type`` - Categorized event type. (``committee:meeting`` for now)
 
-    This method also allows specifying an alternate output format, by specifying ``format=rss`` or ``format=ics``.
+    This method also allows specifying an alternate output format, by
+    specifying ``format=rss`` or ``format=ics``.
 
     Returns:
         A list of matching :ref:`Event` dictionaries
