@@ -7,6 +7,7 @@ import os
 from sys import version_info
 from datetime import datetime
 from requests import Session
+from time import sleep
 
 """Copyright 2016 Sean Whalen
 
@@ -22,7 +23,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License."""
 
-__version__ = "1.1.1"
+__version__ = "1.2.0"
 
 API_ROOT = "https://openstates.org/api/v1/"
 DEFAULT_USER_AGENT = "pyopenstates/{0}".format(__version__)
@@ -200,13 +201,13 @@ def search_bills(**kwargs):
     - ``search_window``- By default all bills are searched, but if a time
     window is desired the following options can be passed to
     ``search_window``:
-        - ``search_window=all`` - Default, include all sessions.
-        - ``search_window=term`` - Only bills from sessions within the current
-        term.
-        - ``search_window=session`` - Only bills from the current session.
-        - ``search_window=session:2009`` - Only bills from the session named
+        - ``search_window="all"`` - Default, include all sessions.
+        - ``search_window="term"`` - Only bills from sessions within the
+        current term.
+        - ``search_window="session"`` - Only bills from the current session.
+        - ``search_window="session:2009"`` - Only bills from the session named
         ``2009``.
-        - ``search_window=term:2009-2011`` - Only bills from the sessions in
+        - ``search_window="term:2009-2011"`` - Only bills from the sessions in
         the ``2009-2011`` session.
     - ``updated_since`` - Only bills updated since a provided date (provided in
     ``YYYY-MM-DD`` format)
@@ -240,16 +241,16 @@ def search_bills(**kwargs):
         return.
     """
     uri = "bills/"
-    if "per_page" in kwargs.keys():
-        results = []
+    if len(kwargs ) > 0:
+        kwargs["per_page"] = 500
         kwargs["page"] = 1
+    results = []
+    new_results = _get(uri, params=kwargs)
+    while len(new_results) > 0:
+        results += new_results
+        kwargs["page"] += 1
+        sleep(1)
         new_results = _get(uri, params=kwargs)
-        while len(new_results) > 0:
-            results += new_results
-            kwargs["page"] += 1
-            new_results = _get(uri, params=kwargs)
-    else:
-        results = _get(uri, params=kwargs)
 
     return results
 
