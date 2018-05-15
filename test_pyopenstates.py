@@ -34,8 +34,8 @@ class Test(unittest.TestCase):
         pyopenstates.set_user_agent("test-suite")
 
     def tearDown(self):
-        # Wait four  seconds between tests to avoid hitting the API limit
-        sleep(2)
+        # Wait between tests to avoid hitting the API limit
+        sleep(1)
 
     def testOpenStatesMetadata(self):
         """Calling the metadata method without specifying a state returns a
@@ -145,10 +145,9 @@ class Test(unittest.TestCase):
 
     def testPaginatedResults(self):
         """Paginated results"""
-        results = pyopenstates.search_bills(state="dc", per_page=200)
-        sleep(8)
-        paged_results = pyopenstates.search_bills(state="dc", per_page=100)
-        self.assertEqual(len(results), len(paged_results))
+        per_page = 200
+        results = pyopenstates.search_bills(state="dc", per_page=per_page)
+        self.assertEqual(len(results), per_page)
 
     def testBillSearchSort(self):
         """Sorting bill search results"""
