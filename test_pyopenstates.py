@@ -28,22 +28,22 @@ limitations under the License.
 
 
 class Test(unittest.TestCase):
-    """A test suite for openstatesclient"""
+    """A test suite for pyopenstates"""
 
     def setUp(self):
         pyopenstates.set_user_agent("test-suite")
 
     def tearDown(self):
         # Wait between tests to avoid hitting the API limit
-        sleep(1)
+        sleep(0.5)
 
     def testOpenStatesMetadata(self):
         """Calling the metadata method without specifying a state returns a
         list of 52 dictionaries: One for each state, plus DC and Puerto Rico"""
         metadata = pyopenstates.get_metadata()
-        self.assertEquals(len(metadata), 52)
+        self.assertEqual(len(metadata), 52)
         for obj in metadata:
-            self.assertEquals(type(obj), dict)
+            self.assertEqual(type(obj), dict)
 
     def testStateMetadata(self):
         """All default state metadata fields are returned"""
@@ -143,17 +143,11 @@ class Test(unittest.TestCase):
                           bill_id)
         self.assertRaises(ValueError, pyopenstates.get_bill, _id, state)
 
-    def testPaginatedResults(self):
-        """Paginated results"""
-        per_page = 200
-        results = pyopenstates.search_bills(state="dc", per_page=per_page)
-        self.assertEqual(len(results), per_page)
-
     def testBillSearchSort(self):
         """Sorting bill search results"""
         sorted_bills = pyopenstates.search_bills(state="dc",
-                                                 sort="created_at",
-                                                 per_page=100)
+                                                 search_window="term",
+                                                 sort="created_at")
         self.assertGreater(sorted_bills[0]["created_at"],
                            sorted_bills[-1]["created_at"])
 
@@ -202,25 +196,6 @@ class Test(unittest.TestCase):
         comittee = "Transportation and the Environment"
         self.assertEqual(pyopenstates.get_committee(_id)["committee"],
                          comittee)
-
-    @unittest.skip("Events are missing for every state in the dataset as of "
-                   "2017-01-27")
-    def testEventSearch(self):
-        """Event search"""
-        state = "tx"
-        results = pyopenstates.search_events(state=state)
-        self.assertGreater(len(results), 2)
-        for event in results:
-            self.assertEqual(event["state"], state.lower())
-
-    @unittest.skip("Events are missing for every state in the dataset as of "
-                   "2017-12-27")
-    def testEventDetails(self):
-        """Event details"""
-        _id = "TXE00026474"
-        description = "TSpecial Purpose Districts"
-        self.assertEqual(pyopenstates.get_event(_id)['description'],
-                         description)
 
     def testDistrictSearch(self):
         """District search"""
