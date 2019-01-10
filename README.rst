@@ -81,5 +81,5 @@ https://pyopenstates.readthedocs.io/en/latest/
 .. _virtualenv: https://virtualenv.pypa.io/en/stable/
 .. _obtain an API Key: https://openstates.org/api/register/
 
-.. |Build Status| image:: https://travis-ci.org/openstates/pyopenstates.svg?branch=master
-   :target: https://travis-ci.org/openstates/pyopenstates
+.. |Build Status| image:: https://travis-ci.com/openstates/pyopenstates.svg?branch=master
+   :target: https://travis-ci.com/openstates/pyopenstates
