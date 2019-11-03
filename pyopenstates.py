@@ -160,12 +160,12 @@ def download_bulk_data(state, file_object, data_format="json"):
 
             # Saving Ohio's data to a file on disk
             with open("ohio-json.zip", "wb") as ohio_zip_file:
-                pyopenstates.bulk_download("OH", ohio_zip_file)
+                pyopenstates.download_bulk_data("OH", ohio_zip_file)
 
             # Or download it to memory
             from io import BytesIO
             mem_zip = BytesIO()
-            pyopenstates.bulk_download("OH", mem_zip)
+            pyopenstates.download_bulk_data("OH", mem_zip)
 
     """
     if data_format.lower() == "json":
