@@ -143,7 +143,9 @@ def get_metadata(state=None, fields=None):
     params = dict()
     if state:
         uri += "/ocd-jurisdiction/country:us/state:{0}/government".format(state.lower())
-        return _get(uri, params=params)
+        state_response = _get(uri, params=params)
+        if fields is not None:
+            return {k: state_response[k] for k in fields}
     else:
         params['page'] = '1'
         params['per_page'] = '52'

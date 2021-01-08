@@ -59,8 +59,7 @@ class Test(unittest.TestCase):
     def testSubsetStateMetadataFields(self):
         """Requesting specific fields in state metadata returns only those
         fields"""
-        requested_fields = ["id", "latest_json_date", "latest_json_url",
-                            "latest_update"]
+        requested_fields = ["id", "name", "url"]
         metadata = pyopenstates.get_metadata("OH", fields=requested_fields)
         returned_fields = metadata.keys()
 
