@@ -142,11 +142,12 @@ def get_metadata(state=None, fields=None):
     uri = "jurisdictions"
     params = dict()
     if state:
-        uri += "{0}/".format(state.lower())
+        uri += "/ocd-jurisdiction/country:us/state:{0}/government".format(state.lower())
+        return _get(uri, params=params)
     else:
         params['page'] = '1'
         params['per_page'] = '52'
-    return _get(uri, params=params)["results"]
+        return _get(uri, params=params)["results"]
 
 
 def download_bulk_data(state, file_object, data_format="json"):

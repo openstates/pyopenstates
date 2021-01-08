@@ -48,16 +48,13 @@ class Test(unittest.TestCase):
     def testStateMetadata(self):
         """All default state metadata fields are returned"""
         state_code = "NC"
-        fields = ['name', 'latest_csv_url', 'latest_csv_date', 'chambers',
-                  'capitol_timezone', 'id', 'latest_json_url',
-                  'session_details', 'terms','latest_json_date',
-                  'latest_update', 'abbreviation', 'legislature_name',
-                  'feature_flags', 'legislature_url']
+        fields = ['id', 'name', 'classification', 'division_id', 'url']
         metadata = pyopenstates.get_metadata(state_code)
+        print(metadata)
         keys = metadata.keys()
         for field in fields:
             self.assertIn(field, keys)
-        self.assertEqual(metadata["abbreviation"], state_code.lower())
+        self.assertEqual(metadata["name"], "North Carolina")
 
     def testSubsetStateMetadataFields(self):
         """Requesting specific fields in state metadata returns only those
