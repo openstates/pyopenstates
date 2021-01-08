@@ -25,14 +25,17 @@ limitations under the License."""
 
 __version__ = "1.2.0"
 
-API_ROOT = "https://openstates.org/api/v1/"
+API_ROOT = "https://v3.openstates.org"
 DEFAULT_USER_AGENT = "pyopenstates/{0}".format(__version__)
-ENVIRON_API_KEY = os.environ.get('OPENSTATES_API_KEY')
+ENVIRON_API_KEY = os.environ.get('API_KEY')
 
 session = Session()
+session.headers.update({"Accept": 'application/json'})
 session.headers.update({"User-Agent": DEFAULT_USER_AGENT})
 if ENVIRON_API_KEY:
     session.headers.update({'X-Api-Key': ENVIRON_API_KEY})
+else:
+    print("Warning: No API Key found, set API_KEY")
 
 #  Python 2 comparability hack
 if version_info[0] >= 3:
@@ -94,7 +97,7 @@ def _get(uri, params=None):
 
         return result
 
-    url = "{0}/{1}/".format(API_ROOT.strip("/"), uri.strip("/"))
+    url = "{0}/{1}".format(API_ROOT, uri)
     for param in params.keys():
         if type(params[param]) == list:
             params[param] = ",".join(params[param])
@@ -136,10 +139,14 @@ def get_metadata(state=None, fields=None):
     Returns:
        Dict: The requested :ref:`Metadata` as a dictionary
     """
-    uri = "/metadata/"
+    uri = "jurisdictions"
+    params = dict()
     if state:
         uri += "{0}/".format(state.lower())
-    return _get(uri, params=dict(fields=fields))
+    else:
+        params['page'] = '1'
+        params['per_page'] = '52'
+    return _get(uri, params=params)["results"]
 
 
 def download_bulk_data(state, file_object, data_format="json"):
