@@ -54,7 +54,7 @@ class Test(unittest.TestCase):
         keys = metadata.keys()
         for field in fields:
             self.assertIn(field, keys)
-        self.assertEqual(metadata["name"], "North Carolina")
+        self.assertEqual(metadata["name"], "North C arolina")
 
     def testSubsetStateMetadataFields(self):
         """Requesting specific fields in state metadata returns only those
