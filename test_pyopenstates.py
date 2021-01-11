@@ -123,12 +123,12 @@ class Test(unittest.TestCase):
 
     def testBillDetailInputs(self):
         """Bill detail inputs"""
-        state = "ca"
-        term = "20092010"
-        bill_id = "AB 667"
-        _id = "CAB00004148"
+        state = "nc"
+        session = "2019"
+        bill_id = "HB 1105"
+        _id = "6dc08e5d-3d62-42c0-831d-11487110c800"
 
-        self.assertRaises(ValueError, pyopenstates.get_bill, _id, state, term,
+        self.assertRaises(ValueError, pyopenstates.get_bill, _id, state, session,
                           bill_id)
         self.assertRaises(ValueError, pyopenstates.get_bill, _id, state)
 
