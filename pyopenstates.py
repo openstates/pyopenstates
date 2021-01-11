@@ -145,7 +145,6 @@ def get_metadata(state=None, fields=None):
         uri += '/' + _jurisdiction_id(state)
         state_response = _get(uri, params=params)
         if fields is not None:
-            print(fields)
             return {k: state_response[k] for k in fields}
     else:
         params['page'] = '1'
@@ -210,8 +209,8 @@ def search_bills(**kwargs):
     window is desired the following options can be passed to
     ``search_window``:
         - ``search_window="all"`` - Default, include all sessions.
-        - ``search_window="term"`` - Only bills from sessions within the
-        current term.
+        - ``search_window="session"`` - Only bills from sessions within the
+        current session.
         - ``search_window="session"`` - Only bills from the current session.
         - ``search_window="session:2009"`` - Only bills from the session named
         ``2009``.
@@ -273,13 +272,13 @@ def search_bills(**kwargs):
 def get_bill(uid=None, state=None, session=None, bill_id=None, **kwargs):
     """
     Returns details of a specific bill Can be identified my the Open States
-    unique bill id (uid), or by specifying the state, term, and
+    unique bill id (uid), or by specifying the state, session, and
     legislative bill ID
 
     Args:
         uid: The Open States unique bill ID
         state: The postal code of the state
-        term: The legislative term (see state metadata)
+        session: The legislative session (see state metadata)
         bill_id: Yhe legislative bill ID (e.g. ``HR 42``)
         **kwargs: Optional keyword argument options, such as ``fields``,
         which specifies the fields to return
@@ -295,7 +294,7 @@ def get_bill(uid=None, state=None, session=None, bill_id=None, **kwargs):
     else:
         if not state or not session or not bill_id:
             raise ValueError("Must specify an Open States bill (uid), "
-                             "or the state, term, and bill ID")
+                             "or the state, session, and bill ID")
         return _get("bills/{}/{}/{}".format(state.lower(), session, bill_id),
                     params=kwargs)
 
