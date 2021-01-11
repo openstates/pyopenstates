@@ -27,7 +27,7 @@ __version__ = "1.2.0"
 
 API_ROOT = "https://v3.openstates.org"
 DEFAULT_USER_AGENT = "pyopenstates/{0}".format(__version__)
-ENVIRON_API_KEY = os.environ.get('API_KEY')
+ENVIRON_API_KEY = os.environ.get('OPENSTATES_API_KEY')
 
 session = Session()
 session.headers.update({"Accept": 'application/json'})
