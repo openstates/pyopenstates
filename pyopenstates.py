@@ -142,7 +142,7 @@ def get_metadata(state=None, fields=None):
     uri = "jurisdictions"
     params = dict()
     if state:
-        uri += "/ocd-jurisdiction/country:us/state:{0}/government".format(state.lower())
+        uri += '/' + _jurisdiction_id(state)
         state_response = _get(uri, params=params)
         if fields is not None:
             print(fields)
@@ -248,19 +248,24 @@ def search_bills(**kwargs):
         Use the ``fields`` parameter to specify a custom list of fields to
         return.
     """
-    uri = "/ocd-bill/"
+    uri = "bills/"
+    if 'state' in kwargs.keys():
+        kwargs['jurisdiction'] = _jurisdiction_id(kwargs['state'])
+    
     if len(kwargs ) > 0:
-        kwargs["per_page"] = 500
+        kwargs["per_page"] = 20
         kwargs["page"] = 1
     results = []
-    new_results = _get(uri, params=kwargs)
+    new_results = _get(uri, params=kwargs)['results']
     while len(new_results) > 0:
         results += new_results
         kwargs["page"] += 1
         sleep(1)
-        new_results = _get(uri, params=kwargs)
-    # if query in args, search all bills by q
-    # elif jurisdiction in args, search by state id
+        # When the search runs out of pages, the API returns not found
+        try:
+            new_results = _get(uri, params=kwargs)['results']
+        except NotFound:
+            break
 
     return results
 
@@ -458,3 +463,7 @@ def get_district(boundary_id, fields=None):
     """
     uri = "/districts/boundary/{0}/".format(boundary_id)
     return _get(uri, params=dict(fields=fields))
+
+
+def _jurisdiction_id(state):
+    return "ocd-jurisdiction/country:us/state:{0}/government".format(state.lower())

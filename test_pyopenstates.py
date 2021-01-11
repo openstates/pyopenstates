@@ -93,7 +93,7 @@ class Test(unittest.TestCase):
         """A basic full-text search returns results that contain the query
         string"""
         query = "taxi"
-        results = pyopenstates.search_bills(state="dc", q=query)
+        results = pyopenstates.search_bills(state="ny", q=query)
         self.assertGreater(len(results), 1)
         match = False
         for result in results:
