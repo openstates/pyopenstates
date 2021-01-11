@@ -286,7 +286,7 @@ def get_bill(uid=None, state=None, session=None, bill_id=None, **kwargs):
         if state or session or bill_id:
             raise ValueError("Must specify an Open States bill (uid), or the "
                              "state, session, and bill ID")
-        return _get("ocd-bill/{}".format(uid), params=kwargs)
+        return _get("bills/ocd-bill/{}".format(uid), params=kwargs)
     else:
         if not state or not session or not bill_id:
             raise ValueError("Must specify an Open States bill (uid), "

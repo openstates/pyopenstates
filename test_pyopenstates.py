@@ -114,11 +114,8 @@ class Test(unittest.TestCase):
 
     def testBillDetailsByUID(self):
         """Bill details by UID"""
-        _id = "CAB00004148"
-        title = "An act to amend Section 1750.1 of the Business and " \
-                "Professions Code, and to amend Section 104830 " \
-                "of, and to add Section 104762 to, the Health and Safety " \
-                "Code, relating to oral health."
+        _id = "6dc08e5d-3d62-42c0-831d-11487110c800"
+        title = "Coronavirus Relief Act 3.0."
 
         bill = pyopenstates.get_bill(_id)
 
