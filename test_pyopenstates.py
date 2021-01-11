@@ -54,7 +54,7 @@ class Test(unittest.TestCase):
         keys = metadata.keys()
         for field in fields:
             self.assertIn(field, keys)
-        self.assertEqual(metadata["name"], "North C arolina")
+        self.assertEqual(metadata["name"], "North Carolina")
 
     def testSubsetStateMetadataFields(self):
         """Requesting specific fields in state metadata returns only those
@@ -68,20 +68,21 @@ class Test(unittest.TestCase):
         for field in returned_fields:
             self.assertIn(field, requested_fields)
 
-    def testDownloadCSV(self):
-        """Downloading bulk data on a state in CSV format"""
-        zip_file = BytesIO()
-        pyopenstates.download_bulk_data("AK", zip_file, data_format="csv")
-        zip = ZipFile(zip_file)
-        for filename in zip.namelist():
-            self.assertTrue(filename.endswith(".csv"))
+    # def testDownloadCSV(self):
+    #     """Downloading bulk data on a state in CSV format"""
+    #     zip_file = BytesIO()
+    #     pyopenstates.download_bulk_data("AK", zip_file, data_format="csv")
+    #     zip = ZipFile(zip_file)
+    #     for filename in zip.namelist():
+    #         self.assertTrue(filename.endswith(".csv"))
 
-    def testDownloadJSON(self):
-        """Downloading bulk data on a state in JSON format"""
-        zip_file = BytesIO()
-        pyopenstates.download_bulk_data("AK", zip_file)
-        zip = ZipFile(zip_file)
-        self.assertIn("metadata.json", zip.namelist())
+    # def testDownloadJSON(self):
+    #     """Downloading bulk data on a state in JSON format"""
+    #     zip_file = BytesIO()
+    #     pyopenstates.download_bulk_data("AK", zip_file)
+    #     zip = ZipFile(zip_file)
+    #     self.assertIn("metadata.json", zip.namelist())
+
 
     def testInvalidState(self):
         """Specifying an invalid state raises a NotFound exception"""
@@ -103,18 +104,13 @@ class Test(unittest.TestCase):
 
     def testBillDetails(self):
         """Bill details"""
-        state = "ca"
-        term = "20092010"
-        bill_id = "AB 667"
-        title = "An act to amend Section 1750.1 of the Business and " \
-                "Professions Code, and to amend Section 104830 " \
-                "of, and to add Section 104762 to, the Health and Safety " \
-                "Code, relating to oral health."
+        state = "nc"
+        session = "2019"
+        bill_id = "HB 1105"
 
-        bill = pyopenstates.get_bill(state=state, term=term, bill_id=bill_id)
+        bill = pyopenstates.get_bill(state=state, session=session, bill_id=bill_id)
 
-        self.assertEqual(bill["bill_id"], bill_id)
-        self.assertEqual(bill["title"], title)
+        self.assertEqual(bill["identifier"], bill_id)
 
     def testBillDetailsByUID(self):
         """Bill details by UID"""

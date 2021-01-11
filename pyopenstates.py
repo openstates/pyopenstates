@@ -145,6 +145,7 @@ def get_metadata(state=None, fields=None):
         uri += "/ocd-jurisdiction/country:us/state:{0}/government".format(state.lower())
         state_response = _get(uri, params=params)
         if fields is not None:
+            print(fields)
             return {k: state_response[k] for k in fields}
     else:
         params['page'] = '1'
@@ -179,18 +180,15 @@ def download_bulk_data(state, file_object, data_format="json"):
 
     """
     if data_format.lower() == "json":
-        field = "latest_json_url"
-    elif data_format.lower() == "csv":
-        field = "latest_csv_url"
+        field = "id"
+    #elif data_format.lower() == "csv":
+        #field = "latest_csv_url"
     else:
         raise ValueError("data_format must be json or csv")
-    url = get_metadata(state, fields=field)[field]
-    response = session.get(url)
-    if response.status_code != 200:
-        if response.status_code == 404:
-            raise NotFound("Not found: {0}".format(response.url))
-        else:
-            raise APIError(response.text)
+    url = "jurisdictions"
+    params = dict()
+    url += "/ocd-jurisdiction/country:us/state:{0}/government".format(state.lower())
+    response = _get(url, params=params)
 
     file_object.write(response.content)
 
@@ -250,7 +248,7 @@ def search_bills(**kwargs):
         Use the ``fields`` parameter to specify a custom list of fields to
         return.
     """
-    uri = "bills/"
+    uri = "/ocd-bill/"
     if len(kwargs ) > 0:
         kwargs["per_page"] = 500
         kwargs["page"] = 1
@@ -261,11 +259,13 @@ def search_bills(**kwargs):
         kwargs["page"] += 1
         sleep(1)
         new_results = _get(uri, params=kwargs)
+    # if query in args, search all bills by q
+    # elif jurisdiction in args, search by state id
 
     return results
 
 
-def get_bill(uid=None, state=None, term=None, bill_id=None, **kwargs):
+def get_bill(uid=None, state=None, session=None, bill_id=None, **kwargs):
     """
     Returns details of a specific bill Can be identified my the Open States
     unique bill id (uid), or by specifying the state, term, and
@@ -283,15 +283,15 @@ def get_bill(uid=None, state=None, term=None, bill_id=None, **kwargs):
         The :ref:`Bill` details as a dictionary
     """
     if uid:
-        if state or term or bill_id:
+        if state or session or bill_id:
             raise ValueError("Must specify an Open States bill (uid), or the "
-                             "state, term, and bill ID")
-        return _get("/bills/{}".format(uid), params=kwargs)
+                             "state, session, and bill ID")
+        return _get("ocd-bill/{}".format(uid), params=kwargs)
     else:
-        if not state or not term or not bill_id:
+        if not state or not session or not bill_id:
             raise ValueError("Must specify an Open States bill (uid), "
                              "or the state, term, and bill ID")
-        return _get("/bills/{}/{}/{}/".format(state.lower(), term, bill_id),
+        return _get("bills/{}/{}/{}".format(state.lower(), session, bill_id),
                     params=kwargs)
 
 
