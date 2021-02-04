@@ -27,7 +27,8 @@ __version__ = "1.2.0"
 
 API_ROOT = "https://v3.openstates.org"
 DEFAULT_USER_AGENT = "pyopenstates/{0}".format(__version__)
-ENVIRON_API_KEY = os.environ.get('OPENSTATES_API_KEY')
+API_KEY_ENV_VAR = 'OPENSTATES_API_KEY'
+ENVIRON_API_KEY = os.environ.get(API_KEY_ENV_VAR)
 
 session = Session()
 session.headers.update({"Accept": 'application/json'})
@@ -35,7 +36,7 @@ session.headers.update({"User-Agent": DEFAULT_USER_AGENT})
 if ENVIRON_API_KEY:
     session.headers.update({'X-Api-Key': ENVIRON_API_KEY})
 else:
-    print("Warning: No API Key found, set API_KEY")
+    print("Warning: No API Key found, set {}".format(API_KEY_ENV_VAR))
 
 #  Python 2 comparability hack
 if version_info[0] >= 3:
