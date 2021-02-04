@@ -28,7 +28,7 @@ __version__ = "1.2.0"
 API_ROOT = "https://v3.openstates.org"
 DEFAULT_USER_AGENT = "pyopenstates/{0}".format(__version__)
 API_KEY_ENV_VAR = 'OPENSTATES_API_KEY'
-ENVIRON_API_KEY = os.environ.get(API_KEY_ENV_VAR)
+ENVIRON_API_KEY = os.environ.get('OPENSTATES_API_KEY')
 
 session = Session()
 session.headers.update({"Accept": 'application/json'})
@@ -67,6 +67,7 @@ def _get(uri, params=None):
     Returns:
         JSON as a Python dictionary
     """
+    print("GET {} {}".format(uri, params))
 
     def _convert_timestamps(result):
         """Converts a string timestamps from an api result API to a datetime"""
@@ -326,7 +327,7 @@ def search_legislators(**kwargs):
     return _get("/legislators/", params=kwargs)
 
 
-def get_legislator(leg_id, fields=None):
+def get_legislator(leg_id):
     """
     Gets a legislator's details
 
@@ -337,10 +338,13 @@ def get_legislator(leg_id, fields=None):
     Returns:
         The requested :ref:`Legislator` details as a dictionary
     """
-    return _get("/legislators/{0}/".format(leg_id), params=dict(fields=fields))
+    if not leg_id.startswith('ocd-person/'):
+        leg_id = 'ocd-person/' + leg_id
+    print(leg_id)
+    return _get("people/", params={'id':[leg_id]})['results'][0]
 
 
-def locate_legislators(lat, long, fields=None):
+def locate_legislators(lat, lng, fields=None):
     """
     Returns a list of legislators for the given latitude/longitude coordinates
 
@@ -353,9 +357,9 @@ def locate_legislators(lat, long, fields=None):
         A list of matching :ref:`Legislator` dictionaries
 
     """
-    return _get("/legislators/geo/", params=dict(lat=float(lat),
-                                                 long=float(long),
-                                                 fields=fields))
+    return _get("people.geo/", params=dict(lat=float(lat),
+                                                 lng=float(lng),
+                                                 fields=fields))['results']
 
 
 def search_committees(**kwargs):
