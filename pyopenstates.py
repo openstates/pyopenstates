@@ -67,8 +67,6 @@ def _get(uri, params=None):
     Returns:
         JSON as a Python dictionary
     """
-    print("GET {} {}".format(uri, params))
-
     def _convert_timestamps(result):
         """Converts a string timestamps from an api result API to a datetime"""
         if type(result) == dict:
@@ -163,44 +161,44 @@ def get_organizations(state):
     return state_response['organizations']
 
 
-def download_bulk_data(state, file_object, data_format="json"):
-    """
-    Downloads a zip containing bulk data on a given state to a given file
-    object
+# def download_bulk_data(state, file_object, data_format="json"):
+#     """
+#     Downloads a zip containing bulk data on a given state to a given file
+#     object
 
-    Args:
-        state: The abbreviation of the state
-        file_object: A file or file-like object
-        data_format: ``json`` or ``csv``
+#     Args:
+#         state: The abbreviation of the state
+#         file_object: A file or file-like object
+#         data_format: ``json`` or ``csv``
 
-    .. NOTE::
-        ``json`` format provides much more detail than ``csv``.
+#     .. NOTE::
+#         ``json`` format provides much more detail than ``csv``.
 
-    Examples:
-        ::
+#     Examples:
+#         ::
 
-            # Saving Ohio's data to a file on disk
-            with open("ohio-json.zip", "wb") as ohio_zip_file:
-                pyopenstates.download_bulk_data("OH", ohio_zip_file)
+#             # Saving Ohio's data to a file on disk
+#             with open("ohio-json.zip", "wb") as ohio_zip_file:
+#                 pyopenstates.download_bulk_data("OH", ohio_zip_file)
 
-            # Or download it to memory
-            from io import BytesIO
-            mem_zip = BytesIO()
-            pyopenstates.download_bulk_data("OH", mem_zip)
+#             # Or download it to memory
+#             from io import BytesIO
+#             mem_zip = BytesIO()
+#             pyopenstates.download_bulk_data("OH", mem_zip)
 
-    """
-    if data_format.lower() == "json":
-        field = "id"
-    #elif data_format.lower() == "csv":
-        #field = "latest_csv_url"
-    else:
-        raise ValueError("data_format must be json or csv")
-    url = "jurisdictions"
-    params = dict()
-    url += "/ocd-jurisdiction/country:us/state:{0}/government".format(state.lower())
-    response = _get(url, params=params)
+#     """
+#     if data_format.lower() == "json":
+#         field = "id"
+#     #elif data_format.lower() == "csv":
+#         #field = "latest_csv_url"
+#     else:
+#         raise ValueError("data_format must be json or csv")
+#     url = "jurisdictions"
+#     params = dict()
+#     url += "/ocd-jurisdiction/country:us/state:{0}/government".format(state.lower())
+#     response = _get(url, params=params)
 
-    file_object.write(response.content)
+#     file_object.write(response.content)
 
 
 def search_bills(**kwargs):
@@ -301,7 +299,8 @@ def get_bill(uid=None, state=None, session=None, bill_id=None, **kwargs):
         if state or session or bill_id:
             raise ValueError("Must specify an Open States bill (uid), or the "
                              "state, session, and bill ID")
-        return _get("bills/ocd-bill/{}".format(uid), params=kwargs)
+        uid = _fix_id_string('ocd-bill/', uid)
+        return _get("bills/{}".format(uid), params=kwargs)
     else:
         if not state or not session or not bill_id:
             raise ValueError("Must specify an Open States bill (uid), "
@@ -347,9 +346,7 @@ def get_legislator(leg_id):
     Returns:
         The requested :ref:`Legislator` details as a dictionary
     """
-    if not leg_id.startswith('ocd-person/'):
-        leg_id = 'ocd-person/' + leg_id
-    print(leg_id)
+    leg_id = _fix_id_string('ocd-person/', leg_id)
     return _get("people/", params={'id':[leg_id]})['results'][0]
 
 
@@ -369,77 +366,6 @@ def locate_legislators(lat, lng, fields=None):
     return _get("people.geo/", params=dict(lat=float(lat),
                                                  lng=float(lng),
                                                  fields=fields))['results']
-
-
-def search_committees(**kwargs):
-    """
-    Search for and return a list of matching committees
-
-    Args:
-        **kwargs: One or more filter keyword arguments
-
-    - ``committee`` - Name of committee.
-    - ``subcommittee`` - Name of subcommittee. (if None, object describes the
-    committee)
-    - ``chamber`` - Chamber committee belongs to: ``upper``, ``lower``, or `
-    `joint``
-    - ``state`` - State abbreviation
-
-    Returns:
-        A list of matching :ref:`Committee` dictionaries
-    """
-    return _get("/committees/", params=kwargs)
-
-
-def get_committee(com_id, fields=None):
-    """
-    Gets committee details
-
-    Args:
-        com_id: Open States committee ID
-        fields: An optional, custom set of fields to return
-
-    Returns:
-        The requested :ref:`Committee` details as a dictionary
-    """
-    return _get("/committees/{0}/".format(com_id), params=dict(fields=fields))
-
-
-def search_events(**kwargs):
-    """
-    Searches events
-
-    Events are not available in all states, to ensure that events are
-    available check the ``feature_flags`` list in a
-    states’ State Metadata.
-
-    Args:
-        **kwargs: One or more search filters
-
-    - ``state`` - State abbreviation.
-    - ``type`` - Categorized event type. (``committee:meeting`` for now)
-
-    This method also allows specifying an alternate output format, by
-    specifying ``format=rss`` or ``format=ics``.
-
-    Returns:
-        A list of matching :ref:`Event` dictionaries
-    """
-    return _get("/events/", params=kwargs)
-
-
-def get_event(event_id, fields=None):
-    """
-    Gets event details
-
-    Args:
-        event_id: The Open States Event UUID
-        fields: An optional list of fields to return
-
-    Returns:
-        The requested :ref:`Event` details as a dictionary
-    """
-    return _get("/events/{0}/".format(event_id), params=dict(fields=fields))
 
 
 def search_districts(state, chamber):
@@ -463,20 +389,16 @@ def search_districts(state, chamber):
             if org['classification'] == chamber:
                 return org['districts']
 
-def get_district(boundary_id, fields=None):
-    """
-    Gets district details
 
-    Args:
-        boundary_id: The boundary ID
-        fields: Optionally specify a custom list of fields to return
-
-    Returns:
-        The requested :ref:`District` details as a dictionary
-    """
-    uri = "/districts/boundary/{0}/".format(boundary_id)
-    return _get(uri, params=dict(fields=fields))
+def _fix_id_string(prefix, id):
+    if id.startswith(prefix):
+        return id
+    else:
+        return prefix + id
 
 
 def _jurisdiction_id(state):
-    return "ocd-jurisdiction/country:us/state:{0}/government".format(state.lower())
+    if state.startswith('ocd-jurisdiction/'):
+        return state
+    else:
+        return "ocd-jurisdiction/country:us/state:{0}/government".format(state.lower())

@@ -176,7 +176,6 @@ class Test(unittest.TestCase):
         lng = -78.78
         state = "North Carolina"
         results = pyopenstates.locate_legislators(lat, lng)
-        print(results)
         self.assertGreater(len(results), 0)
         for legislator in results:
             self.assertEqual(legislator["jurisdiction"]['name'], state)
@@ -189,14 +188,6 @@ class Test(unittest.TestCase):
         self.assertGreater(len(results), 2)
         for district in results:
             self.assertEqual(district["role"], 'Representative')
-
-    def testDistrictBoundary(self):
-        """District boundary details"""
-        boundary_id = "ocd-division/country:us/state:nc/sldl:10"
-        _id = "nc-lower-10"
-        boundry = pyopenstates.get_district(boundary_id)
-        self.assertEqual(boundry["boundary_id"], boundary_id)
-        self.assertEqual(boundry["id"], _id)
 
     def testTimestampConversionInList(self):
         """Timestamp conversion in a list"""
