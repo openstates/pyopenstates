@@ -184,12 +184,11 @@ class Test(unittest.TestCase):
     def testDistrictSearch(self):
         """District search"""
         state = "nc"
-        name = "North Carolina General Assembly"
-        results = pyopenstates.search_districts(state=state, name=name)
+        chamber = "lower"
+        results = pyopenstates.search_districts(state, chamber)
         self.assertGreater(len(results), 2)
         for district in results:
-            self.assertEqual(district["state"], state)
-            self.assertEqual(district["name"], name)
+            self.assertEqual(district["role"], 'Representative')
 
     def testDistrictBoundary(self):
         """District boundary details"""

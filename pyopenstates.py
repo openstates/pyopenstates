@@ -442,25 +442,26 @@ def get_event(event_id, fields=None):
     return _get("/events/{0}/".format(event_id), params=dict(fields=fields))
 
 
-def search_districts(state, name):
+def search_districts(state, chamber):
     """
     Search for districts
 
     Args:
         state: The state to search in
-        name: Name of the legislature
+        chamber: the upper or lower legislative chamber
         fields: Optionally specify a custom list of fields to return
 
     Returns:
        A list of matching :ref:`District` dictionaries
     """
-    jurisdiction = get_metadata(state=state)
-    print(jurisdiction)
-    organizations = jurisdiction['organizations']
-    for org in organizations:
-        if org['name'] == name:
-            return org['districts']
-
+    if chamber:
+        chamber = chamber.lower()
+        if chamber not in ["upper", "lower"]:
+            raise ValueError('Chamber must be "upper" or "lower"')
+        organizations = get_organizations(state=state)
+        for org in organizations:
+            if org['classification'] == chamber:
+                return org['districts']
 
 def get_district(boundary_id, fields=None):
     """
