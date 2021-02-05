@@ -50,7 +50,6 @@ class Test(unittest.TestCase):
         state_code = "NC"
         fields = ['id', 'name', 'classification', 'division_id', 'url']
         metadata = pyopenstates.get_metadata(state_code)
-        print(metadata)
         keys = metadata.keys()
         for field in fields:
             self.assertIn(field, keys)
@@ -67,6 +66,13 @@ class Test(unittest.TestCase):
             self.assertIn(field, returned_fields)
         for field in returned_fields:
             self.assertIn(field, requested_fields)
+    
+    def testGetOrganizations(self):
+        """Get all organizations for a given state"""
+        state_code = "NC"
+        orgs = pyopenstates.get_organizations(state_code)
+        names = [org['name'] for org in orgs]
+        self.assertIn('North Carolina General Assembly', names)
 
     # def testDownloadCSV(self):
     #     """Downloading bulk data on a state in CSV format"""
@@ -175,30 +181,15 @@ class Test(unittest.TestCase):
         for legislator in results:
             self.assertEqual(legislator["jurisdiction"]['name'], state)
 
-    def testCommitteeSearch(self):
-        """Committee search"""
-        state = "dc"
-        results = pyopenstates.search_committees(state=state)
-        self.assertGreater(len(results), 2)
-        for committee in results:
-            self.assertEqual(committee["state"], state.lower())
-
-    def testCommitteeDetails(self):
-        """Committee details"""
-        _id = "DCC000028"
-        comittee = "Transportation and the Environment"
-        self.assertEqual(pyopenstates.get_committee(_id)["committee"],
-                         comittee)
-
     def testDistrictSearch(self):
         """District search"""
         state = "nc"
-        chamber = "lower"
-        results = pyopenstates.search_districts(state=state, chamber=chamber)
+        name = "North Carolina General Assembly"
+        results = pyopenstates.search_districts(state=state, name=name)
         self.assertGreater(len(results), 2)
         for district in results:
-            self.assertEqual(district["abbr"], state.lower())
-            self.assertEqual(district["chamber"], chamber.lower())
+            self.assertEqual(district["state"], state)
+            self.assertEqual(district["name"], name)
 
     def testDistrictBoundary(self):
         """District boundary details"""

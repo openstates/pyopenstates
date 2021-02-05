@@ -148,10 +148,19 @@ def get_metadata(state=None, fields=None):
         state_response = _get(uri, params=params)
         if fields is not None:
             return {k: state_response[k] for k in fields}
+        else:
+            return state_response
     else:
         params['page'] = '1'
         params['per_page'] = '52'
         return _get(uri, params=params)["results"]
+
+
+def get_organizations(state):
+    uri = "jurisdictions"
+    uri += '/' + _jurisdiction_id(state)
+    state_response = _get(uri, params={'include': 'organizations'})
+    return state_response['organizations']
 
 
 def download_bulk_data(state, file_object, data_format="json"):
@@ -433,25 +442,24 @@ def get_event(event_id, fields=None):
     return _get("/events/{0}/".format(event_id), params=dict(fields=fields))
 
 
-def search_districts(state, chamber, fields=None):
+def search_districts(state, name):
     """
     Search for districts
 
     Args:
         state: The state to search in
-        chamber: the upper or lower legislative chamber
+        name: Name of the legislature
         fields: Optionally specify a custom list of fields to return
 
     Returns:
        A list of matching :ref:`District` dictionaries
     """
-    uri = "/districts/{}/".format(state.lower())
-    if chamber:
-        chamber = chamber.lower()
-        uri += "{}/".format(chamber)
-        if chamber not in ["upper", "lower"]:
-            raise ValueError('Chamber must be "upper" or "lower"')
-        return _get(uri, params=dict(fields=fields))
+    jurisdiction = get_metadata(state=state)
+    print(jurisdiction)
+    organizations = jurisdiction['organizations']
+    for org in organizations:
+        if org['name'] == name:
+            return org['districts']
 
 
 def get_district(boundary_id, fields=None):
