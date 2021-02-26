@@ -6,12 +6,12 @@ on:
   pull_request:
     branches: [master]
 
-strategy:
-  matrix:
-    python: [2.7, 3.7]
 
 jobs:
   test:
+    strategy:
+      matrix:
+        python: [2.7, 3.7]
     steps:
       # Python & dependency installation
       - uses: actions/checkout@v2
