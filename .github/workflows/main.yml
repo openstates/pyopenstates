@@ -10,17 +10,20 @@ strategy:
   matrix:
     python: [2.7, 3.7]
 
-steps:
-  # Python & dependency installation
-  - uses: actions/checkout@v2
-  - name: setup Python
-    uses: actions/setup-python@v2
-    with:
-      python-version: ${{ matrix.python }}
-  - name: install requirements
-    run: "pip install -r requirements.txt -r dev-requirements.txt"
-  - name: docs
-    run: (cd docs && make html)
-  - name: run tests
-    run: "python test_pyopenstates.py"
-  - run: "python setup.py bdist_wheel"
+jobs:
+  test:
+    steps:
+      # Python & dependency installation
+      - uses: actions/checkout@v2
+      - name: setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
+      - name: install requirements
+        run: "pip install -r requirements.txt -r dev-requirements.txt"
+      - name: docs
+        run: (cd docs && make html)
+      - name: run tests
+        run: "python test_pyopenstates.py"
+      - run: "python setup.py bdist_wheel"
+    runs-on: ubuntu-20.04
