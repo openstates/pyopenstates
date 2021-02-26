@@ -25,5 +25,7 @@ jobs:
         run: (cd docs && make html)
       - name: run tests
         run: "python test_pyopenstates.py"
+        env:
+          OPENSTATES_API_KEY: ${{ secrets.OPENSTATES_API_KEY }}
       - run: "python setup.py bdist_wheel"
     runs-on: ubuntu-20.04
