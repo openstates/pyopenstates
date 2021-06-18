@@ -48,22 +48,17 @@ class Test(unittest.TestCase):
     def testStateMetadata(self):
         """All default state metadata fields are returned"""
         state_code = "NC"
-        fields = ['name', 'latest_csv_url', 'latest_csv_date', 'chambers',
-                  'capitol_timezone', 'id', 'latest_json_url',
-                  'session_details', 'terms','latest_json_date',
-                  'latest_update', 'abbreviation', 'legislature_name',
-                  'feature_flags', 'legislature_url']
+        fields = ['id', 'name', 'classification', 'division_id', 'url']
         metadata = pyopenstates.get_metadata(state_code)
         keys = metadata.keys()
         for field in fields:
             self.assertIn(field, keys)
-        self.assertEqual(metadata["abbreviation"], state_code.lower())
+        self.assertEqual(metadata["name"], "North Carolina")
 
     def testSubsetStateMetadataFields(self):
         """Requesting specific fields in state metadata returns only those
         fields"""
-        requested_fields = ["id", "latest_json_date", "latest_json_url",
-                            "latest_update"]
+        requested_fields = ["id", "name", "url"]
         metadata = pyopenstates.get_metadata("OH", fields=requested_fields)
         returned_fields = metadata.keys()
 
@@ -71,21 +66,29 @@ class Test(unittest.TestCase):
             self.assertIn(field, returned_fields)
         for field in returned_fields:
             self.assertIn(field, requested_fields)
+    
+    def testGetOrganizations(self):
+        """Get all organizations for a given state"""
+        state_code = "NC"
+        orgs = pyopenstates.get_organizations(state_code)
+        names = [org['name'] for org in orgs]
+        self.assertIn('North Carolina General Assembly', names)
 
-    def testDownloadCSV(self):
-        """Downloading bulk data on a state in CSV format"""
-        zip_file = BytesIO()
-        pyopenstates.download_bulk_data("AK", zip_file, data_format="csv")
-        zip = ZipFile(zip_file)
-        for filename in zip.namelist():
-            self.assertTrue(filename.endswith(".csv"))
+    # def testDownloadCSV(self):
+    #     """Downloading bulk data on a state in CSV format"""
+    #     zip_file = BytesIO()
+    #     pyopenstates.download_bulk_data("AK", zip_file, data_format="csv")
+    #     zip = ZipFile(zip_file)
+    #     for filename in zip.namelist():
+    #         self.assertTrue(filename.endswith(".csv"))
 
-    def testDownloadJSON(self):
-        """Downloading bulk data on a state in JSON format"""
-        zip_file = BytesIO()
-        pyopenstates.download_bulk_data("AK", zip_file)
-        zip = ZipFile(zip_file)
-        self.assertIn("metadata.json", zip.namelist())
+    # def testDownloadJSON(self):
+    #     """Downloading bulk data on a state in JSON format"""
+    #     zip_file = BytesIO()
+    #     pyopenstates.download_bulk_data("AK", zip_file)
+    #     zip = ZipFile(zip_file)
+    #     self.assertIn("metadata.json", zip.namelist())
+
 
     def testInvalidState(self):
         """Specifying an invalid state raises a NotFound exception"""
@@ -96,7 +99,7 @@ class Test(unittest.TestCase):
         """A basic full-text search returns results that contain the query
         string"""
         query = "taxi"
-        results = pyopenstates.search_bills(state="dc", q=query)
+        results = pyopenstates.search_bills(state="ny", q=query)
         self.assertGreater(len(results), 1)
         match = False
         for result in results:
@@ -107,26 +110,18 @@ class Test(unittest.TestCase):
 
     def testBillDetails(self):
         """Bill details"""
-        state = "ca"
-        term = "20092010"
-        bill_id = "AB 667"
-        title = "An act to amend Section 1750.1 of the Business and " \
-                "Professions Code, and to amend Section 104830 " \
-                "of, and to add Section 104762 to, the Health and Safety " \
-                "Code, relating to oral health."
+        state = "nc"
+        session = "2019"
+        bill_id = "HB 1105"
 
-        bill = pyopenstates.get_bill(state=state, term=term, bill_id=bill_id)
+        bill = pyopenstates.get_bill(state=state, session=session, bill_id=bill_id)
 
-        self.assertEqual(bill["bill_id"], bill_id)
-        self.assertEqual(bill["title"], title)
+        self.assertEqual(bill["identifier"], bill_id)
 
     def testBillDetailsByUID(self):
         """Bill details by UID"""
-        _id = "CAB00004148"
-        title = "An act to amend Section 1750.1 of the Business and " \
-                "Professions Code, and to amend Section 104830 " \
-                "of, and to add Section 104762 to, the Health and Safety " \
-                "Code, relating to oral health."
+        _id = "6dc08e5d-3d62-42c0-831d-11487110c800"
+        title = "Coronavirus Relief Act 3.0."
 
         bill = pyopenstates.get_bill(_id)
 
@@ -134,22 +129,25 @@ class Test(unittest.TestCase):
 
     def testBillDetailInputs(self):
         """Bill detail inputs"""
-        state = "ca"
-        term = "20092010"
-        bill_id = "AB 667"
-        _id = "CAB00004148"
+        state = "nc"
+        session = "2019"
+        bill_id = "HB 1105"
+        _id = "6dc08e5d-3d62-42c0-831d-11487110c800"
 
-        self.assertRaises(ValueError, pyopenstates.get_bill, _id, state, term,
+        self.assertRaises(ValueError, pyopenstates.get_bill, _id, state, session,
                           bill_id)
         self.assertRaises(ValueError, pyopenstates.get_bill, _id, state)
 
-    def testBillSearchSort(self):
-        """Sorting bill search results"""
-        sorted_bills = pyopenstates.search_bills(state="dc",
-                                                 search_window="term",
-                                                 sort="created_at")
-        self.assertGreater(sorted_bills[0]["created_at"],
-                           sorted_bills[-1]["created_at"])
+# with previous API versions, you could request 500 bills per page, but with v3,
+# can only request 20 per page. this test always hits the rate limit so not sure
+# this test makes sense anymore
+    # def testBillSearchSort(self):
+    #     """Sorting bill search results"""
+    #     sorted_bills = pyopenstates.search_bills(state="dc",
+    #                                              search_window="term",
+    #                                              sort="created_at")
+    #     self.assertGreater(sorted_bills[0]["created_at"],
+    #                        sorted_bills[-1]["created_at"])
 
     def testBillSearchMissingFilter(self):
         """Searching for bills with no filters raises APIError"""
@@ -167,53 +165,29 @@ class Test(unittest.TestCase):
 
     def testLegislatorDetails(self):
         """Legislator details"""
-        _id = "DCL000012"
-        full_name = "Marion Barry"
-        self.assertEqual(pyopenstates.get_legislator(_id)["full_name"],
-                         full_name)
+        _id = "adb58f21-f2fd-4830-85b6-f490b0867d14"
+        name = "Bryce E. Reeves"
+        self.assertEqual(pyopenstates.get_legislator(_id)["name"],
+                         name)
 
     def testLegislatorGeolocation(self):
         """Legislator geolocation"""
         lat = 35.79
-        long = -78.78
-        state = "nc"
-        results = pyopenstates.locate_legislators(lat, long)
+        lng = -78.78
+        state = "North Carolina"
+        results = pyopenstates.locate_legislators(lat, lng)
         self.assertGreater(len(results), 0)
         for legislator in results:
-            self.assertEqual(legislator["state"], state.lower())
-
-    def testCommitteeSearch(self):
-        """Committee search"""
-        state = "dc"
-        results = pyopenstates.search_committees(state=state)
-        self.assertGreater(len(results), 2)
-        for committee in results:
-            self.assertEqual(committee["state"], state.lower())
-
-    def testCommitteeDetails(self):
-        """Committee details"""
-        _id = "DCC000028"
-        comittee = "Transportation and the Environment"
-        self.assertEqual(pyopenstates.get_committee(_id)["committee"],
-                         comittee)
+            self.assertEqual(legislator["jurisdiction"]['name'], state)
 
     def testDistrictSearch(self):
         """District search"""
         state = "nc"
         chamber = "lower"
-        results = pyopenstates.search_districts(state=state, chamber=chamber)
+        results = pyopenstates.search_districts(state, chamber)
         self.assertGreater(len(results), 2)
         for district in results:
-            self.assertEqual(district["abbr"], state.lower())
-            self.assertEqual(district["chamber"], chamber.lower())
-
-    def testDistrictBoundary(self):
-        """District boundary details"""
-        boundary_id = "ocd-division/country:us/state:nc/sldl:10"
-        _id = "nc-lower-10"
-        boundry = pyopenstates.get_district(boundary_id)
-        self.assertEqual(boundry["boundary_id"], boundary_id)
-        self.assertEqual(boundry["id"], _id)
+            self.assertEqual(district["role"], 'Representative')
 
     def testTimestampConversionInList(self):
         """Timestamp conversion in a list"""
