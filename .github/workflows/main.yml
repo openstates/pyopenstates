@@ -11,7 +11,7 @@ jobs:
   test:
     strategy:
       matrix:
-        python: [2.7, 3.7]
+        python: [3.7, 3.10]
     steps:
       # Python & dependency installation
       - uses: actions/checkout@v2
