@@ -290,7 +290,7 @@ def search_legislators(**kwargs):
         A list of matching :ref:`Legislator` dictionaries
 
     """
-    return _get("/legislators/", params=kwargs)
+    return _get("people", params=kwargs)
 
 
 def get_legislator(leg_id):
