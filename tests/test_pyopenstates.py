@@ -48,7 +48,7 @@ class Test(unittest.TestCase):
     def testStateMetadata(self):
         """All default state metadata fields are returned"""
         state_code = "NC"
-        fields = ['id', 'name', 'classification', 'division_id', 'url']
+        fields = ["id", "name", "classification", "division_id", "url"]
         metadata = pyopenstates.get_metadata(state_code)
         keys = metadata.keys()
         for field in fields:
@@ -66,13 +66,13 @@ class Test(unittest.TestCase):
             self.assertIn(field, returned_fields)
         for field in returned_fields:
             self.assertIn(field, requested_fields)
-    
+
     def testGetOrganizations(self):
         """Get all organizations for a given state"""
         state_code = "NC"
         orgs = pyopenstates.get_organizations(state_code)
-        names = [org['name'] for org in orgs]
-        self.assertIn('North Carolina General Assembly', names)
+        names = [org["name"] for org in orgs]
+        self.assertIn("North Carolina General Assembly", names)
 
     # def testDownloadCSV(self):
     #     """Downloading bulk data on a state in CSV format"""
@@ -89,11 +89,9 @@ class Test(unittest.TestCase):
     #     zip = ZipFile(zip_file)
     #     self.assertIn("metadata.json", zip.namelist())
 
-
     def testInvalidState(self):
         """Specifying an invalid state raises a NotFound exception"""
-        self.assertRaises(pyopenstates.NotFound, pyopenstates.get_metadata,
-                          state="ZZ")
+        self.assertRaises(pyopenstates.NotFound, pyopenstates.get_metadata, state="ZZ")
 
     def testBillSearchFullText(self):
         """A basic full-text search returns results that contain the query
@@ -134,13 +132,14 @@ class Test(unittest.TestCase):
         bill_id = "HB 1105"
         _id = "6dc08e5d-3d62-42c0-831d-11487110c800"
 
-        self.assertRaises(ValueError, pyopenstates.get_bill, _id, state, session,
-                          bill_id)
+        self.assertRaises(
+            ValueError, pyopenstates.get_bill, _id, state, session, bill_id
+        )
         self.assertRaises(ValueError, pyopenstates.get_bill, _id, state)
 
-# with previous API versions, you could request 500 bills per page, but with v3,
-# can only request 20 per page. this test always hits the rate limit so not sure
-# this test makes sense anymore
+    # with previous API versions, you could request 500 bills per page, but with v3,
+    # can only request 20 per page. this test always hits the rate limit so not sure
+    # this test makes sense anymore
     # def testBillSearchSort(self):
     #     """Sorting bill search results"""
     #     sorted_bills = pyopenstates.search_bills(state="dc",
@@ -167,8 +166,7 @@ class Test(unittest.TestCase):
         """Legislator details"""
         _id = "adb58f21-f2fd-4830-85b6-f490b0867d14"
         name = "Bryce E. Reeves"
-        self.assertEqual(pyopenstates.get_legislator(_id)["name"],
-                         name)
+        self.assertEqual(pyopenstates.get_legislator(_id)["name"], name)
 
     def testLegislatorGeolocation(self):
         """Legislator geolocation"""
@@ -178,7 +176,7 @@ class Test(unittest.TestCase):
         results = pyopenstates.locate_legislators(lat, lng)
         self.assertGreater(len(results), 0)
         for legislator in results:
-            self.assertEqual(legislator["jurisdiction"]['name'], state)
+            self.assertEqual(legislator["jurisdiction"]["name"], state)
 
     def testDistrictSearch(self):
         """District search"""
@@ -187,7 +185,7 @@ class Test(unittest.TestCase):
         results = pyopenstates.search_districts(state, chamber)
         self.assertGreater(len(results), 2)
         for district in results:
-            self.assertEqual(district["role"], 'Representative')
+            self.assertEqual(district["role"], "Representative")
 
     def testTimestampConversionInList(self):
         """Timestamp conversion in a list"""
