@@ -93,3 +93,5 @@ ENV/
 
 # Sandbox
 sandbox.py
+
+site/

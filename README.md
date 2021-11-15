@@ -4,11 +4,11 @@ A Python client for the [Open States API v3](https://v3.openstates.org/docs).
 
 Source: [https://github.com/openstates/pyopenstates/](https://github.com/openstates/pyopenstates)
 
+Documentation: [https://openstates.github.io/pyopenstates/](https://openstates.github.io/pyopenstates/)
+
 Issues: [https://github.com/openstates/pyopenstates/issues](https://github.com/openstates/pyopenstates/issues)
 
 **Note: This library was recently updated to support Open States API v3, documentation & coverage is a bit behind, but we wanted to get a release out.  Feel free to contribute issues and/or fixes.**
-
-Also, documentation is currently a bit out of date as of the 2.0 transition, but will be updated soon.
 
 [![PyPI badge](https://badge.fury.io/py/pyopenstates.svg)](https://badge.fury.io/py/pyopenstates)
 [![Test Python](https://github.com/openstates/pyopenstates/actions/workflows/main.yml/badge.svg)](https://github.com/openstates/pyopenstates/actions/workflows/main.yml)
