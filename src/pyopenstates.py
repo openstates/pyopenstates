@@ -24,7 +24,7 @@ limitations under the License."""
 __version__ = "1.2.0"
 
 API_ROOT = "https://v3.openstates.org"
-DEFAULT_USER_AGENT = "pyopenstates/{0}".format(__version__)
+DEFAULT_USER_AGENT = f"pyopenstates/{__version__}"
 API_KEY_ENV_VAR = "OPENSTATES_API_KEY"
 ENVIRON_API_KEY = os.environ.get("OPENSTATES_API_KEY")
 
@@ -34,7 +34,7 @@ session.headers.update({"User-Agent": DEFAULT_USER_AGENT})
 if ENVIRON_API_KEY:
     session.headers.update({"X-Api-Key": ENVIRON_API_KEY})
 else:
-    print("Warning: No API Key found, set {}".format(API_KEY_ENV_VAR))
+    print(f"Warning: No API Key found, set {API_KEY_ENV_VAR}")
 
 
 class APIError(RuntimeError):
@@ -66,7 +66,7 @@ def _get(uri, params=None):
 
     def _convert_timestamps(result):
         """Converts a string timestamps from an api result API to a datetime"""
-        if type(result) == dict:
+        if isinstance(result, dict):
             for key in result.keys():
                 if isinstance(result[key], str):
                     try:
@@ -82,7 +82,7 @@ def _get(uri, params=None):
                     result[key] = _convert_timestamps(result[key])
                 elif isinstance(result, list):
                     result = list(map(lambda r: _convert_timestamps(r), result))
-        elif type(result) == list:
+        elif isinstance(result, list):
             result = list(map(lambda r: _convert_timestamps(r), result))
 
         return result
@@ -93,14 +93,14 @@ def _get(uri, params=None):
 
         return result
 
-    url = "{0}/{1}".format(API_ROOT, uri)
+    url = f"{API_ROOT}/{uri}"
     for param in params.keys():
-        if type(params[param]) == list:
+        if isinstance(params[param], list):
             params[param] = ",".join(params[param])
     response = session.get(url, params=params)
     if response.status_code != 200:
         if response.status_code == 404:
-            raise NotFound("Not found: {0}".format(response.url))
+            raise NotFound(f"Not found: {response.url}")
         else:
             raise APIError(response.text)
     return _convert(response.json())
@@ -109,9 +109,7 @@ def _get(uri, params=None):
 def set_user_agent(user_agent):
     """Appends a custom string to the default User-Agent string
     (e.g. ``pyopenstates/__version__ user_agent``)"""
-    session.headers.update(
-        {"User-Agent": "{0} {1}".format(DEFAULT_USER_AGENT, user_agent)}
-    )
+    session.headers.update({"User-Agent": f"{DEFAULT_USER_AGENT} {user_agent}"})
 
 
 def set_api_key(apikey):
@@ -259,16 +257,14 @@ def get_bill(uid=None, state=None, session=None, bill_id=None, **kwargs):
                 "state, session, and bill ID"
             )
         uid = _fix_id_string("ocd-bill/", uid)
-        return _get("bills/{}".format(uid), params=kwargs)
+        return _get(f"bills/{uid}", params=kwargs)
     else:
         if not state or not session or not bill_id:
             raise ValueError(
                 "Must specify an Open States bill (uid), "
                 "or the state, session, and bill ID"
             )
-        return _get(
-            "bills/{}/{}/{}".format(state.lower(), session, bill_id), params=kwargs
-        )
+        return _get(f"bills/{state.lower()}/{session}/{bill_id}", params=kwargs)
 
 
 def search_legislators(**kwargs):
@@ -363,4 +359,4 @@ def _jurisdiction_id(state):
     if state.startswith("ocd-jurisdiction/"):
         return state
     else:
-        return "ocd-jurisdiction/country:us/state:{0}/government".format(state.lower())
+        return f"ocd-jurisdiction/country:us/state:{state.lower()}/government"
