@@ -1,0 +1,4 @@
+## pyopenstates module
+
+::: pyopenstates
+
