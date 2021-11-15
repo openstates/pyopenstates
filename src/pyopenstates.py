@@ -51,6 +51,10 @@ class NotFound(APIError):
     pass
 
 
+def _make_params(**kwargs):
+    return {k: v for k, v in kwargs.items() if v is not None}
+
+
 def _get(uri, params=None):
     """
     An internal method for making API calls and error handling easy and
@@ -267,30 +271,30 @@ def get_bill(uid=None, state=None, session=None, bill_id=None, **kwargs):
         return _get(f"bills/{state.lower()}/{session}/{bill_id}", params=kwargs)
 
 
-def search_legislators(**kwargs):
+def search_legislators(
+    jurisdiction=None,
+    name=None,
+    id_=None,
+    org_classification=None,
+    district=None,
+    include=None,
+):
     """
-    Search for legislators
-
-    Args:
-        **kwargs: One or more search filters
-
-    - ``state`` - Filter by state.
-    - ``first_name`` -  Filter by first name.
-    - ``last_name`` - Filter by last name.
-    - ``chamber`` - Only legislators with a role in the specified chamber.
-    - ``active`` - ``True`` (default) to only include current legislators,
-    ``False`` will include all legislators
-    - ``term`` - Only legislators that have a role in a certain term.
-    - ``district`` - Only legislators that have represented the specified
-    district.
-    - ``party`` - Only legislators that have been associated with a specified
-    party.
+    Search for legislators.
 
     Returns:
         A list of matching :ref:`Legislator` dictionaries
 
     """
-    return _get("people", params=kwargs)
+    params = _make_params(
+        jurisdiction=jurisdiction,
+        name=name,
+        id=id_,
+        org_classification=org_classification,
+        district=district,
+        include=include,
+    )
+    return _get("people", params)["results"]
 
 
 def get_legislator(leg_id):

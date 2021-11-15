@@ -118,12 +118,13 @@ def testBillSearchMissingFilter():
 def testLegislatorSearch():
     """Legislator search"""
     state = "dc"
-    chamber = "upper"
-    results = pyopenstates.search_legislators(state=state, chamber=chamber)
+    org_classification = "legislature"
+    results = pyopenstates.search_legislators(jurisdiction=state, org_classification=org_classification)
     assert len(results) > 2
     for legislator in results:
-        assert legislator["state"] == state.lower()
-        assert legislator["chamber"] == chamber.lower()
+        print(legislator)
+        assert legislator["jurisdiction"]["name"] == "District of Columbia"
+        assert legislator["current_role"]["org_classification"] == org_classification
 
 
 def testLegislatorDetails():
