@@ -3,6 +3,7 @@
 """A Python client for the Open States API"""
 
 import os
+import dateutil.parser
 from datetime import datetime
 from requests import Session
 from time import sleep
@@ -72,29 +73,28 @@ def _get(uri, params=None):
         """Converts a string timestamps from an api result API to a datetime"""
         if isinstance(result, dict):
             for key in result.keys():
-                if isinstance(result[key], str):
+                if key in (
+                    "created_at",
+                    "updated_at",
+                    "latest_people_update",
+                    "latest_bill_update",
+                ):
                     try:
-                        result[key] = datetime.strptime(
-                            result[key], "%Y-%m-%d %H:%M:%S"
-                        )
+                        result[key] = dateutil.parser.parse(result[key])
                     except ValueError:
-                        try:
-                            result[key] = datetime.strptime(result[key], "%Y-%m-%d")
-                        except ValueError:
-                            pass
+                        pass
                 elif isinstance(result[key], dict):
                     result[key] = _convert_timestamps(result[key])
-                elif isinstance(result, list):
-                    result = list(map(lambda r: _convert_timestamps(r), result))
+                elif isinstance(result[key], list):
+                    result[key] = [_convert_timestamps(r) for r in result[key]]
         elif isinstance(result, list):
-            result = list(map(lambda r: _convert_timestamps(r), result))
+            result = [_convert_timestamps(r) for r in result]
 
         return result
 
     def _convert(result):
         """Convert results to standard Python data structures"""
         result = _convert_timestamps(result)
-
         return result
 
     url = f"{API_ROOT}/{uri}"

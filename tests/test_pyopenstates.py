@@ -122,7 +122,6 @@ def testLegislatorSearch():
     results = pyopenstates.search_legislators(jurisdiction=state, org_classification=org_classification)
     assert len(results) > 2
     for legislator in results:
-        print(legislator)
         assert legislator["jurisdiction"]["name"] == "District of Columbia"
         assert legislator["current_role"]["org_classification"] == org_classification
 
@@ -159,11 +158,11 @@ def testDistrictSearch():
 
 def testTimestampConversionInList():
     """Timestamp conversion in a list"""
-    bill = pyopenstates.search_bills(state="oh")[0]
+    bill = pyopenstates.search_bills(state="oh", q="HB 1")[0]
     assert isinstance(bill["created_at"], datetime)
 
 
 def testTimestampConversionInDict():
     """Timestamp conversion in a dictionary"""
     oh = pyopenstates.get_metadata(state="oh")
-    assert isinstance(oh["latest_update"], datetime)
+    assert isinstance(oh["latest_people_update"], datetime)
