@@ -2,9 +2,7 @@
 
 """A Python client for the Open States API"""
 
-from __future__ import unicode_literals, print_function, absolute_import
 import os
-from sys import version_info
 from datetime import datetime
 from requests import Session
 from time import sleep
@@ -38,10 +36,6 @@ if ENVIRON_API_KEY:
 else:
     print("Warning: No API Key found, set {}".format(API_KEY_ENV_VAR))
 
-#  Python 2 comparability hack
-if version_info[0] >= 3:
-    unicode = str
-
 
 class APIError(RuntimeError):
     """
@@ -71,7 +65,7 @@ def _get(uri, params=None):
         """Converts a string timestamps from an api result API to a datetime"""
         if type(result) == dict:
             for key in result.keys():
-                if type(result[key]) == unicode:
+                if isinstance(result[key], str):
                     try:
                         result[key] = datetime.strptime(result[key],
                                                         "%Y-%m-%d %H:%M:%S")
@@ -81,9 +75,9 @@ def _get(uri, params=None):
                                                             "%Y-%m-%d")
                         except ValueError:
                             pass
-                elif type(result[key]) == dict:
+                elif isinstance(result[key], dict):
                     result[key] = _convert_timestamps(result[key])
-                elif type(result) == list:
+                elif isinstance(result, list):
                     result = list(map(lambda r: _convert_timestamps(r),
                                       result))
         elif type(result) == list:
@@ -159,46 +153,6 @@ def get_organizations(state):
     uri += '/' + _jurisdiction_id(state)
     state_response = _get(uri, params={'include': 'organizations'})
     return state_response['organizations']
-
-
-# def download_bulk_data(state, file_object, data_format="json"):
-#     """
-#     Downloads a zip containing bulk data on a given state to a given file
-#     object
-
-#     Args:
-#         state: The abbreviation of the state
-#         file_object: A file or file-like object
-#         data_format: ``json`` or ``csv``
-
-#     .. NOTE::
-#         ``json`` format provides much more detail than ``csv``.
-
-#     Examples:
-#         ::
-
-#             # Saving Ohio's data to a file on disk
-#             with open("ohio-json.zip", "wb") as ohio_zip_file:
-#                 pyopenstates.download_bulk_data("OH", ohio_zip_file)
-
-#             # Or download it to memory
-#             from io import BytesIO
-#             mem_zip = BytesIO()
-#             pyopenstates.download_bulk_data("OH", mem_zip)
-
-#     """
-#     if data_format.lower() == "json":
-#         field = "id"
-#     #elif data_format.lower() == "csv":
-#         #field = "latest_csv_url"
-#     else:
-#         raise ValueError("data_format must be json or csv")
-#     url = "jurisdictions"
-#     params = dict()
-#     url += "/ocd-jurisdiction/country:us/state:{0}/government".format(state.lower())
-#     response = _get(url, params=params)
-
-#     file_object.write(response.content)
 
 
 def search_bills(**kwargs):
