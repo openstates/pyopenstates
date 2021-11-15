@@ -30,6 +30,8 @@ python-dateutil = "^2.8.2"
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
 flake8 = "^4.0.1"
+mkdocstrings = "^0.16.2"
+mkdocs-material = "^7.3.6"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

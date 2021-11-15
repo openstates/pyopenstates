@@ -1,0 +1,60 @@
+site_name: pyopenstates
+site_url: https://openstates.github.io/pyopenstates/
+site_author: James Turk
+site_description: A Python module for accessing the Open States API.
+copyright: Copyright &copy; 2021 Open States
+repo_url: https://github.com/openstates/pyopenstates
+repo_name: openstates/pyopenstates
+edit_uri: edit/main/docs/
+
+theme:
+  logo: assets/openstates.svg
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+
+  features:
+    #- navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - content.tabs.link
+  icon:
+    repo: fontawesome/brands/github
+markdown_extensions:
+  - admonition
+  - def_list
+  - pymdownx.highlight
+  - pymdownx.tabbed
+  - pymdownx.superfences
+  - toc:
+      permalink: true
+plugins:
+- search
+- mkdocstrings:
+    handlers:
+      python:
+        selection:
+          docstring_style: restructured-text
+        rendering:
+          show_source: false
+          show_root_full_path: false
+          show_root_toc_entry: false
+
+    watch:
+      - src/
+extra_css:
+  - assets/extra.css
+nav:
+  - 'index.md'
+  - 'changelog.md'
