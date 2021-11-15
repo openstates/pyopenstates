@@ -110,7 +110,9 @@ def testLegislatorSearch():
     """Legislator search"""
     state = "dc"
     org_classification = "legislature"
-    results = pyopenstates.search_legislators(jurisdiction=state, org_classification=org_classification)
+    results = pyopenstates.search_legislators(
+        jurisdiction=state, org_classification=org_classification
+    )
     assert len(results) > 2
     for legislator in results:
         assert legislator["jurisdiction"]["name"] == "District of Columbia"
