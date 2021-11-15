@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "pyopenstates"
+version = "2.0.0"
+description = "A Python module for accessing the Open States API & bulk data."
+authors = ["James Turk <james@openstates.org>", "Sean Whalen <whalenster@gmail.com>"]
+license = "Apache-2.0"
+readme = "README.rst"
+repository = "https://github.com/openstates/pyopenstates"
+classifiers = [
+  'Development Status :: 5 - Production/Stable',
+  'Topic :: Sociology :: History',
+  'Intended Audience :: Developers',
+  'Intended Audience :: Legal Industry',
+  "Intended Audience :: Science/Research",
+  'Operating System :: OS Independent',
+  'License :: OSI Approved :: Apache Software License',
+  'Programming Language :: Python :: 3',
+  'Programming Language :: Python :: 3.6',
+  'Programming Language :: Python :: 3.7',
+  'Programming Language :: Python :: 3.8',
+  'Programming Language :: Python :: 3.9',
+  'Programming Language :: Python :: 3.10',
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+requests = "^2.26.0"
+python-dateutil = "^2.8.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

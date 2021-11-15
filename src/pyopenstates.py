@@ -2,9 +2,8 @@
 
 """A Python client for the Open States API"""
 
-from __future__ import unicode_literals, print_function, absolute_import
 import os
-from sys import version_info
+import dateutil.parser
 from datetime import datetime
 from requests import Session
 from time import sleep
@@ -26,33 +25,35 @@ limitations under the License."""
 __version__ = "1.2.0"
 
 API_ROOT = "https://v3.openstates.org"
-DEFAULT_USER_AGENT = "pyopenstates/{0}".format(__version__)
-API_KEY_ENV_VAR = 'OPENSTATES_API_KEY'
-ENVIRON_API_KEY = os.environ.get('OPENSTATES_API_KEY')
+DEFAULT_USER_AGENT = f"pyopenstates/{__version__}"
+API_KEY_ENV_VAR = "OPENSTATES_API_KEY"
+ENVIRON_API_KEY = os.environ.get("OPENSTATES_API_KEY")
 
 session = Session()
-session.headers.update({"Accept": 'application/json'})
+session.headers.update({"Accept": "application/json"})
 session.headers.update({"User-Agent": DEFAULT_USER_AGENT})
 if ENVIRON_API_KEY:
-    session.headers.update({'X-Api-Key': ENVIRON_API_KEY})
+    session.headers.update({"X-Api-Key": ENVIRON_API_KEY})
 else:
-    print("Warning: No API Key found, set {}".format(API_KEY_ENV_VAR))
-
-#  Python 2 comparability hack
-if version_info[0] >= 3:
-    unicode = str
+    print(f"Warning: No API Key found, set {API_KEY_ENV_VAR}")
 
 
 class APIError(RuntimeError):
     """
     Raised when the Open States API returns an error
     """
+
     pass
 
 
 class NotFound(APIError):
     """Raised when the API cannot find the requested object"""
+
     pass
+
+
+def _make_params(**kwargs):
+    return {k: v for k, v in kwargs.items() if v is not None}
 
 
 def _get(uri, params=None):
@@ -67,44 +68,43 @@ def _get(uri, params=None):
     Returns:
         JSON as a Python dictionary
     """
+
     def _convert_timestamps(result):
         """Converts a string timestamps from an api result API to a datetime"""
-        if type(result) == dict:
+        if isinstance(result, dict):
             for key in result.keys():
-                if type(result[key]) == unicode:
+                if key in (
+                    "created_at",
+                    "updated_at",
+                    "latest_people_update",
+                    "latest_bill_update",
+                ):
                     try:
-                        result[key] = datetime.strptime(result[key],
-                                                        "%Y-%m-%d %H:%M:%S")
+                        result[key] = dateutil.parser.parse(result[key])
                     except ValueError:
-                        try:
-                            result[key] = datetime.strptime(result[key],
-                                                            "%Y-%m-%d")
-                        except ValueError:
-                            pass
-                elif type(result[key]) == dict:
+                        pass
+                elif isinstance(result[key], dict):
                     result[key] = _convert_timestamps(result[key])
-                elif type(result) == list:
-                    result = list(map(lambda r: _convert_timestamps(r),
-                                      result))
-        elif type(result) == list:
-            result = list(map(lambda r: _convert_timestamps(r), result))
+                elif isinstance(result[key], list):
+                    result[key] = [_convert_timestamps(r) for r in result[key]]
+        elif isinstance(result, list):
+            result = [_convert_timestamps(r) for r in result]
 
         return result
 
     def _convert(result):
         """Convert results to standard Python data structures"""
         result = _convert_timestamps(result)
-
         return result
 
-    url = "{0}/{1}".format(API_ROOT, uri)
+    url = f"{API_ROOT}/{uri}"
     for param in params.keys():
-        if type(params[param]) == list:
+        if isinstance(params[param], list):
             params[param] = ",".join(params[param])
     response = session.get(url, params=params)
     if response.status_code != 200:
         if response.status_code == 404:
-            raise NotFound("Not found: {0}".format(response.url))
+            raise NotFound(f"Not found: {response.url}")
         else:
             raise APIError(response.text)
     return _convert(response.json())
@@ -113,14 +113,13 @@ def _get(uri, params=None):
 def set_user_agent(user_agent):
     """Appends a custom string to the default User-Agent string
     (e.g. ``pyopenstates/__version__ user_agent``)"""
-    session.headers.update({"User-Agent": "{0} {1}".format(DEFAULT_USER_AGENT,
-                                                           user_agent)})
+    session.headers.update({"User-Agent": f"{DEFAULT_USER_AGENT} {user_agent}"})
 
 
 def set_api_key(apikey):
     """Sets API key. Can also be set as OPENSTATES_API_KEY environment
     variable."""
-    session.headers['X-Api-Key'] = apikey
+    session.headers["X-Api-Key"] = apikey
 
 
 def get_metadata(state=None, fields=None):
@@ -142,63 +141,23 @@ def get_metadata(state=None, fields=None):
     uri = "jurisdictions"
     params = dict()
     if state:
-        uri += '/' + _jurisdiction_id(state)
+        uri += "/" + _jurisdiction_id(state)
         state_response = _get(uri, params=params)
         if fields is not None:
             return {k: state_response[k] for k in fields}
         else:
             return state_response
     else:
-        params['page'] = '1'
-        params['per_page'] = '52'
+        params["page"] = "1"
+        params["per_page"] = "52"
         return _get(uri, params=params)["results"]
 
 
 def get_organizations(state):
     uri = "jurisdictions"
-    uri += '/' + _jurisdiction_id(state)
-    state_response = _get(uri, params={'include': 'organizations'})
-    return state_response['organizations']
-
-
-# def download_bulk_data(state, file_object, data_format="json"):
-#     """
-#     Downloads a zip containing bulk data on a given state to a given file
-#     object
-
-#     Args:
-#         state: The abbreviation of the state
-#         file_object: A file or file-like object
-#         data_format: ``json`` or ``csv``
-
-#     .. NOTE::
-#         ``json`` format provides much more detail than ``csv``.
-
-#     Examples:
-#         ::
-
-#             # Saving Ohio's data to a file on disk
-#             with open("ohio-json.zip", "wb") as ohio_zip_file:
-#                 pyopenstates.download_bulk_data("OH", ohio_zip_file)
-
-#             # Or download it to memory
-#             from io import BytesIO
-#             mem_zip = BytesIO()
-#             pyopenstates.download_bulk_data("OH", mem_zip)
-
-#     """
-#     if data_format.lower() == "json":
-#         field = "id"
-#     #elif data_format.lower() == "csv":
-#         #field = "latest_csv_url"
-#     else:
-#         raise ValueError("data_format must be json or csv")
-#     url = "jurisdictions"
-#     params = dict()
-#     url += "/ocd-jurisdiction/country:us/state:{0}/government".format(state.lower())
-#     response = _get(url, params=params)
-
-#     file_object.write(response.content)
+    uri += "/" + _jurisdiction_id(state)
+    state_response = _get(uri, params={"include": "organizations"})
+    return state_response["organizations"]
 
 
 def search_bills(**kwargs):
@@ -257,21 +216,21 @@ def search_bills(**kwargs):
         return.
     """
     uri = "bills/"
-    if 'state' in kwargs.keys():
-        kwargs['jurisdiction'] = _jurisdiction_id(kwargs['state'])
-    
-    if len(kwargs ) > 0:
+    if "state" in kwargs.keys():
+        kwargs["jurisdiction"] = _jurisdiction_id(kwargs["state"])
+
+    if len(kwargs) > 0:
         kwargs["per_page"] = 20
         kwargs["page"] = 1
     results = []
-    new_results = _get(uri, params=kwargs)['results']
+    new_results = _get(uri, params=kwargs)["results"]
     while len(new_results) > 0:
         results += new_results
         kwargs["page"] += 1
         sleep(1)
         # When the search runs out of pages, the API returns not found
         try:
-            new_results = _get(uri, params=kwargs)['results']
+            new_results = _get(uri, params=kwargs)["results"]
         except NotFound:
             break
 
@@ -297,42 +256,45 @@ def get_bill(uid=None, state=None, session=None, bill_id=None, **kwargs):
     """
     if uid:
         if state or session or bill_id:
-            raise ValueError("Must specify an Open States bill (uid), or the "
-                             "state, session, and bill ID")
-        uid = _fix_id_string('ocd-bill/', uid)
-        return _get("bills/{}".format(uid), params=kwargs)
+            raise ValueError(
+                "Must specify an Open States bill (uid), or the "
+                "state, session, and bill ID"
+            )
+        uid = _fix_id_string("ocd-bill/", uid)
+        return _get(f"bills/{uid}", params=kwargs)
     else:
         if not state or not session or not bill_id:
-            raise ValueError("Must specify an Open States bill (uid), "
-                             "or the state, session, and bill ID")
-        return _get("bills/{}/{}/{}".format(state.lower(), session, bill_id),
-                    params=kwargs)
+            raise ValueError(
+                "Must specify an Open States bill (uid), "
+                "or the state, session, and bill ID"
+            )
+        return _get(f"bills/{state.lower()}/{session}/{bill_id}", params=kwargs)
 
 
-def search_legislators(**kwargs):
+def search_legislators(
+    jurisdiction=None,
+    name=None,
+    id_=None,
+    org_classification=None,
+    district=None,
+    include=None,
+):
     """
-    Search for legislators
-
-    Args:
-        **kwargs: One or more search filters
-
-    - ``state`` - Filter by state.
-    - ``first_name`` -  Filter by first name.
-    - ``last_name`` - Filter by last name.
-    - ``chamber`` - Only legislators with a role in the specified chamber.
-    - ``active`` - ``True`` (default) to only include current legislators,
-    ``False`` will include all legislators
-    - ``term`` - Only legislators that have a role in a certain term.
-    - ``district`` - Only legislators that have represented the specified
-    district.
-    - ``party`` - Only legislators that have been associated with a specified
-    party.
+    Search for legislators.
 
     Returns:
         A list of matching :ref:`Legislator` dictionaries
 
     """
-    return _get("/legislators/", params=kwargs)
+    params = _make_params(
+        jurisdiction=jurisdiction,
+        name=name,
+        id=id_,
+        org_classification=org_classification,
+        district=district,
+        include=include,
+    )
+    return _get("people", params)["results"]
 
 
 def get_legislator(leg_id):
@@ -346,8 +308,8 @@ def get_legislator(leg_id):
     Returns:
         The requested :ref:`Legislator` details as a dictionary
     """
-    leg_id = _fix_id_string('ocd-person/', leg_id)
-    return _get("people/", params={'id':[leg_id]})['results'][0]
+    leg_id = _fix_id_string("ocd-person/", leg_id)
+    return _get("people/", params={"id": [leg_id]})["results"][0]
 
 
 def locate_legislators(lat, lng, fields=None):
@@ -363,9 +325,9 @@ def locate_legislators(lat, lng, fields=None):
         A list of matching :ref:`Legislator` dictionaries
 
     """
-    return _get("people.geo/", params=dict(lat=float(lat),
-                                                 lng=float(lng),
-                                                 fields=fields))['results']
+    return _get(
+        "people.geo/", params=dict(lat=float(lat), lng=float(lng), fields=fields)
+    )["results"]
 
 
 def search_districts(state, chamber):
@@ -386,8 +348,8 @@ def search_districts(state, chamber):
             raise ValueError('Chamber must be "upper" or "lower"')
         organizations = get_organizations(state=state)
         for org in organizations:
-            if org['classification'] == chamber:
-                return org['districts']
+            if org["classification"] == chamber:
+                return org["districts"]
 
 
 def _fix_id_string(prefix, id):
@@ -398,7 +360,7 @@ def _fix_id_string(prefix, id):
 
 
 def _jurisdiction_id(state):
-    if state.startswith('ocd-jurisdiction/'):
+    if state.startswith("ocd-jurisdiction/"):
         return state
     else:
-        return "ocd-jurisdiction/country:us/state:{0}/government".format(state.lower())
+        return f"ocd-jurisdiction/country:us/state:{state.lower()}/government"
