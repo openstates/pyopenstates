@@ -19,13 +19,16 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python }}
-      - name: install requirements
-        run: "pip install -r requirements.txt -r dev-requirements.txt"
-      - name: docs
-        run: (cd docs && make html)
-      - name: run tests
-        run: "python test_pyopenstates.py"
+      - name: install Poetry
+        uses: snok/install-poetry@v1.2.1
+      - name: set poetry config path
+        run: poetry config virtualenvs.path ~/.virtualenvs
+      - name: install dependencies
+        run: poetry install
+      - name: lint with flake8
+        run: poetry run flake8 --show-source --statistics --ignore=E203,E501,W503 src
+      - name: pytest
+        run: poetry run pytest
         env:
           OPENSTATES_API_KEY: ${{ secrets.OPENSTATES_API_KEY }}
-      - run: "python setup.py bdist_wheel"
     runs-on: ubuntu-20.04

@@ -4,16 +4,7 @@
 
 import pytest
 from datetime import datetime
-from time import sleep
 import pyopenstates
-
-
-# def setUp(self):
-#     pyopenstates.set_user_agent("test-suite")
-
-# def tearDown(self):
-#     # Wait between tests to avoid hitting the API limit
-#     sleep(0.5)
 
 
 def testOpenStatesMetadata():

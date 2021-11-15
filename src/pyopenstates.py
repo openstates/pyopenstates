@@ -4,7 +4,6 @@
 
 import os
 import dateutil.parser
-from datetime import datetime
 from requests import Session
 from time import sleep
 
