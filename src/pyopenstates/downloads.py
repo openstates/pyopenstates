@@ -1,13 +1,13 @@
 import csv
 import io
-import os
 import pathlib
 import requests
 import tempfile
 import zipfile
 from enum import Enum
 
-API_KEY = os.environ["OS_API_KEY"]
+from .config import ENVIRON_API_KEY
+
 TEMP_PATH = pathlib.Path(tempfile.gettempdir()) / "OS_ZIP_CACHE"
 
 
@@ -24,10 +24,9 @@ class FileType(Enum):
     Organizations = "_organizations.csv"
 
 
-def _get_download_url(jurisdiction: str, session: str, apikey: str) -> str:
-    sessions = requests.get(
-        f"https://v3.openstates.org/jurisdictions/{jurisdiction}?apikey={apikey}&include=legislative_sessions"
-    ).json()["legislative_sessions"]
+def _get_download_url(jurisdiction: str, session: str) -> str:
+    url = f"https://v3.openstates.org/jurisdictions/{jurisdiction}?apikey={ENVIRON_API_KEY}&include=legislative_sessions"
+    sessions = requests.get(url).json()["legislative_sessions"]
     for ses in sessions:
         if ses["identifier"] == session:
             break
@@ -47,7 +46,7 @@ def _download_zip(url: str) -> pathlib.Path:
 
 
 def _load_session_data(state: str, session: str, file_type: FileType) -> str:
-    url = _get_download_url(state, session, API_KEY)
+    url = _get_download_url(state, session)
     zip_path = _download_zip(url)
     with zipfile.ZipFile(zip_path) as zf:
         for filename in zf.namelist():
