@@ -13,18 +13,18 @@ TEMP_PATH = pathlib.Path(tempfile.gettempdir()) / "OS_ZIP_CACHE"
 
 class FileType(Enum):
     """
-    enum specifying the various types of files available from the CSV bulk data.
+    enum specifying the various types of files available from the CSV bulk data:
 
-    - Bills
-    - Actions
-    - Sources
-    - Sponsorships
-    - Versions
-    - VersionLinks
-    - Votes
-    - VotePeople
-    - VoteSources
-    - Organizations
+    - `Bills`
+    - `Actions`
+    - `Sources`
+    - `Sponsorships`
+    - `Versions`
+    - `VersionLinks`
+    - `Votes`
+    - `VotePeople`
+    - `VoteSources`
+    - `Organizations`
     """
 
     Bills = "_bills.csv"
@@ -85,7 +85,13 @@ def load_merged_dataframe(state: str, session: str, which: FileType):
     """
     Returns a populated `pandas.DataFrame` with the requested content.
 
-    If
+    `FileType.Actions`, `FileType.Sources`, `FileType.Versions`, `FileType.Sponsorships` will be merged against a `FileType.Bills` dataframe.
+
+    `FileType.VersionLinks` will be  merged against both a `FileType.Versions` and `FileType.Bills` dataframe.
+
+    `FileType.VotePeople` and `FileType.VoteSources` will be merged against a `FileType.Votes` dataframe.
+
+    Other types will be returned as-is.
     """
     import pandas as pd
 

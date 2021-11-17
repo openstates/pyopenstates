@@ -60,4 +60,5 @@ extra_css:
 nav:
   - 'index.md'
   - 'reference.md'
+  - 'downloads.md'
   - 'changelog.md'
