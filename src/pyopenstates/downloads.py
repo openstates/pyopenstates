@@ -12,6 +12,21 @@ TEMP_PATH = pathlib.Path(tempfile.gettempdir()) / "OS_ZIP_CACHE"
 
 
 class FileType(Enum):
+    """
+    enum specifying the various types of files available from the CSV bulk data.
+
+    - Bills
+    - Actions
+    - Sources
+    - Sponsorships
+    - Versions
+    - VersionLinks
+    - Votes
+    - VotePeople
+    - VoteSources
+    - Organizations
+    """
+
     Bills = "_bills.csv"
     Actions = "_bill_actions.csv"
     Sources = "_bill_sources.csv"
@@ -58,15 +73,23 @@ def _load_session_data(state: str, session: str, file_type: FileType) -> str:
             return df.read().decode()
 
 
-def load_session_csv(state: str, session: str, file_type: FileType):
+def load_csv(state: str, session: str, file_type: FileType):
+    """
+    Returns an instantiated `csv.DictReader` to iterate over the requested file.
+    """
     data = _load_session_data(state, session, file_type)
     return csv.DictReader(io.StringIO(data))
 
 
-def load_session_merged_dataframe(state: str, session: str, which: FileType):
+def load_merged_dataframe(state: str, session: str, which: FileType):
+    """
+    Returns a populated `pandas.DataFrame` with the requested content.
+
+    If
+    """
     import pandas as pd
 
-    other_df = pd.DataFrame(load_session_csv(state, session, which))
+    other_df = pd.DataFrame(load_csv(state, session, which))
 
     if which in (
         FileType.Actions,
@@ -75,7 +98,7 @@ def load_session_merged_dataframe(state: str, session: str, which: FileType):
         FileType.Sponsorships,
     ):
         # these merge to Bills
-        main_df = pd.DataFrame(load_session_csv(state, session, FileType.Bills))
+        main_df = pd.DataFrame(load_csv(state, session, FileType.Bills))
         return main_df.merge(
             other_df,
             left_on="id",
@@ -84,8 +107,8 @@ def load_session_merged_dataframe(state: str, session: str, which: FileType):
             suffixes=["_bill", ""],
         )
     elif which == FileType.VersionLinks:
-        main_df = pd.DataFrame(load_session_csv(state, session, FileType.Bills))
-        versions_df = pd.DataFrame(load_session_csv(state, session, FileType.Versions))
+        main_df = pd.DataFrame(load_csv(state, session, FileType.Bills))
+        versions_df = pd.DataFrame(load_csv(state, session, FileType.Versions))
         main_df = main_df.merge(
             versions_df,
             left_on="id",
@@ -101,7 +124,7 @@ def load_session_merged_dataframe(state: str, session: str, which: FileType):
             suffixes=["", "_link"],
         )
     elif which in (FileType.VotePeople, FileType.VoteSources):
-        main_df = pd.DataFrame(load_session_csv(state, session, FileType.Votes))
+        main_df = pd.DataFrame(load_csv(state, session, FileType.Votes))
         return main_df.merge(
             other_df,
             left_on="id",
