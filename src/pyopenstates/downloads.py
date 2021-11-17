@@ -81,7 +81,7 @@ def load_session_merged_dataframe(state: str, session: str, which: FileType):
             left_on="id",
             right_on="bill_id",
             how="left",
-            suffixes=["bill", ""],
+            suffixes=["_bill", ""],
         )
     elif which == FileType.VersionLinks:
         main_df = pd.DataFrame(load_session_csv(state, session, FileType.Bills))
@@ -107,7 +107,7 @@ def load_session_merged_dataframe(state: str, session: str, which: FileType):
             left_on="id",
             right_on="vote_event_id",
             how="left",
-            suffixes=["vote", ""],
+            suffixes=["_vote", ""],
         )
     else:
         return other_df
