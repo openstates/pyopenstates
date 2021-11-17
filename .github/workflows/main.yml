@@ -24,7 +24,7 @@ jobs:
       - name: set poetry config path
         run: poetry config virtualenvs.path ~/.virtualenvs
       - name: install dependencies
-        run: poetry install
+        run: poetry install -E pandas
       - name: lint with flake8
         run: poetry run flake8 --show-source --statistics --ignore=E203,E501,W503 src
       - name: pytest
