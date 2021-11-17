@@ -49,7 +49,9 @@ plugins:
         rendering:
           show_source: false
           show_root_full_path: false
-          show_root_toc_entry: false
+          show_root_toc_entry: true
+          show_root_heading: true
+          heading_level: 3
 
     watch:
       - src/
