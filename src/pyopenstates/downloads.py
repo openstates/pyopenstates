@@ -61,3 +61,53 @@ def _load_session_data(state: str, session: str, file_type: FileType) -> str:
 def load_session_csv(state: str, session: str, file_type: FileType):
     data = _load_session_data(state, session, file_type)
     return csv.DictReader(io.StringIO(data))
+
+
+def load_session_merged_dataframe(state: str, session: str, which: FileType):
+    import pandas as pd
+
+    other_df = pd.DataFrame(load_session_csv(state, session, which))
+
+    if which in (
+        FileType.Actions,
+        FileType.Sources,
+        FileType.Versions,
+        FileType.Sponsorships,
+    ):
+        # these merge to Bills
+        main_df = pd.DataFrame(load_session_csv(state, session, FileType.Bills))
+        return main_df.merge(
+            other_df,
+            left_on="id",
+            right_on="bill_id",
+            how="left",
+            suffixes=["bill", ""],
+        )
+    elif which == FileType.VersionLinks:
+        main_df = pd.DataFrame(load_session_csv(state, session, FileType.Bills))
+        versions_df = pd.DataFrame(load_session_csv(state, session, FileType.Versions))
+        main_df = main_df.merge(
+            versions_df,
+            left_on="id",
+            right_on="bill_id",
+            how="left",
+            suffixes=["_bill", "_version"],
+        )
+        return main_df.merge(
+            other_df,
+            left_on="id_version",
+            right_on="version_id",
+            how="left",
+            suffixes=["", "_link"],
+        )
+    elif which in (FileType.VotePeople, FileType.VoteSources):
+        main_df = pd.DataFrame(load_session_csv(state, session, FileType.Votes))
+        return main_df.merge(
+            other_df,
+            left_on="id",
+            right_on="vote_event_id",
+            how="left",
+            suffixes=["vote", ""],
+        )
+    else:
+        return other_df
