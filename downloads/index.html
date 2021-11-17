@@ -13,14 +13,14 @@
         <meta name="author" content="James Turk">
       
       
-        <link rel="canonical" href="https://openstates.github.io/pyopenstates/changelog/">
+        <link rel="canonical" href="https://openstates.github.io/pyopenstates/downloads/">
       
       <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
     
     
       
-        <title>Changelog - pyopenstates</title>
+        <title>Downloads - pyopenstates</title>
       
     
     
@@ -75,7 +75,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#changelog" class="md-skip">
+        <a href="#downloads" class="md-skip">
           Skip to content
         </a>
       
@@ -106,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Changelog
+              Downloads
             
           </span>
         </div>
@@ -268,21 +268,6 @@
 
   
   
-  
-    <li class="md-nav__item">
-      <a href="../downloads/" class="md-nav__link">
-        Downloads
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
     
   
   
@@ -295,12 +280,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Changelog
+          Downloads
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Changelog
+        Downloads
       </a>
       
         
@@ -320,22 +305,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#210-17-november-2021" class="md-nav__link">
-    2.1.0 - 17 November 2021
+  <a href="#pyopenstates.downloads.FileType" class="md-nav__link">
+    FileType
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#200-15-november-2021" class="md-nav__link">
-    2.0.0 - 15 November 2021
+  <a href="#pyopenstates.downloads.load_csv" class="md-nav__link">
+    load_csv()
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#120-15-may-2018" class="md-nav__link">
-    1.2.0 - 15 May 2018
+  <a href="#pyopenstates.downloads.load_merged_dataframe" class="md-nav__link">
+    load_merged_dataframe()
   </a>
   
 </li>
@@ -344,6 +329,21 @@
   
 </nav>
       
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        Changelog
+      </a>
     </li>
   
 
@@ -376,22 +376,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#210-17-november-2021" class="md-nav__link">
-    2.1.0 - 17 November 2021
+  <a href="#pyopenstates.downloads.FileType" class="md-nav__link">
+    FileType
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#200-15-november-2021" class="md-nav__link">
-    2.0.0 - 15 November 2021
+  <a href="#pyopenstates.downloads.load_csv" class="md-nav__link">
+    load_csv()
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#120-15-may-2018" class="md-nav__link">
-    1.2.0 - 15 May 2018
+  <a href="#pyopenstates.downloads.load_merged_dataframe" class="md-nav__link">
+    load_merged_dataframe()
   </a>
   
 </li>
@@ -408,25 +408,119 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/openstates/pyopenstates/edit/main/docs/changelog.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/openstates/pyopenstates/edit/main/docs/downloads.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
-<h2 id="210-17-november-2021">2.1.0 - 17 November 2021<a class="headerlink" href="#210-17-november-2021" title="Permanent link">&para;</a></h2>
+                <h1 id="downloads">Downloads<a class="headerlink" href="#downloads" title="Permanent link">&para;</a></h1>
+<p><code>pyopenstates</code> also has some basic methods to help you deal with Open States' bulk data.</p>
+<p>See https://openstates.org/data/session-csv/ for more information.</p>
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 id="pyopenstates.downloads.FileType" class="doc doc-heading">
+        <code>
+FileType            (<span title="enum.Enum">Enum</span>)
+        </code>
+
+
+
+<a href="#pyopenstates.downloads.FileType" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents first">
+
+      <p>enum specifying the various types of files available from the CSV bulk data:</p>
 <ul>
-<li>added <code>pyopenstates.downloads</code> to interact with Open States' bulk data</li>
+<li><code>Bills</code></li>
+<li><code>Actions</code></li>
+<li><code>Sources</code></li>
+<li><code>Sponsorships</code></li>
+<li><code>Versions</code></li>
+<li><code>VersionLinks</code></li>
+<li><code>Votes</code></li>
+<li><code>VotePeople</code></li>
+<li><code>VoteSources</code></li>
+<li><code>Organizations</code></li>
 </ul>
-<h2 id="200-15-november-2021">2.0.0 - 15 November 2021<a class="headerlink" href="#200-15-november-2021" title="Permanent link">&para;</a></h2>
-<ul>
-<li>updated library to support API v3 &amp; modernize Python tooling</li>
-</ul>
-<h2 id="120-15-may-2018">1.2.0 - 15 May 2018<a class="headerlink" href="#120-15-may-2018" title="Permanent link">&para;</a></h2>
-<ul>
-<li>last release targeting API v1</li>
-<li>detailed changelog was not kept before this</li>
-</ul>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h3 id="pyopenstates.downloads.load_csv" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">load_csv</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">file_type</span><span class="p">)</span></code>
+
+
+<a href="#pyopenstates.downloads.load_csv" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents first">
+
+      <p>Returns an instantiated <code>csv.DictReader</code> to iterate over the requested file.</p>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h3 id="pyopenstates.downloads.load_merged_dataframe" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">load_merged_dataframe</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">which</span><span class="p">)</span></code>
+
+
+<a href="#pyopenstates.downloads.load_merged_dataframe" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents first">
+
+      <p>Returns a populated <code>pandas.DataFrame</code> with the requested content.</p>
+<p><code>FileType.Actions</code>, <code>FileType.Sources</code>, <code>FileType.Versions</code>, <code>FileType.Sponsorships</code> will be merged against a <code>FileType.Bills</code> dataframe.</p>
+<p><code>FileType.VersionLinks</code> will be  merged against both a <code>FileType.Versions</code> and <code>FileType.Bills</code> dataframe.</p>
+<p><code>FileType.VotePeople</code> and <code>FileType.VoteSources</code> will be merged against a <code>FileType.Votes</code> dataframe.</p>
+<p>Other types will be returned as-is.</p>
+
+    </div>
+
+  </div>
                 
               
               
@@ -451,7 +545,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../downloads/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Downloads" rel="prev">
+        <a href="../reference/" class="md-footer__link md-footer__link--prev" aria-label="Previous: API Reference" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -460,11 +554,26 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Downloads
+              API Reference
             </div>
           </div>
         </a>
       
+      
+        
+        <a href="../changelog/" class="md-footer__link md-footer__link--next" aria-label="Next: Changelog" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Changelog
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
       
     </nav>
   
