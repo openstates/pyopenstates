@@ -6,7 +6,7 @@ import tempfile
 import zipfile
 from enum import Enum
 
-from .config import ENVIRON_API_KEY
+from .core import get_metadata
 
 TEMP_PATH = pathlib.Path(tempfile.gettempdir()) / "OS_ZIP_CACHE"
 
@@ -41,8 +41,9 @@ class FileType(Enum):
 
 
 def _get_download_url(jurisdiction: str, session: str) -> str:
-    url = f"https://v3.openstates.org/jurisdictions/{jurisdiction}?apikey={ENVIRON_API_KEY}&include=legislative_sessions"
-    sessions = requests.get(url).json()["legislative_sessions"]
+    sessions = get_metadata(jurisdiction, include="legislative_sessions")[
+        "legislative_sessions"
+    ]
     for ses in sessions:
         if ses["identifier"] == session:
             break
