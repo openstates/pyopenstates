@@ -52,3 +52,7 @@ def test_load_merged_dataframe_votes_joins():
     vs_df = load_merged_dataframe("al", "2021s1", FileType.VoteSources)
     assert len(vs_df) == 19
     assert "url" in list(vs_df.columns)
+
+    vs_df = load_merged_dataframe("al", "2021s1", FileType.VoteCounts)
+    assert len(vs_df) == 19 * 3
+    assert "option" in list(vs_df.columns)
