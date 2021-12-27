@@ -36,6 +36,7 @@ class FileType(Enum):
     Votes = "_votes.csv"
     VotePeople = "_vote_people.csv"
     VoteSources = "_vote_sources.csv"
+    VoteCounts = "_vote_counts.csv"
     Organizations = "_organizations.csv"
 
 
@@ -85,11 +86,14 @@ def load_merged_dataframe(state: str, session: str, which: FileType):
     """
     Returns a populated `pandas.DataFrame` with the requested content.
 
-    `FileType.Actions`, `FileType.Sources`, `FileType.Versions`, `FileType.Sponsorships` will be merged against a `FileType.Bills` dataframe.
+    `FileType.Actions`, `FileType.Sources`, `FileType.Versions`, `FileType.Sponsorships`
+    will be merged against a `FileType.Bills` dataframe.
 
-    `FileType.VersionLinks` will be  merged against both a `FileType.Versions` and `FileType.Bills` dataframe.
+    `FileType.VersionLinks` will be  merged against both a `FileType.Versions`
+    and `FileType.Bills` dataframe.
 
-    `FileType.VotePeople` and `FileType.VoteSources` will be merged against a `FileType.Votes` dataframe.
+    `FileType.VotePeople`, `FileType.VoteCounts`, and `FileType.VoteSources`
+    will be merged against a `FileType.Votes` dataframe.
 
     Other types will be returned as-is.
     """
@@ -129,7 +133,7 @@ def load_merged_dataframe(state: str, session: str, which: FileType):
             how="left",
             suffixes=["", "_link"],
         )
-    elif which in (FileType.VotePeople, FileType.VoteSources):
+    elif which in (FileType.VotePeople, FileType.VoteSources, FileType.VoteCounts):
         main_df = pd.DataFrame(load_csv(state, session, FileType.Votes))
         return main_df.merge(
             other_df,
