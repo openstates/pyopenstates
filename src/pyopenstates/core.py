@@ -103,7 +103,7 @@ def set_api_key(apikey):
     session.headers["X-Api-Key"] = apikey
 
 
-def get_metadata(state=None, fields=None):
+def get_metadata(state=None, include=None, fields=None):
     """
         Returns a list of all states with data available, and basic metadata
         about their status. Can also get detailed metadata for a particular
@@ -113,6 +113,8 @@ def get_metadata(state=None, fields=None):
         state: The abbreviation of state to get detailed metadata on, or leave
         as None to get high-level metadata on all states.
 
+        include: Additional includes.
+
         fields: An optional list of fields to return; returns all fields by
             default
 
@@ -121,6 +123,8 @@ def get_metadata(state=None, fields=None):
     """
     uri = "jurisdictions"
     params = dict()
+    if include:
+        params["include"] = _include_list(include)
     if state:
         uri += "/" + _jurisdiction_id(state)
         state_response = _get(uri, params=params)
@@ -345,3 +349,14 @@ def _jurisdiction_id(state):
         return state
     else:
         return f"ocd-jurisdiction/country:us/state:{state.lower()}/government"
+
+
+def _include_list(include):
+    if include is None:
+        return None
+    elif isinstance(include, str):
+        return [include]
+    elif isinstance(include, (list, tuple)):
+        return include
+    else:
+        raise ValueError("include must be a str or list")
