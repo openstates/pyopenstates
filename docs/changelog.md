@@ -1,8 +1,9 @@
 # Changelog
 
-## 2.2.0 - 27 December 2021
+## 2.2.0 - 28 December 2021
 
 * added `VoteCounts` to `downloads.FileType` enum for downloading vote count files
+* added `People` to `downloads.FileType` enum for downloading people files
 * added support for include= parameter for `get_metadata`
 * added proper error handling to `pyopenstates.downloads` fetch call
 
