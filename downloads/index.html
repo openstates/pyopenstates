@@ -445,12 +445,15 @@ FileType            (<span title="enum.Enum">Enum</span>)
 <li><code>VotePeople</code></li>
 <li><code>VoteSources</code></li>
 <li><code>Organizations</code></li>
+<li><code>People</code></li>
 </ul>
 
 
 
 
   <div class="doc doc-children">
+
+
 
 
 
@@ -513,9 +516,12 @@ FileType            (<span title="enum.Enum">Enum</span>)
     <div class="doc doc-contents first">
 
       <p>Returns a populated <code>pandas.DataFrame</code> with the requested content.</p>
-<p><code>FileType.Actions</code>, <code>FileType.Sources</code>, <code>FileType.Versions</code>, <code>FileType.Sponsorships</code> will be merged against a <code>FileType.Bills</code> dataframe.</p>
-<p><code>FileType.VersionLinks</code> will be  merged against both a <code>FileType.Versions</code> and <code>FileType.Bills</code> dataframe.</p>
-<p><code>FileType.VotePeople</code> and <code>FileType.VoteSources</code> will be merged against a <code>FileType.Votes</code> dataframe.</p>
+<p><code>FileType.Actions</code>, <code>FileType.Sources</code>, <code>FileType.Versions</code>, <code>FileType.Sponsorships</code>
+will be merged against a <code>FileType.Bills</code> dataframe.</p>
+<p><code>FileType.VersionLinks</code> will be  merged against both a <code>FileType.Versions</code>
+and <code>FileType.Bills</code> dataframe.</p>
+<p><code>FileType.VotePeople</code>, <code>FileType.VoteCounts</code>, and <code>FileType.VoteSources</code>
+will be merged against a <code>FileType.Votes</code> dataframe.</p>
 <p>Other types will be returned as-is.</p>
 
     </div>

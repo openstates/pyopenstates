@@ -2,22 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://openstates.github.io/pyopenstates/</loc>
-         <lastmod>2021-11-17</lastmod>
+         <lastmod>2021-12-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://openstates.github.io/pyopenstates/changelog/</loc>
-         <lastmod>2021-11-17</lastmod>
+         <lastmod>2021-12-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://openstates.github.io/pyopenstates/downloads/</loc>
-         <lastmod>2021-11-17</lastmod>
+         <lastmod>2021-12-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://openstates.github.io/pyopenstates/reference/</loc>
-         <lastmod>2021-11-17</lastmod>
+         <lastmod>2021-12-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
