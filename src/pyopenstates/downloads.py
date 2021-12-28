@@ -25,6 +25,7 @@ class FileType(Enum):
     - `VotePeople`
     - `VoteSources`
     - `Organizations`
+    - `People`
     """
 
     Bills = "_bills.csv"
@@ -38,6 +39,7 @@ class FileType(Enum):
     VoteSources = "_vote_sources.csv"
     VoteCounts = "_vote_counts.csv"
     Organizations = "_organizations.csv"
+    People = "people not in zip"  # will be special cased
 
 
 def _get_download_url(jurisdiction: str, session: str) -> str:
@@ -63,6 +65,8 @@ def _download_zip(url: str) -> pathlib.Path:
 
 
 def _load_session_data(state: str, session: str, file_type: FileType) -> str:
+    if file_type == FileType.People:
+        return requests.get("https://data.openstates.org/people/current/ak.csv").text
     url = _get_download_url(state, session)
     zip_path = _download_zip(url)
     with zipfile.ZipFile(zip_path) as zf:

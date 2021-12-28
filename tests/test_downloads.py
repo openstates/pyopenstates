@@ -10,6 +10,12 @@ def test_load_csv():
     assert len(data) == 37
 
 
+def test_load_people_csv():
+    data = list(load_csv("al", "2021s1", FileType.People))
+    assert "given_name" in data[0].keys()
+    assert len(data) > 50
+
+
 def test_load_merged_dataframe_bills():
     bills_df = load_merged_dataframe("al", "2021s1", FileType.Bills)
     assert len(bills_df) == 37
