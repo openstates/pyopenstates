@@ -179,7 +179,6 @@ def search_bills(
     all_pages=False,
     # alternate names for other parameters
     state=None,
-    bill_id=None,
 ):
     """
     Find bills matching a given set of filters
@@ -190,10 +189,10 @@ def search_bills(
     uri = "bills/"
     args = {}
 
-    args["jurisdiction"] = _alt_parameter(state, jurisdiction, "state", "jurisdiction")
-    args["jurisdiction"] = _jurisdiction_id(args["jurisdiction"])
-    args["identifier"] = _alt_parameter(identifier, bill_id, "identifier", "bill_id")
+    jurisdiction = _alt_parameter(state, jurisdiction, "state", "jurisdiction")
 
+    if jurisdiction:
+        args["jurisdiction"] = jurisdiction
     if session:
         args["session"] = session
     if chamber:
