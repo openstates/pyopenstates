@@ -1,3 +1,4 @@
+import warnings
 import dateutil.parser
 from requests import Session
 from time import sleep
@@ -145,79 +146,91 @@ def get_organizations(state):
     return state_response["organizations"]
 
 
-def search_bills(**kwargs):
+def _alt_parameter(param, other_param, param_name, other_param_name):
+    """ensure that only one name was specified"""
+    if param and other_param:
+        raise ValueError(
+            f"cannot specify both {param_name} and variant {other_param_name}"
+        )
+    elif other_param:
+        warnings.warn(f"{other_param_name} is deprecated, use {param_name}")
+        return other_param
+    return param
+
+
+def search_bills(
+    jurisdiction=None,
+    identifier=None,
+    session=None,
+    chamber=None,
+    classification=None,
+    subject=None,
+    updated_since=None,
+    created_since=None,
+    action_since=None,
+    sponsor=None,
+    sponsor_classification=None,
+    q=None,
+    # control params
+    sort=None,
+    include=None,
+    page=1,
+    per_page=10,
+    all_pages=False,
+    # alternate names for other parameters
+    state=None,
+    bill_id=None,
+):
     """
     Find bills matching a given set of filters
 
-    Args:
-        **kwargs: One or more search filters
-
-    - ``state`` - Only return bills from a given state (e.g. ``nc``)
-    - ``chamber`` - Only return bills matching the provided chamber
-    (``upper`` or ``lower``)
-    - ``bill_id`` - Only return bills with a given bill_id.
-    - ``bill_id_in`` - Accepts a pipe (|) delimited list of bill ids.
-    - ``q`` -  Only return bills matching the provided full text query.
-    - ``search_window``- By default all bills are searched, but if a time
-    window is desired the following options can be passed to
-    ``search_window``:
-        - ``search_window="all"`` - Default, include all sessions.
-        - ``search_window="session"`` - Only bills from sessions within the
-        current session.
-        - ``search_window="session"`` - Only bills from the current session.
-        - ``search_window="session:2009"`` - Only bills from the session named
-        ``2009``.
-        - ``search_window="term:2009-2011"`` - Only bills from the sessions in
-        the ``2009-2011`` session.
-    - ``updated_since`` - Only bills updated since a provided date (provided in
-    ``YYYY-MM-DD`` format)
-    - ``sponsor_id`` Only bills sponsored by a given legislator id (e.g.
-    ``ILL000555``)
-    - ``subject`` - Only bills categorized by Open States as belonging to this
-    subject.
-    - ``type`` Only bills of a given type (e.g. ``bill``, ``resolution``,
-    etc.)
-
-    You can specify sorting using the following ``sort`` keyword argument
-    values:
-
-    - ``first``
-    - ``last``
-    - ``signed``
-    - ``passed_lower``
-    - ``passed_upper``
-    - ``updated_at``
-    - ``created_at``
-
-    Returns:
-        A list of matching :ref:`Bill` dictionaries
-
-    .. NOTE::
-        This method returns just a subset (``state``, ``chamber``, ``session``,
-        ``subjects``, ``type``, ``id``, ``bill_id``, ``title``, ``created_at``,
-        ``updated_at``) of the bill fields by default.
-
-        Use the ``fields`` parameter to specify a custom list of fields to
-        return.
+    For a list of each field, example values, etc. see
+    https://v3.openstates.org/docs#/bills/bills_search_bills_get
     """
     uri = "bills/"
-    if "state" in kwargs.keys():
-        kwargs["jurisdiction"] = _jurisdiction_id(kwargs["state"])
+    args = {}
 
-    if len(kwargs) > 0:
-        kwargs["per_page"] = 20
-        kwargs["page"] = 1
+    args["jurisdiction"] = _alt_parameter(state, jurisdiction, "state", "jurisdiction")
+    args["jurisdiction"] = _jurisdiction_id(args["jurisdiction"])
+    args["identifier"] = _alt_parameter(identifier, bill_id, "identifier", "bill_id")
+
+    if session:
+        args["session"] = session
+    if chamber:
+        args["chamber"] = chamber
+    if classification:
+        args["classification"] = classification
+    if subject:
+        args["subject"] = subject
+    if updated_since:
+        args["updated_since"] = updated_since
+    if created_since:
+        args["created_since"] = created_since
+    if action_since:
+        args["action_since"] = action_since
+    if sort:
+        args["sort"] = sort
+    if include:
+        args["include"] = include
+
     results = []
-    new_results = _get(uri, params=kwargs)["results"]
-    while len(new_results) > 0:
-        results += new_results
-        kwargs["page"] += 1
-        sleep(1)
-        # When the search runs out of pages, the API returns not found
-        try:
-            new_results = _get(uri, params=kwargs)["results"]
-        except NotFound:
-            break
+
+    if all_pages:
+        args["per_page"] = 20
+        args["page"] = 1
+    else:
+        args["per_page"] = per_page
+        args["page"] = page
+
+    resp = _get(uri, params=args)
+    results += resp["results"]
+
+    if all_pages:
+        while resp["pagination"]["page"] < resp["pagination"]["max_page"]:
+            args["page"] += 1
+            sleep(1)
+            resp = _get(uri, params=args)
+            results += resp["results"]
 
     return results
 
