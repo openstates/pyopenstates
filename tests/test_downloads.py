@@ -48,17 +48,17 @@ def test_load_merged_dataframe_version_links():
 
 def test_load_merged_dataframe_votes_joins():
     votes_df = load_merged_dataframe("al", "2021s1", FileType.Votes)
-    assert len(votes_df) == 19
+    assert len(votes_df) == 33
     assert "motion_text" in list(votes_df.columns)
 
     vp_df = load_merged_dataframe("al", "2021s1", FileType.VotePeople)
-    assert len(vp_df) == 1480
+    assert len(vp_df) == 1494
     assert "voter_name" in list(vp_df.columns)
 
     vs_df = load_merged_dataframe("al", "2021s1", FileType.VoteSources)
-    assert len(vs_df) == 19
+    assert len(vs_df) == 33
     assert "url" in list(vs_df.columns)
 
     vs_df = load_merged_dataframe("al", "2021s1", FileType.VoteCounts)
-    assert len(vs_df) == 19 * 3
+    assert len(vs_df) == 33 * 3
     assert "option" in list(vs_df.columns)
