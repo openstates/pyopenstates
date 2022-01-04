@@ -66,7 +66,9 @@ def _download_zip(url: str) -> pathlib.Path:
 
 def _load_session_data(state: str, session: str, file_type: FileType) -> str:
     if file_type == FileType.People:
-        return requests.get(f"https://data.openstates.org/people/current/{state}.csv").text
+        return requests.get(
+            f"https://data.openstates.org/people/current/{state}.csv"
+        ).text
     url = _get_download_url(state, session)
     zip_path = _download_zip(url)
     with zipfile.ZipFile(zip_path) as zf:
