@@ -207,6 +207,12 @@ def search_bills(
         args["created_since"] = created_since
     if action_since:
         args["action_since"] = action_since
+    if sponsor:
+        args["sponsor"] = sponsor
+    if sponsor_classification:
+        args["sponsor_classification"] = sponsor_classification
+    if q:
+        args["q"] = q
     if sort:
         args["sort"] = sort
     if include:
