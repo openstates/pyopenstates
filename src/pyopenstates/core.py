@@ -176,7 +176,7 @@ def search_bills(
     include=None,
     page=1,
     per_page=10,
-    all_pages=False,
+    all_pages=True,
     # alternate names for other parameters
     state=None,
 ):

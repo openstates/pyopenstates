@@ -57,7 +57,7 @@ def testBillSearchFullText():
     string"""
     query = "taxi"
     results = pyopenstates.search_bills(state="ny", q=query)
-    assert len(results) > 1
+    assert len(results) > 10
     match = False
     for result in results:
         if query.lower() in result["title"].lower():
