@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.3.0 - 4 January 2021
+
+* brought parameters for bill methods in line with API v3
+* bugfix for people downloads thanks to Alex Obaseki!
+
 ## 2.2.0 - 28 December 2021
 
 * added `VoteCounts` to `downloads.FileType` enum for downloading vote count files
@@ -19,5 +24,3 @@
 
 * last release targeting API v1
 * detailed changelog was not kept before this
-
-

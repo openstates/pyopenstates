@@ -1,13 +1,12 @@
 [tool.poetry]
 name = "pyopenstates"
-version = "2.2.0"
+version = "2.3.0"
 description = "A Python module for accessing the Open States API & bulk data."
 authors = ["James Turk <james@openstates.org>", "Sean Whalen <whalenster@gmail.com>"]
 license = "Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/openstates/pyopenstates"
 classifiers = [
-  'Development Status :: 5 - Production/Stable',
   'Topic :: Sociology :: History',
   'Intended Audience :: Developers',
   'Intended Audience :: Legal Industry',
