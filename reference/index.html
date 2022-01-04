@@ -798,14 +798,14 @@ fields: An optional list of fields to return; returns all fields by
 
 
 <h3 id="pyopenstates.core.get_bill" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">get_bill</span><span class="p">(</span><span class="n">uid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">session</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bill_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">get_bill</span><span class="p">(</span><span class="n">uid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">session</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bill_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 
 <a href="#pyopenstates.core.get_bill" class="headerlink" title="Permanent link">&para;</a></h3>
 
     <div class="doc doc-contents first">
 
-      <p>Returns details of a specific bill Can be identified my the Open States
+      <p>Returns details of a specific bill Can be identified by the Open States
 unique bill id (uid), or by specifying the state, session, and
 legislative bill ID</p>
 <p>Args:
@@ -829,7 +829,7 @@ legislative bill ID</p>
 
 
 <h3 id="pyopenstates.core.search_bills" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">search_bills</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">search_bills</span><span class="p">(</span><span class="n">jurisdiction</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">identifier</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">session</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chamber</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">classification</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">subject</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">updated_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">created_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">action_since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sponsor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sponsor_classification</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">all_pages</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 
 <a href="#pyopenstates.core.search_bills" class="headerlink" title="Permanent link">&para;</a></h3>
@@ -837,57 +837,8 @@ legislative bill ID</p>
     <div class="doc doc-contents first">
 
       <p>Find bills matching a given set of filters</p>
-<p>Args:
-    **kwargs: One or more search filters</p>
-<ul>
-<li><code>state</code> - Only return bills from a given state (e.g. <code>nc</code>)</li>
-<li><code>chamber</code> - Only return bills matching the provided chamber
-(<code>upper</code> or <code>lower</code>)</li>
-<li><code>bill_id</code> - Only return bills with a given bill_id.</li>
-<li><code>bill_id_in</code> - Accepts a pipe (|) delimited list of bill ids.</li>
-<li><code>q</code> -  Only return bills matching the provided full text query.</li>
-<li><code>search_window</code>- By default all bills are searched, but if a time
-window is desired the following options can be passed to
-<code>search_window</code>:<ul>
-<li><code>search_window="all"</code> - Default, include all sessions.</li>
-<li><code>search_window="session"</code> - Only bills from sessions within the
-current session.</li>
-<li><code>search_window="session"</code> - Only bills from the current session.</li>
-<li><code>search_window="session:2009"</code> - Only bills from the session named
-<code>2009</code>.</li>
-<li><code>search_window="term:2009-2011"</code> - Only bills from the sessions in
-the <code>2009-2011</code> session.</li>
-</ul>
-</li>
-<li><code>updated_since</code> - Only bills updated since a provided date (provided in
-<code>YYYY-MM-DD</code> format)</li>
-<li><code>sponsor_id</code> Only bills sponsored by a given legislator id (e.g.
-<code>ILL000555</code>)</li>
-<li><code>subject</code> - Only bills categorized by Open States as belonging to this
-subject.</li>
-<li><code>type</code> Only bills of a given type (e.g. <code>bill</code>, <code>resolution</code>,
-etc.)</li>
-</ul>
-<p>You can specify sorting using the following <code>sort</code> keyword argument
-values:</p>
-<ul>
-<li><code>first</code></li>
-<li><code>last</code></li>
-<li><code>signed</code></li>
-<li><code>passed_lower</code></li>
-<li><code>passed_upper</code></li>
-<li><code>updated_at</code></li>
-<li><code>created_at</code></li>
-</ul>
-<p>Returns:
-    A list of matching :ref:<code>Bill</code> dictionaries</p>
-<p>.. NOTE::
-    This method returns just a subset (<code>state</code>, <code>chamber</code>, <code>session</code>,
-    <code>subjects</code>, <code>type</code>, <code>id</code>, <code>bill_id</code>, <code>title</code>, <code>created_at</code>,
-    <code>updated_at</code>) of the bill fields by default.</p>
-<div class="highlight"><pre><span></span><code>Use the ``fields`` parameter to specify a custom list of fields to
-return.
-</code></pre></div>
+<p>For a list of each field, example values, etc. see
+https://v3.openstates.org/docs#/bills/bills_search_bills_get</p>
 
     </div>
 
