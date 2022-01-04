@@ -240,9 +240,9 @@ def search_bills(
     return results
 
 
-def get_bill(uid=None, state=None, session=None, bill_id=None, **kwargs):
+def get_bill(uid=None, state=None, session=None, bill_id=None, include=None):
     """
-    Returns details of a specific bill Can be identified my the Open States
+    Returns details of a specific bill Can be identified by the Open States
     unique bill id (uid), or by specifying the state, session, and
     legislative bill ID
 
@@ -257,6 +257,8 @@ def get_bill(uid=None, state=None, session=None, bill_id=None, **kwargs):
     Returns:
         The :ref:`Bill` details as a dictionary
     """
+    args = {"include": include} if include else {}
+
     if uid:
         if state or session or bill_id:
             raise ValueError(
@@ -264,14 +266,14 @@ def get_bill(uid=None, state=None, session=None, bill_id=None, **kwargs):
                 "state, session, and bill ID"
             )
         uid = _fix_id_string("ocd-bill/", uid)
-        return _get(f"bills/{uid}", params=kwargs)
+        return _get(f"bills/{uid}", params=args)
     else:
         if not state or not session or not bill_id:
             raise ValueError(
                 "Must specify an Open States bill (uid), "
                 "or the state, session, and bill ID"
             )
-        return _get(f"bills/{state.lower()}/{session}/{bill_id}", params=kwargs)
+        return _get(f"bills/{state.lower()}/{session}/{bill_id}", params=args)
 
 
 def search_legislators(
