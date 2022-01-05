@@ -77,6 +77,20 @@ def testBillDetails():
     assert bill["identifier"] == bill_id
 
 
+def test_get_bill_includes():
+    state = "nc"
+    session = "2019"
+    bill_id = "HB 1105"
+
+    bill = pyopenstates.get_bill(
+        state=state, session=session, bill_id=bill_id, include=["sources", "versions"]
+    )
+
+    assert bill["identifier"] == bill_id
+    assert bill["versions"]
+    assert bill["sources"]
+
+
 def testBillDetailsByUID():
     """Bill details by UID"""
     _id = "6dc08e5d-3d62-42c0-831d-11487110c800"

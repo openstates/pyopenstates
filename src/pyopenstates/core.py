@@ -17,7 +17,7 @@ session.headers.update({"User-Agent": DEFAULT_USER_AGENT})
 if ENVIRON_API_KEY:
     session.headers.update({"X-Api-Key": ENVIRON_API_KEY})
 else:
-    print(f"Warning: No API Key found, set {API_KEY_ENV_VAR}")
+    warnings.warn(f"Warning: No API Key found, set {API_KEY_ENV_VAR}")
 
 
 class APIError(RuntimeError):
@@ -80,9 +80,6 @@ def _get(uri, params=None):
         return result
 
     url = f"{API_ROOT}/{uri}"
-    for param in params.keys():
-        if isinstance(params[param], list):
-            params[param] = ",".join(params[param])
     response = session.get(url, params=params)
     if response.status_code != 200:
         if response.status_code == 404:
