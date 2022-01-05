@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.1 - 5 January 2021
+
+* fix for multi-value parameters like include
+
 ## 2.3.0 - 4 January 2021
 
 * brought parameters for bill methods in line with API v3
