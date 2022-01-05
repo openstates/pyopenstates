@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyopenstates"
-version = "2.3.0"
+version = "2.3.1"
 description = "A Python module for accessing the Open States API & bulk data."
 authors = ["James Turk <james@openstates.org>", "Sean Whalen <whalenster@gmail.com>"]
 license = "Apache-2.0"
