@@ -145,7 +145,7 @@ def testLegislatorGeolocation():
     lat = 35.79
     lng = -78.78
     results = pyopenstates.locate_legislators(lat, lng)
-    assert len(results) == 3
+    assert len(results) == 5
     for legislator in results:
         assert legislator["jurisdiction"]["name"] in (
             "North Carolina",
