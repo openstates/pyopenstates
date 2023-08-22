@@ -11,7 +11,8 @@ jobs:
   test:
     strategy:
       matrix:
-        python: ['3.7', '3.10']
+        python: ['3.9', '3.10']
+    runs-on: ubuntu-latest
     steps:
       # Python & dependency installation
       - uses: actions/checkout@v2
@@ -31,4 +32,3 @@ jobs:
         run: poetry run pytest
         env:
           OPENSTATES_API_KEY: ${{ secrets.OPENSTATES_API_KEY }}
-    runs-on: ubuntu-20.04

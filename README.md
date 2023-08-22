@@ -15,7 +15,7 @@ Issues: [https://github.com/openstates/pyopenstates/issues](https://github.com/o
 
 ## Features
 
-- Compatible with Python 3.7+
+- Compatible with Python 3.9+
 - Automatic conversion of string dates and timestamps to ``datetime`` objects.
 - Tested releases.
 - Set API Key via environment variable or in code.
@@ -25,6 +25,8 @@ Issues: [https://github.com/openstates/pyopenstates/issues](https://github.com/o
 To use the Open States API you must [obtain an API Key](https://openstates.org/accounts/register/).
 
 Once you have your key you can use it with this library by setting the ``OPENSTATES_API_KEY`` environment variable or calling ``pyopenstates.set_api_key``.
+
+> Running tests for this library requires a valid API token
 
 ## About Open States
 
